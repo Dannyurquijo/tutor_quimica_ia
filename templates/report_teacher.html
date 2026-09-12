@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Informe Institucional de Desempeño en Química — Preparatoria Balmoral</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @media print {
+    body { background: white !important; font-size: 11pt !important; }
+    .no-print { display: none !important; }
+    .page-break { page-break-after: always; }
+    table { width: 100% !important; border-collapse: collapse !important; }
+    th, td { border: 1px solid #cbd5e1 !important; padding: 6px 8px !important; }
+  }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] p-4 md:p-8">
+
+<div class="max-w-5xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-slate-200">
+
+  <!-- Barra de acciones en pantalla -->
+  <div class="no-print flex justify-between items-center pb-6 mb-6 border-b border-slate-200">
+    <a href="/dashboard-teacher" class="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1">
+      ← Regresar al Panel Docente
+    </a>
+    <button onclick="window.print()" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold rounded-xl shadow-sm flex items-center gap-2">
+      <span>🖨️</span> Imprimir o Guardar en PDF
+    </button>
+  </div>
+
+  <!-- Encabezado Institucional Oficial -->
+  <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b-2 border-slate-900">
+    <div class="flex items-center gap-4">
+      <div class="w-16 h-16 bg-red-600 text-white rounded-2xl flex items-center justify-center font-extrabold text-2xl shadow-sm">
+        PB
+      </div>
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-red-700">Preparatoria Balmoral de Querétaro</span>
+        <h1 class="text-2xl font-extrabold tracking-tight text-slate-950">Informe Oficial de Avance Curricular</h1>
+        <p class="text-xs text-slate-500 font-medium">Asignatura: Química I & II · Tutoría Socrática con Inteligencia Artificial</p>
+      </div>
+    </div>
+    <div class="text-left sm:text-right text-xs text-slate-600">
+      <div><strong>Fecha de emisión:</strong> {{ fecha_reporte }}</div>
+      <div><strong>Ciclo escolar:</strong> 2026 - Bachillerato General</div>
+      <div><strong>Docente responsable:</strong> {{ user.nombre }} {{ user.apellido }}</div>
+    </div>
+  </header>
+
+  <!-- Resumen Ejecutivo del Grupo -->
+  <section class="my-6">
+    <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-500 mb-3">1. Métricas Generales del Grupo</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+        <span class="text-[11px] font-bold text-slate-500 block uppercase">Alumnos Activos</span>
+        <span class="text-2xl font-extrabold text-slate-900">{{ students|length }}</span>
+      </div>
+      <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+        <span class="text-[11px] font-bold text-slate-500 block uppercase">Módulos Oficiales</span>
+        <span class="text-2xl font-extrabold text-slate-900">{{ curriculum|length }}</span>
+      </div>
+      <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+        <span class="text-[11px] font-bold text-slate-500 block uppercase">Dominio Promedio</span>
+        <span class="text-2xl font-extrabold text-teal-700">
+          {% set total_prog = students|map(attribute='progreso_global')|sum %}
+          {{ (total_prog / (students|length or 1))|round(1) }}%
+        </span>
+      </div>
+      <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+        <span class="text-[11px] font-bold text-slate-500 block uppercase">Tutorías Realizadas</span>
+        <span class="text-2xl font-extrabold text-red-600">
+          {{ students|map(attribute='sessions')|sum }}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabla de Alumnos con Código Familiar -->
+  <section class="my-6">
+    <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-500 mb-3">2. Padrón de Estudiantes y Claves de Familia</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-xs text-left border border-slate-200 rounded-xl">
+        <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
+          <tr>
+            <th class="py-2.5 px-3">#</th>
+            <th class="py-2.5 px-3">Nombre del Alumno</th>
+            <th class="py-2.5 px-3">Grado</th>
+            <th class="py-2.5 px-3">Nivel</th>
+            <th class="py-2.5 px-3">Dominio</th>
+            <th class="py-2.5 px-3">Tutorías IA</th>
+            <th class="py-2.5 px-3">Código Familiar (Padres)</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+          {% for s in students %}
+          <tr class="hover:bg-slate-50">
+            <td class="py-2 px-3 font-semibold text-slate-500">{{ loop.index }}</td>
+            <td class="py-2 px-3 font-bold text-slate-900">{{ s.name }}</td>
+            <td class="py-2 px-3 text-slate-600">{{ s.grade }}</td>
+            <td class="py-2 px-3">
+              <span class="px-2 py-0.5 rounded-full font-bold
+                {% if s.level == 'Avanzado' %}bg-purple-100 text-purple-800
+                {% elif s.level == 'Intermedio' %}bg-sky-100 text-sky-800
+                {% else %}bg-slate-100 text-slate-700{% endif %}">
+                {{ s.level }}
+              </span>
+            </td>
+            <td class="py-2 px-3 font-extrabold text-slate-900">{{ s.progreso_global }}%</td>
+            <td class="py-2 px-3 text-slate-600">{{ s.sessions }} sesiones</td>
+            <td class="py-2 px-3 font-mono font-bold text-sky-800 bg-sky-50/50">{{ s.codigo_padre or 'PADRE-SOF-1079' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Módulos Curriculares Promedio -->
+  <section class="my-6">
+    <h2 class="text-sm font-extrabold uppercase tracking-wider text-slate-500 mb-3">3. Desempeño Curricular por Unidad Temática</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      {% for item in analytics.topics_overview %}
+      <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
+        <span class="text-xs font-bold text-slate-800">{{ item.nombre }}</span>
+        <span class="text-xs font-extrabold text-teal-800 bg-teal-100/70 px-2 py-0.5 rounded-md">{{ item.promedio }}%</span>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Firmas Oficiales de Validación -->
+  <footer class="mt-14 pt-8 border-t border-slate-300 grid grid-cols-2 gap-8 text-center text-xs text-slate-600">
+    <div>
+      <div class="w-48 mx-auto border-b border-slate-400 pb-1 mb-2 font-bold text-slate-900">
+        {{ user.nombre }} {{ user.apellido }}
+      </div>
+      <span>Docente Titular de Química</span>
+    </div>
+    <div>
+      <div class="w-48 mx-auto border-b border-slate-400 pb-1 mb-2 font-bold text-slate-900">
+        Dirección Académica
+      </div>
+      <span>Preparatoria Balmoral de Querétaro</span>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

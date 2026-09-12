@@ -1,0 +1,459 @@
+/**
+ * script.js — Lógica del frontend para Tutor Socrático Balmoral
+ * Conecta el chat, animaciones del robot QuimiBot, onboarding y UI.
+ */
+
+// Variables de sesión
+window.QUIMIBOT_SESSION = window.QUIMIBOT_SESSION || 'session-demo-' + Date.now();
+window.QUIMIBOT_USER_ID = window.QUIMIBOT_USER_ID || 'alumno-demo';
+window.QUIMIBOT_NOMBRE  = window.QUIMIBOT_NOMBRE  || 'Alumno';
+
+// Exponer función de emociones globalmente
+window.setBotEmotion = function(emotion, bubbleText) {
+  const avatar = document.getElementById('quimibotAvatar');
+  const orb = document.getElementById('robotAntennaOrb');
+  const cheeks = document.getElementById('robotCheeks');
+  const eyesIdle = document.getElementById('eyesIdle');
+  const eyesHappy = document.getElementById('eyesHappy');
+  const eyesThinking = document.getElementById('eyesThinking');
+  const eyesCurious = document.getElementById('eyesCurious');
+  const mouthNormal = document.getElementById('mouthNormal');
+  const mouthHappy = document.getElementById('mouthHappy');
+  const mouthSpeaking = document.getElementById('mouthSpeaking');
+  const bubble = document.getElementById('robotBubble');
+  const statusText = document.getElementById('robotStatusText');
+  const statusDot = document.getElementById('statusIndicatorDot');
+
+  if (!avatar) return;
+
+  // Resetear estados visuales
+  [eyesIdle, eyesHappy, eyesThinking, eyesCurious].forEach(el => el && el.classList.add('hidden'));
+  [mouthNormal, mouthHappy, mouthSpeaking].forEach(el => el && el.classList.add('hidden'));
+  if (cheeks) cheeks.classList.add('hidden');
+  avatar.classList.remove('robot-float', 'robot-happy', 'robot-curious');
+  if (orb) orb.setAttribute('class', 'antenna-normal');
+
+  switch (emotion) {
+    case 'happy':
+      avatar.classList.add('robot-happy');
+      if (eyesHappy) eyesHappy.classList.remove('hidden');
+      if (mouthHappy) mouthHappy.classList.remove('hidden');
+      if (cheeks) cheeks.classList.remove('hidden');
+      if (orb) orb.setAttribute('class', 'antenna-active');
+      if (statusText) statusText.textContent = '¡Entusiasmado!';
+      if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-bounce';
+      if (bubble) bubble.textContent = bubbleText || '¡Excelente razonamiento! ✨ ¡Sigue así!';
+      break;
+
+    case 'thinking':
+      avatar.classList.add('robot-curious');
+      if (eyesThinking) eyesThinking.classList.remove('hidden');
+      if (mouthNormal) mouthNormal.classList.remove('hidden');
+      if (orb) orb.setAttribute('class', 'antenna-active');
+      if (statusText) statusText.textContent = 'Analizando...';
+      if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-cyan-400 animate-ping';
+      if (bubble) bubble.textContent = bubbleText || 'Analizando tu hipótesis con principios químicos... ⚡';
+      break;
+
+    case 'curious':
+      avatar.classList.add('robot-curious');
+      if (eyesCurious) eyesCurious.classList.remove('hidden');
+      if (mouthNormal) mouthNormal.classList.remove('hidden');
+      if (statusText) statusText.textContent = 'Inquisitivo';
+      if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+      if (bubble) bubble.textContent = bubbleText || '¡Qué punto tan fascinante! 🤔 ¿Por qué crees que sea así?';
+      break;
+
+    case 'explaining':
+      avatar.classList.add('robot-float');
+      if (eyesIdle) eyesIdle.classList.remove('hidden');
+      if (mouthSpeaking) mouthSpeaking.classList.remove('hidden');
+      if (statusText) statusText.textContent = 'Explicando';
+      if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+      if (bubble) bubble.textContent = bubbleText || '¡Mira esta pista socrática para deducirlo! 💡';
+      break;
+
+    case 'idle':
+    default:
+      avatar.classList.add('robot-float');
+      if (eyesIdle) eyesIdle.classList.remove('hidden');
+      if (mouthNormal) mouthNormal.classList.remove('hidden');
+      if (statusText) statusText.textContent = 'Activo';
+      if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+      if (bubble) bubble.textContent = bubbleText || '¡Listo para aprender! 🧪 Escribe tu hipótesis o pide un diagrama.';
+      break;
+  }
+};
+
+window.openImageModal = function(url, title) {
+  const modal = document.getElementById('imageZoomModal');
+  const img = document.getElementById('imageZoomImg');
+  const titleEl = document.getElementById('imageZoomTitle');
+  if (modal && img) {
+    img.src = url;
+    if (titleEl && title) titleEl.innerHTML = `<span>🔬</span><span>${title}</span>`;
+    modal.classList.remove('hidden');
+  }
+};
+
+window.closeImageModal = function() {
+  const modal = document.getElementById('imageZoomModal');
+  if (modal) modal.classList.add('hidden');
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ─────────────────────────────────────────────
+  // CHAT SOCRÁTICO (learning.html)
+  // ─────────────────────────────────────────────
+  const chatForm    = document.getElementById('chatForm');
+  const chatInput   = document.getElementById('chatInput');
+  const chatHistory = document.getElementById('chatHistory');
+
+  if (chatForm && chatInput && chatHistory) {
+    chatInput.disabled = true;
+    window.setBotEmotion('idle');
+
+    fetch('/api/chat/history?session_id=' + encodeURIComponent(window.QUIMIBOT_SESSION))
+      .then(async res => {
+        if (!res.ok) throw new Error('history');
+        const data = await res.json();
+        if (!data.messages.length) {
+          const topicName = window.QUIMIBOT_TOPIC_NAME || 'Química General';
+          appendBotMessage('¡Hola! Soy **QuimiBot** 🧪, tu tutor socrático de química para la Preparatoria Balmoral. Estamos trabajando sobre el módulo: **' + topicName + '**. ¿Qué duda, pregunta o hipótesis inicial tienes sobre este tema?', false);
+          window.setBotEmotion('happy', '¡Bienvenido a Química Balmoral! 👋');
+          setTimeout(() => { window.setBotEmotion('idle'); }, 3000);
+        } else {
+          data.messages.forEach(m => m.role === 'user' ? appendUserMessage(m.content) : appendBotMessage(m.content, false));
+        }
+      }).catch(() => appendErrorMessage('No se pudo recuperar el historial. Recarga la página para consultarlo.'))
+      .finally(() => { chatInput.disabled = false; });
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message || chatInput.disabled) return;
+
+      appendUserMessage(message);
+      chatInput.value = '';
+      chatInput.disabled = true;
+
+      // Reaccionar según el tipo de mensaje
+      const isImageRequest = /imagen|foto|diagrama|esquema|dibuja|visual|modelo/i.test(message);
+      const isGreeting = /hola|buenos|que tal|buenas/i.test(message);
+
+      if (isGreeting) {
+        window.setBotEmotion('happy', '¡Hola! ¡Qué gusto verte! 😊');
+      } else if (isImageRequest) {
+        window.setBotEmotion('thinking', '¡Generando tu esquema químico visual! 🎨');
+      } else {
+        window.setBotEmotion('thinking', '¡Analizando tu hipótesis con química! ⚡');
+      }
+
+      const loadingId = appendLoading();
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 15000); // 15s límite
+      const sendButton = chatForm.querySelector('button[type=submit]');
+      if (sendButton) sendButton.disabled = true;
+
+      try {
+        const response = await fetch('/api/tutor', {
+          signal: controller.signal,
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id:      window.QUIMIBOT_SESSION,
+            id_alumno:       window.QUIMIBOT_USER_ID,
+            mensaje_alumno:  message
+          })
+        });
+
+        removeLoading(loadingId);
+        const data = await response.json();
+
+        if (response.ok) {
+          window.setBotEmotion('explaining', isImageRequest ? '¡Aquí tienes la ilustración! 🖼️' : '¡Reflexiona en esta pista! 💡');
+          await appendBotMessageAnimated(data.respuesta);
+          
+          if (data.image_url) {
+            appendImage(data.image_url);
+            window.setBotEmotion('happy', '¡Observa los detalles del esquema! 🔍');
+          }
+        } else {
+          chatInput.value = message;
+          appendErrorMessage(data.detail || 'No se pudo procesar el mensaje.');
+          window.setBotEmotion('curious', 'Mmm, revisemos de nuevo... 🤔');
+        }
+      } catch (error) {
+        removeLoading(loadingId);
+        chatInput.value = message;
+        appendErrorMessage(error.name === 'AbortError' ? 'La respuesta demoró un poco. Haz clic en Enviar para continuar.' : 'Sin conexión con el servidor.');
+        window.setBotEmotion('idle');
+      } finally {
+        clearTimeout(timer);
+        if (sendButton) sendButton.disabled = false;
+        chatInput.disabled = false;
+        chatInput.focus();
+        setTimeout(() => { window.setBotEmotion('idle'); }, 4000);
+      }
+    });
+  }
+
+  // ─────────────────────────────────────────────
+  // Funciones de renderizado del chat estilo iOS
+  // ─────────────────────────────────────────────
+  function appendUserMessage(text) {
+    if (!chatHistory) return;
+    const div = document.createElement('div');
+    div.className = 'flex justify-end mb-3.5';
+    div.innerHTML = `
+      <div class="max-w-xs lg:max-w-md bg-gradient-to-tr from-primary to-primary-container text-white rounded-3xl rounded-br-xs px-4 py-3 shadow-md shadow-primary/20">
+        <p class="text-sm leading-relaxed font-semibold">${escapeHtml(text)}</p>
+      </div>`;
+    chatHistory.appendChild(div);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  function appendBotMessage(text, animate = false) {
+    if (!chatHistory) return;
+    const div = document.createElement('div');
+    div.className = 'flex gap-3 mb-4 items-start';
+    div.innerHTML = `
+      <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 text-cyan-400 border border-slate-700/80 flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-md">
+        🤖
+      </div>
+      <div class="max-w-xs lg:max-w-lg bg-white/90 backdrop-blur-xl border border-slate-200/90 rounded-3xl rounded-tl-xs p-4 shadow-sm">
+        <div class="flex items-center justify-between gap-2 mb-1.5 border-b border-slate-100 pb-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold text-slate-900">QuimiBot</span>
+            <span class="text-[10px] bg-tertiary/10 text-tertiary font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Tutor Socrático</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-semibold">Ahora</span>
+        </div>
+        <div class="text-sm leading-relaxed text-slate-800 font-medium bot-text-body">${markdownToHtml(text)}</div>
+      </div>`;
+    chatHistory.appendChild(div);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  async function appendBotMessageAnimated(text) {
+    if (!chatHistory) return;
+    const div = document.createElement('div');
+    div.className = 'flex gap-3 mb-4 items-start';
+    div.innerHTML = `
+      <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 text-cyan-400 border border-slate-700/80 flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-md animate-bounce" style="animation-iteration-count: 2;">
+        🤖
+      </div>
+      <div class="max-w-xs lg:max-w-lg bg-white/90 backdrop-blur-xl border border-slate-200/90 rounded-3xl rounded-tl-xs p-4 shadow-sm">
+        <div class="flex items-center justify-between gap-2 mb-1.5 border-b border-slate-100 pb-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold text-slate-900">QuimiBot</span>
+            <span class="text-[10px] bg-tertiary/10 text-tertiary font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Tutor Socrático</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-semibold">Ahora</span>
+        </div>
+        <div class="text-sm leading-relaxed text-slate-800 font-medium bot-text-body"></div>
+      </div>`;
+    chatHistory.appendChild(div);
+
+    const bodyContainer = div.querySelector('.bot-text-body');
+    const words = text.split(' ');
+    let currentText = '';
+
+    for (let i = 0; i < words.length; i++) {
+      currentText += (i === 0 ? '' : ' ') + words[i];
+      bodyContainer.innerHTML = markdownToHtml(currentText);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+      await new Promise(r => setTimeout(r, 16));
+    }
+  }
+
+  function appendLoading() {
+    if (!chatHistory) return null;
+    const id = 'loading-' + Date.now();
+    const div = document.createElement('div');
+    div.id = id;
+    div.className = 'flex gap-3 mb-4 items-center';
+    div.innerHTML = `
+      <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 text-cyan-400 border border-slate-700/80 flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-md animate-pulse">
+        🤖
+      </div>
+      <div class="bg-white/90 backdrop-blur-xl border border-slate-200/80 rounded-full px-4 py-2.5 shadow-sm">
+        <div class="flex gap-2 items-center h-4">
+          <span class="text-xs text-slate-500 font-semibold mr-0.5">QuimiBot analizando</span>
+          <div class="w-2 h-2 bg-cyan-500 rounded-full animate-bounce" style="animation-delay:0ms"></div>
+          <div class="w-2 h-2 bg-cyan-500 rounded-full animate-bounce" style="animation-delay:150ms"></div>
+          <div class="w-2 h-2 bg-cyan-500 rounded-full animate-bounce" style="animation-delay:300ms"></div>
+        </div>
+      </div>`;
+    chatHistory.appendChild(div);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+    return id;
+  }
+
+  function appendImage(url) {
+    if (!chatHistory || !url) return;
+    const div = document.createElement('div');
+    div.className = 'flex gap-3 mb-4';
+    div.innerHTML = `
+      <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-sm">
+        🖼️
+      </div>
+      <div class="bg-white border-2 border-amber-400/60 rounded-2xl p-4 shadow-md max-w-sm lg:max-w-lg overflow-hidden transition-all hover:border-amber-500">
+        <div class="flex items-center justify-between text-xs font-extrabold text-amber-900 mb-2.5">
+          <span class="flex items-center gap-1.5">
+            <span class="text-base">🔬</span>
+            <span>Diagrama Conceptual Balmoral</span>
+          </span>
+          <button type="button" onclick="openImageModal('${url}', 'Diagrama Pedagógico de Química')" class="text-[11px] bg-amber-100 hover:bg-amber-200 text-amber-950 font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1 transition-all active:scale-95 shadow-2xs">
+            <span>🔍</span><span>Ampliar</span>
+          </button>
+        </div>
+        
+        <div class="rounded-xl overflow-hidden bg-slate-950 border border-slate-700 shadow-inner group relative cursor-pointer" onclick="openImageModal('${url}', 'Diagrama Conceptual Balmoral')">
+          <img src="${url}" alt="Diagrama de Química Educativo" 
+            class="w-full h-auto max-h-72 object-contain rounded-xl transition-transform duration-300 group-hover:scale-102" 
+            loading="lazy"
+            onerror="this.parentElement.innerHTML='<div class=\\'p-6 text-center text-xs text-slate-300 font-semibold\\'>🔬 Ilustración química disponible para este concepto.</div>'"/>
+          <div class="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+            <span class="bg-slate-950/80 text-cyan-300 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-slate-700 flex items-center gap-1">
+              <span>🔍</span><span>Haz clic para ver en grande</span>
+            </span>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-slate-600 font-semibold mt-2.5 text-center flex items-center justify-center gap-1">
+          <span>🔍</span>
+          <span>Analiza el esquema para deducir y justificar tu respuesta a QuimiBot.</span>
+        </p>
+      </div>`;
+    chatHistory.appendChild(div);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  function appendLoading() {
+    if (!chatHistory) return null;
+    const id = 'loading-' + Date.now();
+    const div = document.createElement('div');
+    div.id = id;
+    div.className = 'flex gap-3 mb-3';
+    div.innerHTML = `
+      <div class="w-9 h-9 rounded-xl bg-tertiary text-white flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-sm animate-pulse">
+        🤖
+      </div>
+      <div class="bg-slate-100 border border-slate-200/60 rounded-2xl rounded-bl-sm px-4 py-3">
+        <div class="flex gap-1.5 items-center h-5">
+          <span class="text-xs text-slate-500 font-semibold mr-1">QuimiBot analizando...</span>
+          <div class="w-2 h-2 bg-tertiary rounded-full animate-bounce" style="animation-delay:0ms"></div>
+          <div class="w-2 h-2 bg-tertiary rounded-full animate-bounce" style="animation-delay:150ms"></div>
+          <div class="w-2 h-2 bg-tertiary rounded-full animate-bounce" style="animation-delay:300ms"></div>
+        </div>
+      </div>`;
+    chatHistory.appendChild(div);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+    return id;
+  }
+
+  function removeLoading(id) {
+    if (id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+  }
+
+  function appendErrorMessage(text) {
+    if (!chatHistory) return;
+    const div = document.createElement('div');
+    div.className = 'flex justify-center mb-3';
+    div.innerHTML = `<span class="text-xs font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-4 py-1.5 rounded-full shadow-xs">${escapeHtml(text)}</span>`;
+    chatHistory.appendChild(div);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  function escapeHtml(text) {
+    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function markdownToHtml(text) {
+    return escapeHtml(text)
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/`(.+?)`/g, '<code class="bg-slate-200 px-1 rounded text-xs">$1</code>')
+      .replace(/\n/g, '<br>');
+  }
+
+  // ─────────────────────────────────────────────
+  // ONBOARDING (onboarding.html)
+  // ─────────────────────────────────────────────
+  const onboardingForm = document.getElementById('onboardingForm');
+  if (onboardingForm) {
+    onboardingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await submitDiagnostic();
+    });
+  }
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-action="finish-onboarding"]');
+    if (btn) {
+      e.preventDefault();
+      await submitDiagnostic();
+    }
+  });
+
+  async function submitDiagnostic() {
+    const grado = document.getElementById('inputGrade')?.value
+                || document.querySelector('select[name="grado"]')?.value
+                || '2do Bachillerato';
+    const estilo = document.getElementById('inputStyle')?.value
+                 || document.querySelector('select[name="estilo"]')?.value
+                 || 'Visual';
+    const conocimiento = document.getElementById('inputKnowledge')?.value
+                       || document.querySelector('textarea[name="conocimiento"]')?.value
+                       || 'Básico';
+    const dificultades = document.getElementById('inputDifficulties')?.value
+                       || document.querySelector('textarea[name="dificultades"]')?.value
+                       || 'Por determinar';
+
+    const button = onboardingForm.querySelector('button[type=submit]');
+    const status = document.getElementById('diagnosticStatus');
+    if (button.disabled) return;
+    button.disabled = true;
+    if (status) status.textContent = 'Guardando tu diagnóstico…';
+    try {
+      const res = await fetch('/api/diagnostic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id_alumno:          window.QUIMIBOT_USER_ID,
+          nivel_academico:    document.getElementById('inputLevel')?.value || 'Intermedio',
+          conocimiento_previo: conocimiento,
+          dificultades:       dificultades,
+          estilo_aprendizaje: estilo,
+          grado:              grado
+        })
+      });
+      if (res.ok) {
+        window.location.href = '/dashboard';
+      } else {
+        if (status) status.textContent = 'No se pudo guardar. Revisa los datos e intenta de nuevo.';
+      }
+    } catch (err) {
+      if (status) status.textContent = 'Sin conexión. Tu diagnóstico no se ha guardado; vuelve a intentar.';
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // NAVEGACIÓN ACTIVA
+  // ─────────────────────────────────────────────
+  const currentPath = window.location.pathname;
+  document.querySelectorAll('nav a[href]').forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('bg-primary-container', 'text-on-primary-container');
+      link.classList.remove('text-inverse-on-surface/80');
+    }
+  });
+
+});

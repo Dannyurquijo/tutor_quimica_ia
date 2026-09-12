@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tutor Socrático — Balmoral</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#dc2626",
+        "primary-hover": "#b91c1c",
+        tertiary: "#0284c7"
+      },
+      fontFamily: {
+        sans: ['"SF Pro Display"', '-apple-system', 'BlinkMacSystemFont', '"Plus Jakarta Sans"', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body {
+      overscroll-behavior: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+  ::-webkit-scrollbar { display: none; }
+  
+  .ios-glass {
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(30px) saturate(190%);
+    -webkit-backdrop-filter: blur(30px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 24px 60px -15px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(255, 255, 255, 0.8) inset;
+  }
+  
+  .ios-segment-bg {
+    background: rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(12px);
+  }
+  
+  .ios-segment-active {
+    background: #ffffff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+    color: #0f172a;
+    font-weight: 700;
+  }
+  
+  .ios-segment-inactive {
+    color: #64748b;
+    font-weight: 600;
+  }
+  
+  .ios-input {
+    background: rgba(241, 245, 249, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .ios-input:focus {
+    background: #ffffff;
+    border-color: #dc2626;
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.14);
+  }
+
+  #errorMsg, #successMsg { display: none; }
+</style>
+</head>
+<body class="bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] min-h-screen flex flex-col items-center justify-center p-4 relative overflow-x-hidden font-sans">
+
+<!-- Dynamic 60fps Atom Background Canvas -->
+<canvas id="atomsCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+
+<div class="relative z-10 w-full max-w-md flex flex-col items-center">
+
+  <!-- Apple Retina App Header -->
+  <div class="mb-6 flex flex-col items-center text-center">
+    <div class="relative group cursor-pointer">
+      <div class="w-20 h-20 bg-gradient-to-tr from-red-600 via-rose-500 to-amber-500 rounded-[24px] flex items-center justify-center shadow-xl shadow-red-500/25 mb-3 transform transition-transform group-hover:scale-105 duration-300">
+        <span class="material-symbols-outlined text-white text-4xl select-none">science</span>
+      </div>
+      <!-- Subtle Apple icon gleam -->
+      <div class="absolute inset-0 rounded-[24px] bg-gradient-to-b from-white/30 to-transparent pointer-events-none"></div>
+    </div>
+    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Tutor Socrático</h1>
+    <div class="flex items-center gap-2 mt-1.5">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200/60 shadow-sm backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+        Preparatoria Balmoral · IA Educativa
+      </span>
+    </div>
+  </div>
+
+  <!-- Main iOS Glass Card -->
+  <div class="ios-glass rounded-[32px] w-full p-7 sm:p-8 relative">
+
+    <!-- iOS Segmented Control Tabs -->
+    <div class="ios-segment-bg p-1 rounded-2xl flex gap-1 mb-6">
+      <button id="tabLogin" onclick="switchTab('login')" class="flex-1 py-2.5 text-xs sm:text-sm rounded-xl transition-all duration-200 ios-segment-active">
+        Iniciar Sesión
+      </button>
+      <button id="tabRegister" onclick="switchTab('register')" class="flex-1 py-2.5 text-xs sm:text-sm rounded-xl transition-all duration-200 ios-segment-inactive">
+        Registrarse
+      </button>
+    </div>
+
+    <!-- Feedback Alerts -->
+    <div id="errorMsg" class="bg-red-50/90 border border-red-200 text-red-700 rounded-2xl p-3.5 mb-4 text-xs sm:text-sm flex items-center gap-2.5 shadow-sm">
+      <span class="material-symbols-outlined text-lg text-red-500">error</span>
+      <span id="errorText" class="font-medium"></span>
+    </div>
+
+    <div id="successMsg" class="bg-emerald-50/90 border border-emerald-200 text-emerald-800 rounded-2xl p-3.5 mb-4 text-xs sm:text-sm flex items-center gap-2.5 shadow-sm">
+      <span class="material-symbols-outlined text-lg text-emerald-600">check_circle</span>
+      <span id="successText" class="font-medium"></span>
+    </div>
+
+    <!-- FORMULARIO LOGIN -->
+    <form id="loginForm" class="flex flex-col gap-4" onsubmit="handleLogin(event)">
+      <div class="flex flex-col gap-1.5">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Correo electrónico</label>
+        <input id="loginEmail" type="email" placeholder="alumno@balmoral.edu.mx" required
+          class="ios-input h-12 px-4 rounded-2xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"/>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Contraseña</label>
+        <div class="relative">
+          <input id="loginPassword" type="password" placeholder="••••••••" required
+            class="ios-input w-full h-12 px-4 rounded-2xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none pr-12"/>
+          <button type="button" onclick="togglePass('loginPassword')" class="absolute right-3 top-3 text-slate-400 hover:text-slate-600 transition-colors">
+            <span class="material-symbols-outlined text-xl">visibility</span>
+          </button>
+        </div>
+      </div>
+      <button type="submit" id="loginBtn"
+        class="h-12 bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-sm rounded-2xl hover:from-red-500 hover:to-rose-500 active:scale-[0.98] transition-all duration-200 mt-2 flex items-center justify-center gap-2 shadow-lg shadow-red-500/30">
+        <span class="material-symbols-outlined text-lg">login</span>
+        Iniciar Sesión
+      </button>
+
+      <!-- Quick Demo Access Pills -->
+      <div class="mt-3 pt-4 border-t border-slate-200/70 flex flex-col gap-2.5">
+        <div class="flex items-center justify-center gap-1.5 text-xs text-slate-500 font-semibold">
+          <span class="material-symbols-outlined text-sm text-amber-500">bolt</span>
+          <span>Acceso Rápido Demostración</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <button type="button" onclick="fillDemo('sofia@balmoral.edu.mx', 'quimica123')" 
+            class="bg-white/80 hover:bg-white text-slate-700 text-xs font-semibold py-2 px-1.5 rounded-xl border border-slate-200/80 shadow-sm hover:shadow transition-all flex items-center justify-center gap-1 active:scale-95">
+            <span>🎓</span> Alumno
+          </button>
+          <button type="button" onclick="fillDemo('directora.demo@balmoral.example', 'jxSyoryogqGIJDwH6i4')" 
+            class="bg-white/80 hover:bg-white text-slate-700 text-xs font-semibold py-2 px-1.5 rounded-xl border border-slate-200/80 shadow-sm hover:shadow transition-all flex items-center justify-center gap-1 active:scale-95">
+            <span>👩‍🏫</span> Directora
+          </button>
+          <a href="/padres?codigo=PADRE-SOF-1079"
+            class="col-span-2 sm:col-span-1 bg-sky-50 hover:bg-sky-100 text-sky-800 text-xs font-bold py-2 px-1.5 rounded-xl border border-sky-200 shadow-sm hover:shadow transition-all flex items-center justify-center gap-1 active:scale-95 text-center">
+            <span>👨‍👩‍👧</span> Padres
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-2 text-center">
+        <a href="/padres" class="text-xs font-bold text-sky-700 hover:text-sky-900 transition-colors inline-flex items-center gap-1">
+          <span>👨‍👩‍👧 ¿Tienes código familiar de padre? Ingresa aquí ➜</span>
+        </a>
+      </div>
+    </form>
+
+    <!-- FORMULARIO REGISTRO -->
+    <form id="registerForm" class="flex flex-col gap-3.5 hidden" onsubmit="handleRegister(event)">
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="flex flex-col gap-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Nombre</label>
+          <input id="regNombre" type="text" placeholder="Sofía" required
+            class="ios-input h-11 px-3.5 rounded-2xl text-sm text-slate-900 focus:outline-none"/>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Apellido</label>
+          <input id="regApellido" type="text" placeholder="Morales" required
+            class="ios-input h-11 px-3.5 rounded-2xl text-sm text-slate-900 focus:outline-none"/>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Correo electrónico</label>
+        <input id="regEmail" type="email" placeholder="alumno@balmoral.edu.mx" required
+          class="ios-input h-11 px-3.5 rounded-2xl text-sm text-slate-900 focus:outline-none"/>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Contraseña</label>
+        <div class="relative">
+          <input id="regPassword" type="password" placeholder="Mínimo 6 caracteres" minlength="6" required
+            class="ios-input w-full h-11 px-3.5 rounded-2xl text-sm text-slate-900 focus:outline-none pr-12"/>
+          <button type="button" onclick="togglePass('regPassword')" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+            <span class="material-symbols-outlined text-xl">visibility</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Tipo de cuenta</label>
+        <select id="regRol" class="ios-input h-11 px-3.5 rounded-2xl text-sm text-slate-900 focus:outline-none">
+          <option value="alumno">🎓 Alumno de Química</option>
+        </select>
+      </div>
+      <button type="submit" id="registerBtn"
+        class="h-12 bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold text-sm rounded-2xl hover:from-sky-500 hover:to-cyan-500 active:scale-[0.98] transition-all duration-200 mt-2 flex items-center justify-center gap-2 shadow-lg shadow-sky-500/25">
+        <span class="material-symbols-outlined text-lg">person_add</span>
+        Crear Cuenta
+      </button>
+    </form>
+
+  </div>
+
+  <!-- iOS Cupertino-style Footer -->
+  <div class="mt-6 text-center text-xs text-slate-500">
+    <div class="flex items-center justify-center gap-3">
+      <a href="/privacy" class="hover:text-slate-800 transition-colors font-medium">Aviso de Privacidad</a>
+      <span>·</span>
+      <a href="/legal" class="hover:text-slate-800 transition-colors font-medium">Aviso Legal</a>
+    </div>
+    <p class="mt-1.5 opacity-70">© 2026 Preparatoria Balmoral · Sistema Tutor IA Retina</p>
+  </div>
+
+</div>
+
+<!-- Animated Atom Background Script -->
+<script src="/static/atoms-bg.js"></script>
+
+<script>
+function fillDemo(email, password) {
+  document.getElementById('loginEmail').value = email;
+  document.getElementById('loginPassword').value = password;
+  hideMessages();
+}
+
+function switchTab(tab) {
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const tabLogin = document.getElementById('tabLogin');
+  const tabRegister = document.getElementById('tabRegister');
+  hideMessages();
+
+  if (tab === 'login') {
+    loginForm.classList.remove('hidden');
+    registerForm.classList.add('hidden');
+    tabLogin.className = 'flex-1 py-2.5 text-xs sm:text-sm rounded-xl transition-all duration-200 ios-segment-active';
+    tabRegister.className = 'flex-1 py-2.5 text-xs sm:text-sm rounded-xl transition-all duration-200 ios-segment-inactive';
+  } else {
+    registerForm.classList.remove('hidden');
+    loginForm.classList.add('hidden');
+    tabRegister.className = 'flex-1 py-2.5 text-xs sm:text-sm rounded-xl transition-all duration-200 ios-segment-active';
+    tabLogin.className = 'flex-1 py-2.5 text-xs sm:text-sm rounded-xl transition-all duration-200 ios-segment-inactive';
+  }
+}
+
+function togglePass(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  document.getElementById('errorText').textContent = msg;
+  el.style.display = 'flex';
+  document.getElementById('successMsg').style.display = 'none';
+}
+
+function showSuccess(msg) {
+  const el = document.getElementById('successMsg');
+  document.getElementById('successText').textContent = msg;
+  el.style.display = 'flex';
+  document.getElementById('errorMsg').style.display = 'none';
+}
+
+function hideMessages() {
+  document.getElementById('errorMsg').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'none';
+}
+
+function setLoading(btnId, loading) {
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  btn.style.opacity = loading ? '0.6' : '1';
+  btn.style.cursor = loading ? 'wait' : 'pointer';
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  hideMessages();
+  setLoading('loginBtn', true);
+
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      showSuccess(`¡Bienvenido de nuevo, ${data.user.nombre}! Redirigiendo...`);
+      setTimeout(() => { window.location.href = data.redirect; }, 800);
+    } else {
+      showError((Array.isArray(data.detail) ? 'Revisa los campos del formulario.' : data.detail) || 'Error al iniciar sesión');
+      setLoading('loginBtn', false);
+    }
+  } catch (err) {
+    showError('Error de conexión. Verifica que el servidor esté activo.');
+    setLoading('loginBtn', false);
+  }
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  hideMessages();
+  setLoading('registerBtn', true);
+
+  const nombre = document.getElementById('regNombre').value;
+  const apellido = document.getElementById('regApellido').value;
+  const email = document.getElementById('regEmail').value;
+  const password = document.getElementById('regPassword').value;
+  const rol = document.getElementById('regRol').value;
+
+  if (password.length < 6) {
+    showError('La contraseña debe tener al menos 6 caracteres');
+    setLoading('registerBtn', false);
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, apellido, email, password, rol })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      showSuccess(`¡Cuenta creada! Bienvenido, ${data.user.nombre}. Redirigiendo...`);
+      setTimeout(() => { window.location.href = data.redirect; }, 1000);
+    } else {
+      showError((Array.isArray(data.detail) ? 'Revisa los campos del formulario.' : data.detail) || 'Error al crear la cuenta');
+      setLoading('registerBtn', false);
+    }
+  } catch (err) {
+    showError('Error de conexión. Verifica que el servidor esté activo.');
+    setLoading('registerBtn', false);
+  }
+}
+</script>
+</body>
+</html>

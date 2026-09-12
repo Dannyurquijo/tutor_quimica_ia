@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#f8f9ff">
+  <title>{% block title %}Tutor Socrático · Balmoral Retina{% endblock %}</title>
+  
+  <!-- Tipografía Apple Retina & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS & Chart.js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#bb0c15',
+            'primary-container': '#e02e2b',
+            'on-primary-container': '#ffffff',
+            tertiary: '#00686d',
+            'tertiary-container': '#008389',
+            'on-tertiary-container': '#ffffff',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-low': '#eef4ff',
+            'surface-container': '#e8eefa',
+            'on-surface': '#151c24'
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', '"Plus Jakarta Sans"', 'sans-serif']
+          },
+          boxShadow: {
+            'ios-glass': '0 12px 36px -4px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.45)',
+            'ios-card': '0 8px 24px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02)',
+            'ios-float': '0 20px 48px -8px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04)'
+          }
+        }
+      }
+    };
+  </script>
+  
+  <style>
+    /* Estilo Base Apple iOS Retina */
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 50% 0%, #ffffff 0%, #f1f5f9 60%, #e2e8f0 100%);
+      color: #0f172a;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Plus Jakarta Sans", sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Clases de Cristal Esmerilado iOS (Liquid Glassmorphism) */
+    .ios-glass {
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    }
+
+    .ios-glass-card {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+      border-radius: 1.5rem;
+    }
+
+    .ios-glass-dark {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Micro-interacción estilo toque háptico de iPhone */
+    .ios-tap {
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .ios-tap:active {
+      transform: scale(0.96);
+    }
+
+    /* Scrollbars elegantes transparentes estilo iOS */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.55);
+    }
+
+    /* Accesibilidad */
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid #06b6d4;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-between">
+
+  <!-- ============================================================ -->
+  <!-- DYNAMIC ISLAND PREVIEW BANNER (Modo Previsualización Docente) -->
+  <!-- ============================================================ -->
+  {% if is_preview %}
+  <div class="sticky top-2 z-50 px-4 flex justify-center">
+    <div class="bg-slate-950/90 text-white backdrop-blur-2xl border border-amber-500/50 rounded-full px-5 py-2 shadow-2xl flex items-center justify-between gap-4 max-w-xl w-full animate-bounce" style="animation-iteration-count: 1;">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+        <p class="text-xs font-semibold truncate text-slate-200">
+          Vista previa del alumno: <strong class="text-amber-300 font-extrabold">{{ user.nombre }} {{ user.apellido }}</strong>
+        </p>
+      </div>
+      <a href="/dashboard-teacher" class="ios-tap flex-shrink-0 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs px-3 py-1 rounded-full font-extrabold transition-all shadow-sm flex items-center gap-1">
+        <span>Salir</span>
+        <span class="material-symbols-outlined text-xs">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ============================================================ -->
+  <!-- MENÚ SUPERIOR RETINA / APPLE CUPERTINO GLASS NAVBAR           -->
+  <!-- ============================================================ -->
+  <header class="sticky top-3 z-40 px-3 md:px-6 my-2">
+    <div class="max-w-6xl mx-auto ios-glass rounded-full px-4 md:px-6 py-2.5 flex items-center justify-between gap-3 shadow-ios-glass transition-all">
+      
+      <!-- LOGO RETINA APPLE -->
+      <a href="/" class="flex items-center gap-3 ios-tap group">
+        <!-- Squircle Icon Balmoral -->
+        <div class="w-9 h-9 md:w-10 md:h-10 rounded-2xl bg-gradient-to-tr from-primary via-primary-container to-amber-500 text-white flex items-center justify-center shadow-md shadow-primary/25 border border-white/40 group-hover:scale-105 transition-transform">
+          <span class="material-symbols-outlined text-lg md:text-xl">science</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold text-sm md:text-base text-slate-900 tracking-tight leading-tight flex items-center gap-1.5">
+            <span>Balmoral</span>
+            <span class="text-[10px] bg-primary/10 text-primary font-extrabold px-1.5 py-0.2 rounded-full uppercase tracking-wider">Retina IA</span>
+          </span>
+          <span class="text-[11px] font-semibold text-slate-500 -mt-0.5 hidden sm:inline">Química Socrática</span>
+        </div>
+      </a>
+
+      <!-- NAVEGACIÓN SEGMENTADA ESTILO iOS (Segmented Control) -->
+      <nav class="hidden md:flex items-center bg-slate-100/80 p-1 rounded-full border border-slate-200/60 shadow-inner" aria-label="Navegación principal">
+        {% if user.rol == 'alumno' and not is_preview %}
+          <a href="/dashboard" class="ios-tap px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 {% if request.url.path == '/dashboard' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">
+            <span class="material-symbols-outlined text-sm">dashboard</span>
+            <span>Mi Panel</span>
+          </a>
+          <a href="/learning" class="ios-tap px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 {% if request.url.path == '/learning' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">
+            <span class="material-symbols-outlined text-sm text-tertiary">smart_toy</span>
+            <span>QuimiBot</span>
+          </a>
+        {% elif is_preview %}
+          <a href="/dashboard?preview_student_id={{ user.id }}" class="ios-tap px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 {% if request.url.path == '/dashboard' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">
+            <span class="material-symbols-outlined text-sm">visibility</span>
+            <span>Vista Alumno</span>
+          </a>
+          <a href="/learning?preview_student_id={{ user.id }}" class="ios-tap px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 {% if request.url.path == '/learning' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">
+            <span class="material-symbols-outlined text-sm text-tertiary">smart_toy</span>
+            <span>Probar Chat</span>
+          </a>
+          <a href="/dashboard-teacher" class="ios-tap px-4 py-1.5 rounded-full text-xs font-extrabold text-amber-700 hover:text-amber-800 transition-all flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">arrow_back</span>
+            <span>Panel Docente</span>
+          </a>
+        {% elif is_parent %}
+          <a href="/padres/dashboard" class="ios-tap px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 bg-white text-slate-900 shadow-sm">
+            <span class="material-symbols-outlined text-sm text-sky-600">family_restroom</span>
+            <span>Seguimiento de {{ user.nombre }}</span>
+          </a>
+        {% else %}
+          <a href="/dashboard-teacher" class="ios-tap px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 {% if request.url.path == '/dashboard-teacher' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">
+            <span class="material-symbols-outlined text-sm">analytics</span>
+            <span>Panel Docente</span>
+          </a>
+        {% endif %}
+      </nav>
+
+      <!-- PERFIL DE USUARIO & ACCIONES ESTILO APPLE PÍLDORA -->
+      <div class="flex items-center gap-2">
+        
+        <!-- Píldora del Usuario -->
+        <div class="flex items-center gap-2 bg-white/90 border border-slate-200/80 rounded-full py-1 pl-1.5 pr-3 shadow-2xs">
+          <!-- Avatar Squircle -->
+          <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-tertiary to-cyan-400 text-white font-extrabold text-xs flex items-center justify-center shadow-xs">
+            {{ user.nombre[0]|upper }}
+          </div>
+          <div class="flex flex-col text-left leading-none">
+            <span class="text-xs font-bold text-slate-800 truncate max-w-[90px] sm:max-w-[120px]">{{ user.nombre }}</span>
+            <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+              {% if user.rol == 'alumno' %}Alumno{% else %}Docente{% endif %}
+            </span>
+          </div>
+        </div>
+
+        <!-- Botón Móvil de QuimiBot si es pantalla chica -->
+        <a href="/learning" class="md:hidden ios-tap w-9 h-9 rounded-full bg-tertiary/10 text-tertiary flex items-center justify-center border border-tertiary/20" title="QuimiBot">
+          <span class="material-symbols-outlined text-lg">smart_toy</span>
+        </a>
+
+        <!-- Botón Salir Estilo iOS -->
+        <a href="/logout" class="ios-tap w-9 h-9 rounded-full bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-600 flex items-center justify-center border border-slate-200/80 transition-colors shadow-2xs" title="Cerrar sesión">
+          <span class="material-symbols-outlined text-lg">logout</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- CONTENIDO PRINCIPAL DE LA PÁGINA                             -->
+  <!-- ============================================================ -->
+  <main class="relative z-10 max-w-6xl mx-auto px-3 md:px-6 py-4 flex-1 w-full">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER RETINA TRANSLÚCIDO                                    -->
+  <!-- ============================================================ -->
+  <footer class="relative z-10 text-center text-xs text-slate-500 py-6 px-4">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-200/60 pt-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-semibold text-slate-600">Sistema Activo · Balmoral Retina OS v3.0</span>
+      </div>
+      <div class="flex items-center gap-4 font-semibold text-slate-500">
+        <a href="/privacy" class="hover:text-primary transition-colors">Privacidad</a>
+        <span>•</span>
+        <a href="/legal" class="hover:text-primary transition-colors">Aviso Legal</a>
+        <span>•</span>
+        <span>Querétaro, Qro.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================ -->
+  <!-- FONDO DINÁMICO DE ÁTOMOS Y ENLACES (Canvas 60fps)             -->
+  <!-- ============================================================ -->
+  <script src="/static/atoms-bg.js"></script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,413 @@
+{% extends 'portal.html' %}
+{% block title %}Panel Docente & Dirección · Balmoral Química{% endblock %}
+{% block content %}
+<div class="flex flex-col gap-6">
+
+  <!-- Header del Panel Docente Estilo iOS Retina -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="bg-primary/10 text-primary font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+          PREPARATORIA BALMORAL · SUPERVISIÓN
+        </span>
+        <span class="text-slate-300">•</span>
+        <span class="text-slate-500 text-xs font-semibold bg-slate-100/80 px-2.5 py-0.5 rounded-full">Retina OS · IA Socrática</span>
+      </div>
+      <h1 class="text-2xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Panel de Control Docente
+      </h1>
+      <p class="text-slate-500 text-sm mt-1.5 leading-relaxed max-w-xl">
+        Profesor: <strong class="text-slate-800">{{ user.nombre }} {{ user.apellido }}</strong> — Monitoreo analítico de aprendizaje, asignación de temas y autonomía deductiva.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3 self-stretch md:self-auto">
+      <a href="/dashboard-teacher/report" target="_blank" class="ios-tap bg-white/95 hover:bg-white text-slate-800 font-extrabold text-xs md:text-sm px-4 py-3 rounded-2xl border border-slate-200/80 transition-all shadow-xs flex items-center gap-1.5">
+        <span>📄</span><span>Reporte Institucional</span>
+      </a>
+      <button onclick="openAssignModal()" class="ios-tap bg-gradient-to-tr from-primary to-primary-container hover:brightness-110 text-white font-extrabold text-xs md:text-sm px-5 py-3 rounded-2xl transition-all inline-flex items-center gap-2 shadow-md shadow-primary/25">
+        <span>➕ Asignar Tema</span>
+      </button>
+      <a href="/dashboard-teacher" class="ios-tap bg-white/90 hover:bg-slate-100 text-slate-700 font-bold text-xs md:text-sm px-3.5 py-3 rounded-2xl border border-slate-200/80 transition-all shadow-xs">
+        🔄
+      </a>
+    </div>
+  </div>
+
+  {% if not vector_available %}
+  <div role="alert" class="bg-amber-50/90 backdrop-blur-md border border-amber-300 text-amber-900 p-4 rounded-2xl text-xs md:text-sm flex items-center gap-2 shadow-xs">
+    <span>⚠️ La base vectorial ChromaDB está reindexando diagnósticos. Los diagnósticos locales en SQLite siguen activos.</span>
+  </div>
+  {% endif %}
+
+  <!-- KPI Metrics estilo iOS Home Widgets -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="ios-glass-card p-5 md:p-6 shadow-ios-card">
+      <div class="flex items-center justify-between text-xs text-slate-400 font-extrabold uppercase tracking-wider mb-2">
+        <span>Alumnos</span>
+        <span class="text-base">👥</span>
+      </div>
+      <div class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">{{ students|length }}</div>
+      <span class="text-[11px] text-slate-400 font-semibold mt-1 block">Inscritos activos</span>
+    </div>
+
+    <div class="ios-glass-card p-5 md:p-6 shadow-ios-card">
+      <div class="flex items-center justify-between text-xs text-slate-400 font-extrabold uppercase tracking-wider mb-2">
+        <span>Diagnósticos</span>
+        <span class="text-base">📋</span>
+      </div>
+      <div class="text-3xl md:text-4xl font-extrabold text-tertiary tracking-tight">{{ completed }}</div>
+      <span class="text-[11px] text-slate-400 font-semibold mt-1 block">Perfiles generados</span>
+    </div>
+
+    <div class="ios-glass-card p-5 md:p-6 shadow-ios-card">
+      <div class="flex items-center justify-between text-xs text-slate-400 font-extrabold uppercase tracking-wider mb-2">
+        <span>Sesiones IA</span>
+        <span class="text-base">💬</span>
+      </div>
+      <div class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">{{ sessions }}</div>
+      <span class="text-[11px] text-slate-400 font-semibold mt-1 block">Tutorías socráticas</span>
+    </div>
+
+    <div class="ios-glass-card p-5 md:p-6 shadow-ios-card">
+      <div class="flex items-center justify-between text-xs text-slate-400 font-extrabold uppercase tracking-wider mb-2">
+        <span>Currículo</span>
+        <span class="text-base">📘</span>
+      </div>
+      <div class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">{{ curriculum|length }}</div>
+      <span class="text-[11px] text-slate-400 font-semibold mt-1 block">Módulos oficiales</span>
+    </div>
+  </div>
+
+  <!-- Sección de Gráficas Analíticas del Grupo estilo iOS Cards -->
+  <div class="grid md:grid-cols-2 gap-6">
+
+    <!-- Gráfica 1: Promedio de Avance por Tema del Grupo -->
+    <div class="ios-glass-card p-6 md:p-7 shadow-ios-glass">
+      <h2 class="text-lg md:text-xl font-extrabold text-slate-900 mb-1 tracking-tight">Promedio de Dominio por Módulo Curricular</h2>
+      <p class="text-xs text-slate-500 mb-5">Avance acumulado del grupo en cada tema del programa de Química</p>
+      <div class="relative h-60 w-full">
+        <canvas id="groupTopicsChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfica 2: Distribución por Nivel de Deducción Socrática -->
+    <div class="ios-glass-card p-6 md:p-7 shadow-ios-glass">
+      <h2 class="text-lg md:text-xl font-extrabold text-slate-900 mb-1 tracking-tight">Autonomía y Nivel de Deducción</h2>
+      <p class="text-xs text-slate-500 mb-5">Distribución del tipo de ayuda requerida por los alumnos</p>
+      <div class="relative h-60 w-full flex justify-center items-center">
+        <canvas id="deductionDistributionChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tabla Detallada de Seguimiento de Alumnos y Asignación -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+      <div>
+        <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight">Seguimiento de Alumnos y Gestión</h2>
+        <p class="text-sm text-slate-500 mt-0.5">Consulta los temas de cada alumno, su diagnóstico y visualiza la plataforma tal como la ve el estudiante</p>
+      </div>
+      <div class="w-full md:w-80">
+        <label for="studentSearch" class="sr-only">Buscar alumno</label>
+        <input id="studentSearch" type="search" class="w-full border border-slate-300/80 rounded-full px-4 py-2.5 text-xs md:text-sm bg-white/90 backdrop-blur-md focus:ring-2 focus:ring-cyan-500 focus:outline-none shadow-xs" placeholder="🔍 Buscar por nombre o email...">
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      {% for student in students %}
+      <div data-student class="ios-glass-card border border-slate-200/80 rounded-3xl overflow-hidden hover:border-cyan-400/60 hover:shadow-ios-float transition-all bg-white/70">
+        <!-- Ficha Resumen Alumno -->
+        <div class="p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/80 border-b border-slate-100">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-tertiary to-cyan-500 text-white font-extrabold text-lg flex items-center justify-center shadow-md shadow-tertiary/20">
+              {{ student.name[0] }}
+            </div>
+            <div>
+              <h3 class="font-extrabold text-slate-900 text-lg flex items-center gap-2 tracking-tight">
+                {{ student.name }}
+                <span class="text-xs font-medium text-slate-400">({{ student.email }})</span>
+              </h3>
+              <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mt-1">
+                <span class="bg-slate-100/90 border border-slate-200/60 px-3 py-0.5 rounded-full font-bold text-slate-700">{{ student.grade }}</span>
+                <span>•</span>
+                <span>Nivel: <strong class="text-slate-700">{{ student.level }}</strong></span>
+                <span>•</span>
+                <span>Estilo: <strong class="text-slate-700">{{ student.style }}</strong></span>
+                <span class="text-amber-600 font-extrabold flex items-center gap-1">🔥 {{ student.racha }} días</span>
+                <span>•</span>
+                <span class="bg-sky-50 text-sky-800 border border-sky-200/80 px-2.5 py-0.5 rounded-full font-mono text-[11px] font-bold" title="Código de acceso para padres de familia">
+                  👨‍👩‍👧 {{ student.codigo_padre or 'PADRE-SOF-1079' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Métricas y CTAs -->
+          <div class="flex items-center gap-4 self-stretch md:self-auto justify-between md:justify-end">
+            <div class="text-right">
+              <div class="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider">Dominio Global</div>
+              <div class="text-2xl font-extrabold text-tertiary">{{ student.progreso_global }}%</div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <a href="/dashboard?preview_student_id={{ student.id }}" 
+                class="ios-tap bg-gradient-to-tr from-amber-400 to-amber-500 hover:brightness-105 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full transition-all inline-flex items-center gap-1 shadow-sm"
+                title="Ver interfaz exacta que ve el alumno">
+                👁️ Vista Alumno
+              </a>
+
+              <button onclick="openAssignModalForStudent({{ student.alumno_id or student.id }}, '{{ student.name }}')"
+                class="ios-tap bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs px-4 py-2 rounded-full transition-all inline-flex items-center gap-1 shadow-sm">
+                📝 Asignar Tema
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desplegable de Temas y Diagnóstico -->
+        <div class="p-5 space-y-4">
+          <div>
+            <h4 class="text-xs font-bold uppercase text-slate-500 tracking-wider mb-3">Avance de Temas Asignados</h4>
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {% for topic in student.topics %}
+              <div class="bg-white border border-slate-200 rounded-lg p-3 text-xs">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="font-bold text-slate-800 truncate">{{ topic.nombre }}</span>
+                  <span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded
+                    {% if topic.estado == 'Dominado' %}bg-emerald-100 text-emerald-800
+                    {% elif topic.estado == 'En Progreso' %}bg-sky-100 text-sky-800
+                    {% else %}bg-slate-100 text-slate-600{% endif %}">
+                    {{ topic.estado }}
+                  </span>
+                </div>
+                <div class="flex justify-between text-[11px] text-slate-500 mb-1">
+                  <span>Deducción: {{ topic.nivel_deduccion }}</span>
+                  <span class="font-bold text-slate-700">{{ topic.progreso }}%</span>
+                </div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                  <div class="h-full bg-tertiary rounded-full" style="width: {{ topic.progreso }}%"></div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          {% if student.diagnostic %}
+          <div class="pt-2">
+            <details class="bg-white border border-slate-200 rounded-lg p-3 text-xs">
+              <summary class="font-bold text-tertiary cursor-pointer hover:underline">
+                📄 Ver Registro Completo de Diagnóstico Inicial (ChromaDB)
+              </summary>
+              <div class="mt-3 text-slate-700 whitespace-pre-wrap leading-relaxed border-t border-slate-100 pt-2 bg-slate-50/50 p-2.5 rounded">
+                {{ student.diagnostic }}
+              </div>
+            </details>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% else %}
+      <div class="p-8 text-center text-slate-500 bg-slate-50 rounded-xl border border-slate-200">
+        Aún no hay alumnos registrados en la plataforma.
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal para Asignar / Editar Tema a Alumno -->
+<div id="assignModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+  <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
+    <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-4">
+      <h3 class="font-extrabold text-lg text-slate-900">📝 Asignar o Editar Tema a Alumno</h3>
+      <button onclick="closeAssignModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+    </div>
+
+    <form id="assignForm" onsubmit="submitAssignForm(event)" class="space-y-4 text-sm">
+      <div>
+        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Alumno</label>
+        <select id="modalStudentId" required class="w-full border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-tertiary focus:outline-none">
+          {% for s in students %}
+          <option value="{{ s.alumno_id or s.id }}">{{ s.name }} ({{ s.email }})</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Tema / Módulo de Química</label>
+        <select id="modalTopicSelect" onchange="onTopicSelectChange()" required class="w-full border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-tertiary focus:outline-none">
+          {% for t in curriculum %}
+          <option value="{{ t.codigo }}" data-nombre="{{ t.nombre }}">{{ t.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Estado</label>
+          <select id="modalEstado" class="w-full border border-slate-300 rounded-xl p-2.5">
+            <option value="Asignado">Asignado</option>
+            <option value="En Progreso" selected>En Progreso</option>
+            <option value="Dominado">Dominado</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Nivel Deductivo</label>
+          <select id="modalDeduccion" class="w-full border border-slate-300 rounded-xl p-2.5">
+            <option value="Inicial">Inicial</option>
+            <option value="Guiada" selected>Guiada</option>
+            <option value="Autónoma">Autónoma</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+          <span>Porcentaje de Dominio Objetivado</span>
+          <span id="progresoValue">50%</span>
+        </div>
+        <input type="range" id="modalProgreso" min="0" max="100" value="50" oninput="document.getElementById('progresoValue').textContent = this.value + '%'"
+          class="w-full accent-tertiary">
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex gap-2 justify-end">
+        <button type="button" onclick="closeAssignModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">
+          Cancelar
+        </button>
+        <button type="submit" id="btnSubmitAssign" class="px-5 py-2 rounded-xl bg-tertiary text-white font-bold hover:bg-teal-800 shadow-sm">
+          Guardar Asignación
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Gráfica de Avance de Grupo
+  const ctxGroup = document.getElementById('groupTopicsChart');
+  if (ctxGroup) {
+    const topicsOverview = {{ analytics.topics_overview|tojson }};
+    new Chart(ctxGroup, {
+      type: 'bar',
+      data: {
+        labels: topicsOverview.map(t => t.nombre),
+        datasets: [{
+          label: 'Promedio Grupal (%)',
+          data: topicsOverview.map(t => t.promedio),
+          backgroundColor: 'rgba(0, 104, 109, 0.85)',
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } },
+          x: { ticks: { font: { size: 9 }, maxRotation: 20 } }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+  }
+
+  // Gráfica de Distribución Deductiva
+  const ctxDeduction = document.getElementById('deductionDistributionChart');
+  if (ctxDeduction) {
+    const deductionDist = {{ analytics.deduction_distribution|tojson }};
+    new Chart(ctxDeduction, {
+      type: 'doughnut',
+      data: {
+        labels: ['Inicial (Requiere Pistas)', 'Guiada (Inducción Media)', 'Autónoma (Razonamiento Propio)'],
+        datasets: [{
+          data: [deductionDist.Inicial || 1, deductionDist.Guiada || 2, deductionDist.Autónoma || 1],
+          backgroundColor: ['#f59e0b', '#0ea5e9', '#10b981']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { size: 10 } } }
+        }
+      }
+    });
+  }
+
+  // Filtro de búsqueda
+  const searchInput = document.getElementById('studentSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      const q = this.value.toLowerCase().trim();
+      document.querySelectorAll('[data-student]').forEach(el => {
+        el.style.display = el.textContent.toLowerCase().includes(q) ? 'block' : 'none';
+      });
+    });
+  }
+});
+
+function openAssignModal() {
+  document.getElementById('assignModal').classList.remove('hidden');
+  document.getElementById('assignModal').classList.add('flex');
+}
+
+function openAssignModalForStudent(alumnoId, studentName) {
+  const select = document.getElementById('modalStudentId');
+  if (select) {
+    select.value = alumnoId;
+  }
+  openAssignModal();
+}
+
+function closeAssignModal() {
+  document.getElementById('assignModal').classList.add('hidden');
+  document.getElementById('assignModal').classList.remove('flex');
+}
+
+async function submitAssignForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnSubmitAssign');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const selectTopic = document.getElementById('modalTopicSelect');
+  const selectedOpt = selectTopic.options[selectTopic.selectedIndex];
+
+  const payload = {
+    alumno_id: parseInt(document.getElementById('modalStudentId').value),
+    tema_codigo: selectTopic.value,
+    tema_nombre: selectedOpt.getAttribute('data-nombre') || selectTopic.value,
+    estado: document.getElementById('modalEstado').value,
+    progreso: parseInt(document.getElementById('modalProgreso').value),
+    nivel_deduccion: document.getElementById('modalDeduccion').value
+  };
+
+  try {
+    const res = await fetch('/api/teacher/assign-topic', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      alert('¡Tema asignado y actualizado exitosamente!');
+      window.location.reload();
+    } else {
+      const err = await res.json();
+      alert('Error: ' + (err.detail || 'No se pudo guardar la asignación'));
+    }
+  } catch (err) {
+    alert('Error de conexión con el servidor.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Guardar Asignación';
+  }
+}
+</script>
+{% endblock %}

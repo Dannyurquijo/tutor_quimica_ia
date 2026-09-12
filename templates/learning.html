@@ -1,0 +1,383 @@
+{% extends 'portal.html' %}
+{% block title %}Tutor Socrático QuimiBot · Balmoral Química{% endblock %}
+{% block content %}
+<style>
+/* Animaciones y Emociones CSS del Robot QuimiBot */
+@keyframes floatRobot {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(1.5deg); }
+}
+
+@keyframes happyBounce {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  30% { transform: translateY(-12px) scale(1.08); }
+  60% { transform: translateY(-4px) scale(0.98); }
+}
+
+@keyframes headTilt {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-8deg); }
+}
+
+@keyframes antennaPulse {
+  0%, 100% { fill: #008389; filter: drop-shadow(0 0 4px #64d7de); }
+  50% { fill: #e02e2b; filter: drop-shadow(0 0 12px #ff766d); }
+}
+
+@keyframes antennaPulseRapid {
+  0%, 100% { fill: #f59e0b; filter: drop-shadow(0 0 6px #f59e0b); }
+  50% { fill: #64d7de; filter: drop-shadow(0 0 14px #64d7de); }
+}
+
+@keyframes riseBubbles {
+  0% { transform: translateY(0px) scale(0.6); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-18px) scale(1.1); opacity: 0; }
+}
+
+@keyframes mouthSpeak {
+  0%, 100% { height: 3px; transform: scaleY(1); }
+  50% { height: 9px; transform: scaleY(2.2); }
+}
+
+@keyframes scanEye {
+  0%, 100% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+}
+
+.robot-float { animation: floatRobot 3.8s ease-in-out infinite; }
+.robot-happy { animation: happyBounce 0.8s ease-in-out infinite; }
+.robot-curious { animation: headTilt 2s ease-in-out infinite; }
+
+.antenna-normal { animation: antennaPulse 2.5s ease-in-out infinite; }
+.antenna-active { animation: antennaPulseRapid 0.5s ease-in-out infinite; }
+
+.speaking-mouth { animation: mouthSpeak 0.35s ease-in-out infinite; }
+.scanning-eye { animation: scanEye 0.4s ease-in-out infinite; }
+
+.bubble-1 { animation: riseBubbles 1.8s infinite 0.1s; }
+.bubble-2 { animation: riseBubbles 2.1s infinite 0.6s; }
+.bubble-3 { animation: riseBubbles 1.6s infinite 1.1s; }
+.bubble-4 { animation: riseBubbles 2.4s infinite 1.4s; }
+
+/* Efecto de parpadeo de ojos */
+@keyframes eyeBlink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+.eye-blink { animation: eyeBlink 4s infinite; transform-origin: center; }
+
+/* Escaneo radar láser */
+@keyframes radarSweep {
+  0% { transform: translateY(-16px); opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { transform: translateY(16px); opacity: 0.2; }
+}
+.laser-sweep { animation: radarSweep 1.6s ease-in-out infinite alternate; }
+</style>
+
+<div class="max-w-7xl mx-auto flex flex-col gap-5 px-2 md:px-4">
+
+  <!-- Barra Superior de Módulo Estilo iOS Retina -->
+  <header class="ios-glass-card p-4 md:p-5 shadow-ios-glass flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="bg-primary/10 text-primary font-extrabold text-[11px] px-3 py-0.5 rounded-full uppercase tracking-wider">
+          Preparatoria Balmoral · Módulo Curricular
+        </span>
+        {% if active_topic %}
+        <span class="text-xs font-semibold text-slate-600 bg-slate-200/60 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
+          Deducción: <strong class="text-slate-800">{{ active_topic.nivel_deduccion }}</strong>
+        </span>
+        {% endif %}
+      </div>
+      <h1 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+        <span>🧪</span>
+        <span>{{ active_topic.tema_nombre if active_topic else "Química General" }}</span>
+      </h1>
+      {% if active_topic and active_topic.tema_descripcion %}
+      <p class="text-xs text-slate-500 mt-1 hidden md:block leading-relaxed">{{ active_topic.tema_descripcion }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Selector Rápido de Módulo estilo iOS Select + Reto Socrático -->
+    <div class="flex items-center gap-2 self-stretch sm:self-auto justify-end flex-wrap">
+      <button type="button" onclick="startSocraticChallenge()" class="ios-tap px-3.5 py-2 rounded-full text-xs font-extrabold bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 text-white shadow-xs flex items-center gap-1.5 transition-all">
+        <span>⚡</span>
+        <span>Reto del Módulo</span>
+      </button>
+      <label for="topicSelector" class="text-xs font-bold text-slate-600 hidden sm:inline">Módulo:</label>
+      <select id="topicSelector" onchange="switchTopic(this.value)" class="ios-tap border border-slate-300/80 rounded-full px-4 py-2 text-xs font-bold text-slate-800 bg-white/90 backdrop-blur-md focus:ring-2 focus:ring-cyan-500 focus:outline-none shadow-xs w-full sm:w-auto">
+        {% for t in topics %}
+        <option value="{{ t.tema_codigo }}" {% if active_topic and active_topic.tema_codigo == t.tema_codigo %}selected{% endif %}>
+          📘 {{ t.tema_nombre }} ({{ t.progreso }}%)
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+  </header>
+
+  <!-- Layout Principal: Companion QuimiBot (Izq) + Chat Socrático (Der) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+    
+    <!-- COLUMNA IZQUIERDA: Estación del Robot QuimiBot (Grande, Interactivo y Animado) -->
+    <aside class="lg:col-span-4 ios-glass-card p-5 shadow-ios-glass flex flex-col items-center text-center gap-4 lg:sticky lg:top-24">
+      
+      <!-- Encabezado de la Estación -->
+      <div class="w-full flex items-center justify-between border-b border-slate-200/60 pb-3">
+        <span class="text-xs font-extrabold text-slate-800 flex items-center gap-1.5">
+          <span class="text-base">🤖</span>
+          <span>QuimiBot Companion</span>
+        </span>
+        <span id="robotStatusBadge" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 font-extrabold text-[10px] px-3 py-0.5 rounded-full flex items-center gap-1.5 uppercase tracking-wider">
+          <span id="statusIndicatorDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="robotStatusText">Activo</span>
+        </span>
+      </div>
+
+      <!-- ROBOT QUIMIBOT GIGANTE ANIMADO (220px x 220px) -->
+      <div class="relative w-full flex justify-center py-2">
+        <div id="quimibotAvatar" class="robot-float relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0 flex items-center justify-center bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 rounded-3xl p-3 shadow-2xl border-4 border-slate-700/80 transition-all cursor-pointer hover:border-cyan-400 group" onclick="pokeRobot()" title="¡Haz clic sobre QuimiBot para interactuar!">
+          
+          <!-- SVG QuimiBot en Alta Resolución -->
+          <svg id="robotSvg" viewBox="0 0 140 140" class="w-full h-full drop-shadow-lg">
+            <!-- 1. Antena con Ondas Radiales -->
+            <line x1="70" y1="28" x2="70" y2="10" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+            <circle id="robotAntennaOrb" cx="70" cy="8" r="7" class="antenna-normal" fill="#64d7de"/>
+            
+            <!-- 2. Orejas / Conectores Laterales -->
+            <rect x="14" y="52" width="8" height="22" rx="4" fill="#e02e2b" stroke="#ffffff" stroke-width="1.5"/>
+            <rect x="118" y="52" width="8" height="22" rx="4" fill="#e02e2b" stroke="#ffffff" stroke-width="1.5"/>
+
+            <!-- 3. Cabeza Principal Robot -->
+            <rect id="robotHead" x="22" y="26" width="96" height="80" rx="22" fill="#00686d" stroke="#ffffff" stroke-width="3.5"/>
+
+            <!-- 4. Pantalla Visor Digital Grande -->
+            <rect x="32" y="38" width="76" height="56" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+
+            <!-- 5. MEJILLAS ROSADAS (Emoción Feliz) -->
+            <g id="robotCheeks" class="hidden opacity-90">
+              <circle cx="39" cy="74" r="5" fill="#ff766d"/>
+              <circle cx="101" cy="74" r="5" fill="#ff766d"/>
+            </g>
+
+            <!-- 6. ESTADOS DE OJOS ANIMADOS -->
+            
+            <!-- A. OJOS IDLE (Grandes, luminosos, parpadean) -->
+            <g id="eyesIdle" class="eye-blink">
+              <circle cx="52" cy="60" r="8" fill="#38bdf8"/>
+              <circle cx="88" cy="60" r="8" fill="#38bdf8"/>
+              <circle cx="55" cy="57" r="2.8" fill="#ffffff"/>
+              <circle cx="91" cy="57" r="2.8" fill="#ffffff"/>
+              <circle cx="50" cy="63" r="1.5" fill="#bae6fd"/>
+              <circle cx="86" cy="63" r="1.5" fill="#bae6fd"/>
+            </g>
+
+            <!-- B. OJOS FELIZ (^ ^) -->
+            <g id="eyesHappy" class="hidden">
+              <path d="M 43 64 Q 52 50 61 64" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M 79 64 Q 88 50 97 64" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- C. OJOS PENSANDO (Escáner Láser Ambar y Frecuencia) -->
+            <g id="eyesThinking" class="hidden">
+              <circle cx="52" cy="60" r="8.5" fill="#f59e0b" class="scanning-eye"/>
+              <circle cx="88" cy="60" r="8.5" fill="#f59e0b" class="scanning-eye"/>
+              <line x1="36" y1="60" x2="104" y2="60" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 2" class="laser-sweep"/>
+              <circle cx="52" cy="60" r="3" fill="#ffffff"/>
+              <circle cx="88" cy="60" r="3" fill="#ffffff"/>
+            </g>
+
+            <!-- D. OJOS CURIOSO (o O con ceja levantada) -->
+            <g id="eyesCurious" class="hidden">
+              <circle cx="50" cy="62" r="5" fill="#38bdf8"/>
+              <circle cx="88" cy="58" r="9.5" fill="#38bdf8"/>
+              <circle cx="91" cy="55" r="3" fill="#ffffff"/>
+              <path d="M 78 44 Q 88 38 98 44" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- 7. BOCAS INTERACTIVAS -->
+            <!-- Boca Normal -->
+            <rect id="mouthNormal" x="58" y="78" width="24" height="4.5" rx="2.2" fill="#38bdf8"/>
+            <!-- Boca Sonriente -->
+            <path id="mouthHappy" d="M 54 76 Q 70 88 86 76" stroke="#38bdf8" stroke-width="4.5" fill="none" stroke-linecap="round" class="hidden"/>
+            <!-- Boca Hablando / Ecualizador de Voz Socrático -->
+            <g id="mouthSpeaking" class="hidden">
+              <rect x="52" y="76" width="5" height="9" rx="2" fill="#38bdf8" class="speaking-mouth"/>
+              <rect x="60" y="73" width="5" height="15" rx="2" fill="#38bdf8" class="speaking-mouth" style="animation-delay: 0.1s"/>
+              <rect x="68" y="71" width="5" height="18" rx="2" fill="#38bdf8" class="speaking-mouth" style="animation-delay: 0.15s"/>
+              <rect x="76" y="73" width="5" height="15" rx="2" fill="#38bdf8" class="speaking-mouth" style="animation-delay: 0.25s"/>
+              <rect x="84" y="76" width="5" height="9" rx="2" fill="#38bdf8" class="speaking-mouth" style="animation-delay: 0.05s"/>
+            </g>
+
+            <!-- 8. Matraz Químico Erlenmeyer con Burbujas -->
+            <g transform="translate(104, 76)">
+              <path d="M 7 0 L 13 0 L 15 8 L 22 22 A 4 4 0 0 1 18 28 L 4 28 A 4 4 0 0 1 0 22 L 5 8 Z" fill="#e02e2b" stroke="#ffffff" stroke-width="1.5"/>
+              <circle cx="10" cy="15" r="2" fill="#ffffff" class="bubble-1"/>
+              <circle cx="6" cy="20" r="1.8" fill="#ffffff" class="bubble-2"/>
+              <circle cx="15" cy="18" r="1.8" fill="#ffffff" class="bubble-3"/>
+              <circle cx="11" cy="23" r="1.4" fill="#ffffff" class="bubble-4"/>
+            </g>
+          </svg>
+
+          <!-- Botón flotante para interactuar -->
+          <div class="absolute bottom-2.5 right-2.5 bg-slate-950/80 backdrop-blur-md text-[10px] text-cyan-300 font-bold px-2.5 py-0.5 rounded-full border border-slate-700/80 opacity-80 group-hover:opacity-100 transition-opacity">
+            Tócame ✨
+          </div>
+        </div>
+      </div>
+
+      <!-- Gran Globo de Diálogo de QuimiBot -->
+      <div class="w-full relative">
+        <div id="robotBubble" class="bg-gradient-to-r from-slate-900 to-slate-800 text-cyan-200 border border-cyan-500/30 rounded-2xl p-3.5 text-xs font-semibold shadow-lg leading-relaxed text-center">
+          ¡Listo para aprender! 🧪 Escribe tu hipótesis o pide un esquema visual.
+        </div>
+      </div>
+
+      <!-- Controles de Expresión Manual estilo iOS Control Center -->
+      <div class="w-full bg-slate-100/70 backdrop-blur-md border border-slate-200/80 rounded-2xl p-3">
+        <p class="text-[11px] font-extrabold text-slate-500 mb-2 uppercase tracking-wider">Interacciones Rápidas:</p>
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="setBotEmotion('happy', '¡Qué alegría explorar química juntos! ✨')" class="ios-tap bg-white/90 hover:bg-amber-50 border border-slate-200/80 hover:border-amber-300 text-slate-700 text-xs font-bold py-2 px-2.5 rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5">
+            <span>✨</span><span>Feliz</span>
+          </button>
+          <button type="button" onclick="setBotEmotion('thinking', '¡Analizando tu hipótesis con rigor! ⚡')" class="ios-tap bg-white/90 hover:bg-cyan-50 border border-slate-200/80 hover:border-cyan-300 text-slate-700 text-xs font-bold py-2 px-2.5 rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5">
+            <span>⚡</span><span>Pensar</span>
+          </button>
+          <button type="button" onclick="setBotEmotion('curious', '¡Qué punto tan interesante planteas! 🤔')" class="ios-tap bg-white/90 hover:bg-emerald-50 border border-slate-200/80 hover:border-emerald-300 text-slate-700 text-xs font-bold py-2 px-2.5 rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5">
+            <span>🤔</span><span>Curioso</span>
+          </button>
+          <button type="button" onclick="setBotEmotion('explaining', '¡Aquí tienes una pista pedagógica! 💡')" class="ios-tap bg-white/90 hover:bg-purple-50 border border-slate-200/80 hover:border-purple-300 text-slate-700 text-xs font-bold py-2 px-2.5 rounded-xl transition-all shadow-2xs flex items-center justify-center gap-1.5">
+            <span>💡</span><span>Explicar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Progreso del Módulo Actual -->
+      {% if active_topic %}
+      <div class="w-full bg-slate-100/70 backdrop-blur-md border border-slate-200/80 rounded-2xl p-3.5 text-left">
+        <div class="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+          <span>Avance del Módulo</span>
+          <span class="text-tertiary font-extrabold">{{ active_topic.progreso }}%</span>
+        </div>
+        <div class="w-full bg-slate-200/80 rounded-full h-2.5 overflow-hidden">
+          <div class="bg-gradient-to-r from-tertiary to-cyan-500 h-2.5 rounded-full transition-all duration-500" style="width: {{ active_topic.progreso }}%"></div>
+        </div>
+      </div>
+      {% endif %}
+
+    </aside>
+
+    <!-- COLUMNA DERECHA: Chat Socrático y Generación de Diagramas -->
+    <section class="lg:col-span-8 ios-glass-card overflow-hidden shadow-ios-glass flex flex-col" aria-label="Chat socrático con QuimiBot">
+      
+      <!-- Historial de Conversación -->
+      <div id="chatHistory" role="log" aria-live="polite" aria-label="Mensajes" class="p-4 md:p-6 overflow-y-auto space-y-4" style="height:62vh;min-height:400px"></div>
+
+      <!-- Barra Inferior: Chips Socráticos Interactivos + Formulario iOS -->
+      <div class="border-t border-slate-200/60 bg-white/60 backdrop-blur-md p-3.5 md:p-4 space-y-3">
+        
+        <!-- Suggestion Chips socráticas de 1-Clic estilo iOS Capsules -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Pistas:</span>
+          <button type="button" onclick="sendQuickChip('🖼️ Dame una imagen o esquema visual donde pueda ver un ejemplo')" class="ios-tap bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 text-xs font-extrabold px-4 py-1.5 rounded-full transition-all shadow-sm flex items-center gap-1.5">
+            <span class="text-sm">🖼️</span>
+            <span>Dame una imagen</span>
+          </button>
+          <button type="button" onclick="sendQuickChip('💡 Dame una pista breve para deducir esto')" class="ios-tap bg-white/90 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all shadow-2xs hover:border-cyan-400">
+            💡 Dame una pista
+          </button>
+          <button type="button" onclick="sendQuickChip('🧪 ¿Por qué sucede esto a nivel atómico o molecular?')" class="ios-tap bg-white/90 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all shadow-2xs hover:border-cyan-400">
+            🧪 ¿Por qué sucede esto?
+          </button>
+          <button type="button" onclick="sendQuickChip('❓ No estoy seguro, ¿me das una metáfora sencilla?')" class="ios-tap bg-white/90 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all shadow-2xs hover:border-cyan-400">
+            ❓ Dame una metáfora
+          </button>
+          <button type="button" onclick="sendQuickChip('🎯 Ponme un ejemplo práctico de la vida real')" class="ios-tap bg-white/90 hover:bg-slate-100 border border-slate-200/80 text-slate-700 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all shadow-2xs hover:border-cyan-400">
+            🎯 Ejemplo práctico
+          </button>
+        </div>
+
+        <!-- Formulario de Mensaje Estilo iOS Message Bar -->
+        <form id="chatForm" class="flex items-center gap-2 bg-slate-100/90 backdrop-blur-md p-1.5 pl-4 rounded-full border border-slate-300/80 shadow-inner focus-within:ring-2 focus-within:ring-cyan-500/50 focus-within:bg-white transition-all">
+          <label for="chatInput" class="sr-only">Mensaje a QuimiBot</label>
+          <input id="chatInput" maxlength="4000" required autocomplete="off" 
+            class="flex-1 min-w-0 text-sm bg-transparent border-none focus:outline-none text-slate-800 placeholder-slate-400 font-medium" 
+            placeholder="Escribe tu hipótesis o duda a QuimiBot...">
+          <button type="submit" id="chatSubmitBtn" class="ios-tap w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-primary-container text-white font-bold flex items-center justify-center shadow-md hover:brightness-110 flex-shrink-0" title="Enviar mensaje">
+            <span class="material-symbols-outlined text-lg">arrow_upward</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<!-- Modal de Zoom para Diagramas Químicos -->
+<div id="imageZoomModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4" onclick="closeImageModal()">
+  <div class="relative max-w-4xl w-full bg-slate-900 border border-slate-700 rounded-2xl p-3 shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+    <div class="flex justify-between items-center text-white px-2 py-1 mb-2">
+      <h3 id="imageZoomTitle" class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+        <span>🔬</span><span>Esquema Químico Balmoral</span>
+      </h3>
+      <button type="button" onclick="closeImageModal()" class="text-slate-400 hover:text-white text-lg font-bold p-1">✕</button>
+    </div>
+    <div class="rounded-xl overflow-hidden bg-slate-950 flex justify-center items-center">
+      <img id="imageZoomImg" src="" alt="Diagrama Químico en Alta Resolución" class="max-h-[75vh] w-auto object-contain rounded-xl"/>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+window.QUIMIBOT_USER_ID = {{ user.id|string|tojson }};
+window.QUIMIBOT_SESSION = 'session-user-' + window.QUIMIBOT_USER_ID + '{% if active_topic %}-{{ active_topic.tema_codigo }}{% endif %}';
+window.QUIMIBOT_TOPIC_NAME = {{ active_topic.tema_nombre|tojson if active_topic else "Química General"|tojson }};
+
+function switchTopic(code) {
+  let url = '/learning?topic=' + code;
+  {% if is_preview %}
+  url += '&preview_student_id={{ user.id }}';
+  {% endif %}
+  window.location.href = url;
+}
+
+function sendQuickChip(text) {
+  const input = document.getElementById('chatInput');
+  const form = document.getElementById('chatForm');
+  if (input && form) {
+    input.value = text;
+    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  }
+}
+
+function pokeRobot() {
+  if (window.setBotEmotion) {
+    window.setBotEmotion('happy', '¡Hola! ¡Me gusta que interactúes conmigo! ✨');
+    setTimeout(() => { window.setBotEmotion('idle'); }, 2500);
+  }
+}
+
+async function startSocraticChallenge() {
+  if (window.setBotEmotion) {
+    window.setBotEmotion('thinking', '¡Generando tu reto socrático interactivo! ⚡');
+  }
+  try {
+    const res = await fetch('/api/quiz/challenge', { method: 'POST' });
+    const data = await res.json();
+    if (res.ok && data.challenge_text) {
+      if (window.appendBotMessageAnimated) {
+        window.setBotEmotion('explaining', '¡Aquí tienes el reto del módulo! 🎯 Deduce la respuesta:');
+        await window.appendBotMessageAnimated(data.challenge_text);
+      }
+    }
+  } catch (err) {
+    console.error('Error al iniciar reto socrático:', err);
+  }
+}
+</script>
+<script src="/static/script.js"></script>
+{% endblock %}

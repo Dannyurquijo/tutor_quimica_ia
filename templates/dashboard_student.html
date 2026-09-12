@@ -1,0 +1,304 @@
+{% extends 'portal.html' %}
+{% block title %}Mi Panel de Aprendizaje · Balmoral Química{% endblock %}
+{% block content %}
+<div class="flex flex-col gap-6">
+
+  <!-- Encabezado con perfil y racha estilo iOS Widget -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="bg-primary/10 text-primary font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+          Preparatoria Balmoral · {{ alumno.grado }}
+        </span>
+        <span class="text-slate-300">•</span>
+        <span class="text-slate-500 text-xs font-semibold bg-slate-100/80 px-2.5 py-0.5 rounded-full">Nivel: {{ alumno.nivel }}</span>
+      </div>
+      <h1 class="text-2xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Hola, {{ user.nombre }} {{ user.apellido }} 👋
+      </h1>
+      <p class="text-slate-500 text-sm mt-1.5 leading-relaxed max-w-xl">
+        Avance curricular personalizado y desarrollo de pensamiento socrático en Química.
+      </p>
+    </div>
+
+    <!-- Badge de Racha & Progreso Global estilo Apple Activity Rings -->
+    <div class="flex items-center gap-5 bg-white/80 backdrop-blur-md p-4 px-6 rounded-3xl border border-slate-200/80 shadow-ios-card self-stretch md:self-auto justify-between">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center font-bold text-2xl shadow-md shadow-amber-500/20">
+          🔥
+        </div>
+        <div>
+          <div class="font-extrabold text-xl text-slate-900 leading-none">{{ alumno.racha_dias }} días</div>
+          <div class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Racha Activa</div>
+        </div>
+      </div>
+      <div class="h-10 w-px bg-slate-200/80"></div>
+      <div class="text-right">
+        <div class="font-extrabold text-2xl md:text-3xl text-tertiary leading-none">{{ alumno.progreso_global }}%</div>
+        <div class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Dominio Global</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bento Grid: Gráfica de Avance + Resumen de Aprendizaje -->
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <!-- Gráfica de Avance por Tema (Chart.js) -->
+    <div class="md:col-span-2 ios-glass-card p-6 md:p-7 shadow-ios-glass">
+      <div class="flex justify-between items-center mb-5">
+        <div>
+          <h2 class="text-lg md:text-xl font-extrabold text-slate-900 tracking-tight">Dominio por Módulo Curricular</h2>
+          <p class="text-xs text-slate-500 mt-0.5">Porcentaje de autonomía y comprensión en cada tema asignado</p>
+        </div>
+        <span class="text-xs font-bold text-tertiary bg-tertiary/10 border border-tertiary/20 px-3 py-1 rounded-full">
+          {{ topics|length }} Módulos Activos
+        </span>
+      </div>
+      <div class="relative h-64 w-full">
+        <canvas id="studentTopicsChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Ficha de Comportamiento de Aprendizaje -->
+    <div class="ios-glass-card p-6 md:p-7 shadow-ios-glass flex flex-col justify-between">
+      <div>
+        <h2 class="text-lg md:text-xl font-extrabold text-slate-900 mb-1 tracking-tight">Perfil de Aprendizaje</h2>
+        <p class="text-xs text-slate-500 mb-5">Estilo cognitivo e historial de tutoría</p>
+
+        <div class="space-y-3 text-sm">
+          <div class="p-3.5 bg-slate-100/70 backdrop-blur-md rounded-2xl border border-slate-200/70">
+            <span class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider block mb-1">Estilo Preferente</span>
+            <span class="font-bold text-slate-800 flex items-center gap-1.5 text-sm">
+              💡 {{ alumno.estilo_aprendizaje }}
+            </span>
+          </div>
+
+          <div class="p-3.5 bg-slate-100/70 backdrop-blur-md rounded-2xl border border-slate-200/70">
+            <span class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider block mb-1">Sesiones Socráticas</span>
+            <span class="font-bold text-slate-800 text-sm">
+              💬 {{ alumno.total_sesiones }} conversaciones
+            </span>
+          </div>
+
+          <div class="p-3.5 bg-slate-100/70 backdrop-blur-md rounded-2xl border border-slate-200/70">
+            <span class="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider block mb-1">Área Prioritaria</span>
+            <span class="font-semibold text-slate-700 text-xs line-clamp-2">
+              ⚠️ {{ alumno.dificultades or "Por profundizar en enlaces y ecuaciones." }}
+            </span>
+          </div>
+
+          <!-- Código de Acceso para Padres -->
+          <div class="p-4 bg-gradient-to-br from-sky-50 to-indigo-50/50 rounded-2xl border border-sky-200/80 shadow-xs">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-extrabold text-sky-800 uppercase tracking-wider flex items-center gap-1">
+                <span>👨‍👩‍👧</span> Código para tus Padres
+              </span>
+              <span class="text-[9px] bg-sky-600/15 text-sky-700 font-extrabold px-2 py-0.5 rounded-full">Familiar</span>
+            </div>
+            <p class="text-[11px] text-slate-600 mb-2">Compártelo con tus papás para que vean tu avance y conversaciones con QuimiBot:</p>
+            <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-xl border border-sky-300/80 shadow-xs">
+              <code id="parentAccessCode" class="text-xs font-mono font-extrabold text-sky-700 tracking-wider select-all">{{ alumno.codigo_padre or 'PADRE-SOF-1079' }}</code>
+              <button type="button" onclick="copyParentCode()" class="text-xs font-bold text-sky-600 hover:text-sky-800 flex items-center gap-1 transition-colors">
+                <span class="material-symbols-outlined text-sm">content_copy</span>
+                <span id="copyCodeText">Copiar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 pt-4 border-t border-slate-200/60 flex flex-col gap-2">
+        <a href="/learning" class="ios-tap w-full bg-gradient-to-tr from-primary to-primary-container hover:brightness-110 text-white font-extrabold text-center py-3 rounded-2xl text-sm transition-all shadow-md shadow-primary/25 flex items-center justify-center gap-2">
+          <span>💬 Abrir Chat con QuimiBot</span>
+        </a>
+        <a href="/onboarding" class="ios-tap w-full text-center text-slate-500 hover:text-tertiary text-xs font-bold py-1.5">
+          ⚙️ Actualizar mi diagnóstico
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- VITRINA DE INSIGNIAS Y LOGROS (Estilo Apple Fitness / Duolingo) -->
+  <!-- ============================================================ -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass border border-white/80">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-5">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+            ⭐ Reconocimientos Balmoral
+          </span>
+        </div>
+        <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight">Medallas e Insignias de Maestría</h2>
+        <p class="text-xs text-slate-500 mt-0.5">Desbloquea medallas al formular hipótesis, mantener tu racha y razonar de forma autónoma con QuimiBot</p>
+      </div>
+      <div class="flex items-center gap-2 bg-slate-100/90 px-3.5 py-1.5 rounded-full border border-slate-200">
+        <span class="text-xs font-bold text-slate-600">Desbloqueadas:</span>
+        <strong class="text-xs font-extrabold text-amber-700 font-mono">
+          {{ badges|selectattr("desbloqueada")|list|length }} / {{ badges|length }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Grid de Insignias -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+      {% for badge in badges %}
+      <div class="group relative flex flex-col items-center text-center p-3.5 rounded-2xl transition-all duration-300
+        {% if badge.desbloqueada %}
+          bg-white/90 border border-amber-300/60 shadow-xs hover:shadow-md hover:scale-105
+        {% else %}
+          bg-slate-100/50 border border-slate-200/60 opacity-50 grayscale hover:grayscale-0 hover:opacity-80
+        {% endif %}">
+        
+        <!-- Ícono Medalla -->
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-2 shadow-xs
+          {% if badge.desbloqueada %}bg-gradient-to-tr {{ badge.color }} text-white shadow-amber-500/20{% else %}bg-slate-200 text-slate-400{% endif %}">
+          {{ badge.icono }}
+        </div>
+
+        <h4 class="text-xs font-extrabold text-slate-900 leading-tight mb-1">
+          {{ badge.titulo }}
+        </h4>
+        <span class="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full
+          {% if badge.desbloqueada %}bg-emerald-50 text-emerald-700{% else %}bg-slate-200 text-slate-500{% endif %}">
+          {{ "Desbloqueada" if badge.desbloqueada else "Bloqueada" }}
+        </span>
+
+        <!-- Tooltip con descripción al pasar el mouse -->
+        <div class="absolute bottom-full mb-2 hidden group-hover:block z-30 w-44 p-2.5 bg-slate-900 text-white text-[11px] rounded-xl shadow-xl leading-relaxed text-center pointer-events-none">
+          {{ badge.descripcion }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Sección de Módulos y Temas Asignados por el Profesor -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-6">
+      <div>
+        <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight">Temas Curriculares Asignados</h2>
+        <p class="text-sm text-slate-500 mt-0.5">Selecciona cualquier tema para iniciar una sesión de tutoría guiada con QuimiBot</p>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {% for topic in topics %}
+      <div class="ios-glass-card p-5 hover:border-cyan-400/80 hover:shadow-ios-float transition-all flex flex-col justify-between bg-white/70 group border border-slate-200/70">
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full 
+              {% if topic.estado == 'Dominado' %}bg-emerald-500/10 text-emerald-700 border border-emerald-500/20
+              {% elif topic.estado == 'En Progreso' %}bg-cyan-500/10 text-cyan-700 border border-cyan-500/20
+              {% else %}bg-slate-200/80 text-slate-700{% endif %}">
+              {{ topic.estado }}
+            </span>
+            <span class="text-xs font-semibold text-slate-500">
+              Deducción: <strong class="text-slate-700">{{ topic.nivel_deduccion }}</strong>
+            </span>
+          </div>
+
+          <h3 class="font-extrabold text-slate-900 text-base mb-1.5 leading-snug group-hover:text-primary transition-colors">
+            {{ topic.tema_nombre }}
+          </h3>
+          
+          <div class="my-3.5">
+            <div class="flex justify-between text-xs font-bold text-slate-600 mb-1.5">
+              <span>Dominio</span>
+              <span class="font-extrabold text-slate-800">{{ topic.progreso }}%</span>
+            </div>
+            <div class="w-full bg-slate-200/80 h-2.5 rounded-full overflow-hidden">
+              <div class="h-full rounded-full transition-all duration-500
+                {% if topic.progreso >= 75 %}bg-gradient-to-r from-emerald-400 to-emerald-600
+                {% elif topic.progreso >= 30 %}bg-gradient-to-r from-tertiary to-cyan-500
+                {% else %}bg-amber-500{% endif %}"
+                style="width: {{ topic.progreso }}%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-200/60 mt-2 flex items-center justify-between">
+          <span class="text-[11px] font-medium text-slate-400">Asignado por: {{ topic.asignado_por }}</span>
+          <a href="/learning?topic={{ topic.tema_codigo }}{% if is_preview %}&preview_student_id={{ user.id }}{% endif %}"
+            class="ios-tap bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs px-3.5 py-1.5 rounded-full transition-all inline-flex items-center gap-1 shadow-xs">
+            Practicar 🧪
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const ctx = document.getElementById('studentTopicsChart');
+  if (ctx) {
+    const labels = [
+      {% for t in topics %} {{ t.tema_nombre|tojson }}, {% endfor %}
+    ];
+    const dataValues = [
+      {% for t in topics %} {{ t.progreso }}, {% endfor %}
+    ];
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Porcentaje de Dominio (%)',
+          data: dataValues,
+          backgroundColor: [
+            'rgba(0, 104, 109, 0.85)',
+            'rgba(224, 46, 43, 0.85)',
+            'rgba(14, 165, 233, 0.85)',
+            'rgba(245, 158, 11, 0.85)',
+            'rgba(16, 185, 129, 0.85)',
+            'rgba(139, 92, 246, 0.85)'
+          ],
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function(value) { return value + '%'; }
+            }
+          },
+          x: {
+            ticks: {
+              font: { size: 10 },
+              maxRotation: 25
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+  }
+});
+
+function copyParentCode() {
+  const code = document.getElementById('parentAccessCode').innerText.trim();
+  navigator.clipboard.writeText(code).then(() => {
+    const text = document.getElementById('copyCodeText');
+    if (text) {
+      text.textContent = '¡Copiado!';
+      setTimeout(() => { text.textContent = 'Copiar'; }, 2000);
+    }
+  }).catch(() => {
+    alert('Código para padres: ' + code);
+  });
+}
+</script>
+{% endblock %}

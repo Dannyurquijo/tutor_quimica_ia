@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portal para Padres de Familia — Preparatoria Balmoral</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#dc2626",
+        tertiary: "#0284c7"
+      },
+      fontFamily: {
+        sans: ['"SF Pro Display"', '-apple-system', 'BlinkMacSystemFont', '"Plus Jakarta Sans"', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body {
+      overscroll-behavior: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+  ::-webkit-scrollbar { display: none; }
+  
+  .ios-glass {
+    background: rgba(255, 255, 255, 0.84);
+    backdrop-filter: blur(30px) saturate(190%);
+    -webkit-backdrop-filter: blur(30px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 24px 60px -15px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(255, 255, 255, 0.8) inset;
+  }
+  
+  .ios-input {
+    background: rgba(241, 245, 249, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .ios-input:focus {
+    background: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+  }
+
+  #errorMsg { display: none; }
+</style>
+</head>
+<body class="bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] min-h-screen flex flex-col items-center justify-center p-4 relative overflow-x-hidden font-sans">
+
+<!-- Dynamic 60fps Atom Background Canvas -->
+<canvas id="atomsCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+
+<div class="relative z-10 w-full max-w-md flex flex-col items-center">
+
+  <!-- Apple Retina App Header -->
+  <div class="mb-6 flex flex-col items-center text-center">
+    <div class="relative group cursor-pointer">
+      <div class="w-20 h-20 bg-gradient-to-tr from-sky-600 via-cyan-500 to-indigo-600 rounded-[24px] flex items-center justify-center shadow-xl shadow-sky-500/25 mb-3 transform transition-transform group-hover:scale-105 duration-300">
+        <span class="material-symbols-outlined text-white text-4xl select-none">family_restroom</span>
+      </div>
+      <div class="absolute inset-0 rounded-[24px] bg-gradient-to-b from-white/30 to-transparent pointer-events-none"></div>
+    </div>
+    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Portal para Padres</h1>
+    <div class="flex items-center gap-2 mt-1.5">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-50 text-sky-800 border border-sky-200/60 shadow-sm backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+        Seguimiento de Aprendizaje · Balmoral IA
+      </span>
+    </div>
+  </div>
+
+  <!-- Main iOS Glass Card -->
+  <div class="ios-glass rounded-[32px] w-full p-7 sm:p-8 relative">
+    
+    <div class="text-center mb-6">
+      <h2 class="text-lg font-bold text-slate-800">Acceso Familiar con Código</h2>
+      <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+        Ingresa el código único proporcionado por tu hijo(a) o el colegio para consultar su avance y el resumen de sus sesiones socráticas con QuimiBot.
+      </p>
+    </div>
+
+    <!-- Error Alert -->
+    <div id="errorMsg" class="bg-red-50/90 border border-red-200 text-red-700 rounded-2xl p-3.5 mb-4 text-xs sm:text-sm flex items-center gap-2.5 shadow-sm">
+      <span class="material-symbols-outlined text-lg text-red-500">error</span>
+      <span id="errorText" class="font-medium"></span>
+    </div>
+
+    <!-- Formulario de Código Familiar -->
+    <form id="parentCodeForm" class="flex flex-col gap-4" onsubmit="handleParentLogin(event)">
+      <div class="flex flex-col gap-1.5">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Código de Familia del Alumno</label>
+        <div class="relative">
+          <input id="parentCodeInput" type="text" placeholder="Ej: PADRE-SOF-1079" required
+            class="ios-input w-full h-12 px-4 rounded-2xl text-sm font-mono uppercase tracking-wider text-slate-900 placeholder:text-slate-400 focus:outline-none"/>
+          <span class="material-symbols-outlined absolute right-3.5 top-3 text-slate-400 text-xl pointer-events-none">vpn_key</span>
+        </div>
+      </div>
+
+      <button type="submit" id="parentLoginBtn"
+        class="h-12 bg-gradient-to-r from-sky-600 to-indigo-600 text-white font-bold text-sm rounded-2xl hover:from-sky-500 hover:to-indigo-500 active:scale-[0.98] transition-all duration-200 mt-2 flex items-center justify-center gap-2 shadow-lg shadow-sky-500/25">
+        <span class="material-symbols-outlined text-lg">login</span>
+        Consultar Progreso de mi Hijo(a)
+      </button>
+
+      <!-- Botón Demostración Rápida -->
+      <div class="mt-3 pt-4 border-t border-slate-200/70 flex flex-col gap-2.5">
+        <div class="flex items-center justify-center gap-1.5 text-xs text-slate-500 font-semibold">
+          <span class="material-symbols-outlined text-sm text-amber-500">bolt</span>
+          <span>Demostración de Código Familiar:</span>
+        </div>
+        <button type="button" onclick="fillParentDemo('PADRE-SOF-1079')"
+          class="bg-white/90 hover:bg-white text-slate-700 text-xs font-semibold py-2.5 px-3 rounded-xl border border-slate-200 shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 active:scale-95">
+          <span>👩‍🎓</span> Probar con Alumna Sofía Morales (PADRE-SOF-1079)
+        </button>
+      </div>
+
+      <div class="mt-2 text-center">
+        <a href="/" class="text-xs text-slate-500 hover:text-slate-800 font-semibold transition-colors flex items-center justify-center gap-1">
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+          <span>Regresar al Acceso Principal de Alumnos y Docentes</span>
+        </a>
+      </div>
+    </form>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="mt-6 text-center text-xs text-slate-500">
+    <p class="opacity-70">© 2026 Preparatoria Balmoral · Portal Familiar QuimiBot</p>
+  </div>
+
+</div>
+
+<!-- Animated Atom Background Script -->
+<script src="/static/atoms-bg.js"></script>
+
+<script>
+function fillParentDemo(code) {
+  document.getElementById('parentCodeInput').value = code;
+  document.getElementById('errorMsg').style.display = 'none';
+}
+
+async function handleParentLogin(e) {
+  e.preventDefault();
+  const errEl = document.getElementById('errorMsg');
+  const errText = document.getElementById('errorText');
+  const btn = document.getElementById('parentLoginBtn');
+  const code = document.getElementById('parentCodeInput').value.trim();
+
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Verificando código...';
+
+  try {
+    const res = await fetch('/api/padres/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ codigo: code })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      window.location.href = data.redirect || '/padres/dashboard';
+    } else {
+      errText.textContent = data.detail || 'Código familiar inválido. Verifica con el alumno.';
+      errEl.style.display = 'flex';
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined text-lg">login</span> Consultar Progreso de mi Hijo(a)';
+    }
+  } catch (err) {
+    errText.textContent = 'Error de conexión con el servidor.';
+    errEl.style.display = 'flex';
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined text-lg">login</span> Consultar Progreso de mi Hijo(a)';
+  }
+}
+</script>
+</body>
+</html>

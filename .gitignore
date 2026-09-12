@@ -1,0 +1,27 @@
+# Entornos virtuales
+venv/
+env/
+.env
+demo_access.json
+
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Base de datos vectorial local
+chroma_db/
+
+# Base de datos SQLite
+*.db
+
+# Archivo de APIs (claves movidas a .env)
+APIs Nvidia.txt
+
+# Scripts temporales de debug
+fix_*.py
+inject*.py
+check*.py
+create_index.py
+debug_*.py
+list_models.py
+test_api.py

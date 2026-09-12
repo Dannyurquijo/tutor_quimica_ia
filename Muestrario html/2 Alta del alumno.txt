@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface":"#f8f9ff","on-primary-container":"#fffeff","surface-container-highest":"#dce3ee","on-tertiary-fixed-variant":"#004f53","on-primary-fixed-variant":"#93000b","secondary-fixed":"#ffdad6","on-primary-fixed":"#410002","inverse-primary":"#ffb4ab","error":"#ba1a1a","surface-container-high":"#e2e9f4","on-secondary-fixed-variant":"#881e1d","tertiary-fixed-dim":"#64d7de","secondary-container":"#ff766d","surface-container":"#e8eefa","background":"#f8f9ff","on-secondary-container":"#720c0f","tertiary-container":"#008389","inverse-surface":"#2a313a","tertiary-fixed":"#83f4fb","primary-fixed-dim":"#ffb4ab","on-secondary":"#ffffff","surface-container-low":"#eef4ff","on-background":"#151c24","tertiary":"#00686d","on-secondary-fixed":"#410003","secondary-fixed-dim":"#ffb3ac","primary-fixed":"#ffdad6","on-error-container":"#93000a","primary":"#bb0c15","primary-container":"#e02e2b","on-tertiary-fixed":"#002022","outline-variant":"#e5bdb8","outline":"#916f6b","on-error":"#ffffff","surface-container-lowest":"#ffffff","surface-variant":"#dce3ee","inverse-on-surface":"#eaf1fd","surface-bright":"#f8f9ff","error-container":"#ffdad6","on-tertiary-container":"#feffff","on-surface":"#151c24","on-tertiary":"#ffffff","surface-tint":"#bd0e16","secondary":"#a83632","surface-dim":"#d4dae6","on-primary":"#ffffff","on-surface-variant":"#5c403c"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-xl":"2rem","space-3xl":"3.5rem","space-2xs":"0.25rem","space-lg":"1.5rem","space-2xl":"2.5rem","layout-margin-desktop":"2rem","layout-margin-mobile":"1rem","space-md":"1rem","gutter-mobile":"0.75rem","space-xs":"0.5rem","tutor-panel-width":"24rem","space-sm":"0.75rem","gutter-desktop":"1.5rem","sidebar-width":"17.5rem"},fontFamily:{"label-lg":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"]},fontSize:{"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"display-hero-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"800"}],"headline-sm":["18px",{"lineHeight":"26px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"headline-xl":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-xl-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-hero":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"800"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"headline-md":["22px",{"lineHeight":"30px","letterSpacing":"-0.005em","fontWeight":"600"}],"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"700"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-sidebar-width bg-inverse-surface z-50 flex flex-col justify-between p-space-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] text-inverse-on-surface overflow-y-auto"><div class="flex flex-col gap-space-md"><div class="flex items-center gap-space-sm px-space-xs py-space-2xs"><img alt="Logo Química Socrática" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh6bUqhuALHMLqk5fFUOZp2j-UdIIvL9ViqcZrnNroVCY0s7EvlGncA7UfPB5JqRYTfAmNmezGbNju0qWu8juXIGBBOUl3fL9R23u-QLJ_CDBOWsUu-XwuPR7nHq2uhKPW06p2PSKHxl8iJDBcyuIfgiedNXHWdmBUrIApaHQ8Y6ZgWIfMZbajBsXPSDLtfFKsHIKFDrdIpQ_uRtRl0fmMVQI_5hm-Kte9Wd_MjXeXXy61d1wY2F52"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-primary-container leading-none">Tutor Socrático</span><span class="font-label-sm text-label-sm text-tertiary-fixed-dim uppercase tracking-wider">Química</span></div></div><div class="bg-surface-container-highest/10 rounded-xl p-space-sm flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_Z-xBzF6B0hLQ0JttOaEuu47luG71gNLDyaKoKyL_IkE8zTSJ198uXUkP-3LmbGGqPvwA2XYYLOQ29RUaMxUQ93UyBb6vtldO01_6j_f9-8zxoPIws8nsTOuCNwzcY0p8VRvTSVt-59slCQCcyCNCl8vR03rd_xLnrjwWNUpdZpwY2hM0zk42U7K5QyJFyYaTbda_hwDzyAu4sd8lcfx937KqOXOPa20hXLIFrSW3jeHLFTx2eL0f"/><div class="flex flex-col overflow-hidden"><span class="font-label-md text-label-md text-inverse-on-surface truncate">Sofía Morales</span><span class="font-body-sm text-body-sm text-inverse-on-surface/70 truncate">Química General</span></div></div><div class="mt-space-2xs flex flex-col gap-space-2xs"><div class="flex justify-between font-label-sm text-label-sm text-inverse-on-surface/80"><span>Progreso global</span><span class="text-tertiary-fixed">68%</span></div><div class="w-full bg-inverse-on-surface/20 h-1.5 rounded-full overflow-hidden"><div class="bg-tertiary-container h-full w-[68%] rounded-full"></div></div></div></div><nav class="flex flex-col gap-space-2xs mt-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-label-lg rounded-xl"><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="desarrollo-de-temas" href="#">Desarrollo de Temas / Mi Progreso Curricular</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="modulos-de-quimica" href="#">Módulos de Química</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="laboratorio-virtual" href="#">Laboratorio Virtual</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="foros-y-comunidad" href="#">Foros &amp; Comunidad</a><a aria-current="page" class="flex items-center px-space-sm py-space-xs transition-colors bg-primary-container text-on-primary-container font-label-lg rounded-xl" data-path="alta-de-alumnos" href="#">Alta de Alumnos / Registro</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="ajustes-y-perfil" href="#">Ajustes &amp; Perfil</a></nav></div><div class="px-space-xs py-space-sm mt-auto"><div class="flex items-center justify-between font-label-sm text-label-sm text-inverse-on-surface/50"><span>Plataforma Socrática v2.4</span><span class="material-symbols-outlined text-sm">help</span></div></div></aside><div class="pl-sidebar-width"><header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter-desktop"><div class="flex items-center gap-space-md w-full max-w-md"><div class="relative w-full"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span><input class="w-full h-10 pl-10 pr-space-md bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-tertiary/20" placeholder="Buscar reacciones, conceptos, leyes..." type="search"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-2xs bg-surface-container-high/60 px-space-sm py-1 rounded-full"><span class="material-symbols-outlined text-primary text-base">local_fire_department</span><span class="font-label-md text-label-md text-on-surface font-bold">12 días</span></div><div class="flex items-center gap-space-2xs bg-tertiary-container text-on-tertiary-container px-space-sm py-1 rounded-full font-label-md text-label-md shadow-[0_1px_3px_rgba(56,63,72,0.05)]"><span class="material-symbols-outlined text-base">school</span><span>Nivel Intermedio</span></div><button class="relative p-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full"></span></button><div class="flex items-center gap-space-xs pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_Z-xBzF6B0hLQ0JttOaEuu47luG71gNLDyaKoKyL_IkE8zTSJ198uXUkP-3LmbGGqPvwA2XYYLOQ29RUaMxUQ93UyBb6vtldO01_6j_f9-8zxoPIws8nsTOuCNwzcY0p8VRvTSVt-59slCQCcyCNCl8vR03rd_xLnrjwWNUpdZpwY2hM0zk42U7K5QyJFyYaTbda_hwDzyAu4sd8lcfx937KqOXOPa20hXLIFrSW3jeHLFTx2eL0f"/></div></div></header><main class="w-full pt-16 bg-surface-container-low/40 min-h-screen"><div class="flex flex-col w-full px-gutter-mobile md:px-gutter-desktop py-space-md max-w-7xl mx-auto">
+<!-- Top Academic Context Header & Teacher Quick Switch -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm mb-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs mb-space-2xs">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary/10 text-tertiary font-bold tracking-wide">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+          CICLO ACADÉMICO 2025
+        </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">• Portal de Matrícula e Inducción</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight font-extrabold">
+        Alta de Estudiante &amp; <span class="text-primary-container">Ruta Socrática</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+        Configura tu perfil analítico para que QuimiBot adapte las preguntas a tu ritmo neuronal de deducción.
+      </p>
+</div>
+<!-- Docentes Batch Upload Action -->
+<div class="flex items-center gap-space-xs self-stretch sm:self-auto">
+<button class="group flex items-center justify-center gap-space-xs px-space-md py-2.5 bg-surface-container-highest/60 hover:bg-surface-container-highest text-on-surface rounded-xl font-label-md text-label-md transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-tertiary group-hover:scale-110 transition-transform text-lg">upload_file</span>
+<span>Cargar alumnos vía CSV / Excel</span>
+<span class="px-1.5 py-0.5 bg-surface-container text-on-surface-variant rounded text-[10px] uppercase font-bold tracking-wider">Docentes</span>
+</button>
+</div>
+</div>
+<!-- Stepper Indicator Ribbon -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm mb-space-lg">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm relative">
+<!-- Step 1 -->
+<div class="step-nav flex items-center gap-space-xs p-space-xs rounded-xl bg-surface-container-low transition-all" data-step-nav="1">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-md text-label-md font-bold shadow-sm">
+          1
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-extrabold">Paso 1 • Activo</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Perfil y Escuela</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="step-nav flex items-center gap-space-xs p-space-xs rounded-xl opacity-75 hover:opacity-100 transition-all cursor-pointer" data-step-nav="2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-md text-label-md font-bold">
+          2
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 uppercase tracking-wider font-bold">Paso 2</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Nivel y Objetivos</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="step-nav flex items-center gap-space-xs p-space-xs rounded-xl opacity-75 hover:opacity-100 transition-all cursor-pointer" data-step-nav="3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-md text-label-md font-bold">
+          3
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 uppercase tracking-wider font-bold">Paso 3</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Estilo &amp; Avatar</span>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="step-nav flex items-center gap-space-xs p-space-xs rounded-xl opacity-75 hover:opacity-100 transition-all cursor-pointer" data-step-nav="4">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-md text-label-md font-bold">
+          4
+        </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 uppercase tracking-wider font-bold">Paso 4</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Calibración Test</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Multi-Column Interactive Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left 8 Columns: Form & Interactive Steps -->
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<!-- Mascot Dialogue Callout Banner -->
+<div class="relative bg-gradient-to-r from-surface-container-lowest via-surface-container-lowest to-surface-container-low p-space-md md:p-space-lg rounded-2xl shadow-sm overflow-hidden">
+<!-- Ambient decorative shapes -->
+<div class="absolute -right-8 -top-8 w-44 h-44 rounded-full bg-tertiary-fixed/40 blur-2xl pointer-events-none"></div>
+<div class="absolute right-32 -bottom-10 w-36 h-36 rounded-full bg-primary-fixed/40 blur-2xl pointer-events-none"></div>
+<div class="flex flex-col sm:flex-row items-center gap-space-md relative z-10">
+<div class="relative flex-shrink-0 group">
+<div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl p-1 bg-surface-container-lowest shadow-md overflow-hidden transform group-hover:scale-105 transition-transform duration-300">
+<img alt="QuimiBot Mascot" class="w-full h-full object-cover rounded-xl" src="https://lh3.googleusercontent.com/aida/AEtjO1XWJydq0iYWzG0YROi5yO1iR_gVbNaoegZCuZDxiRqrDXTnXNwh6OliNKDTvLKseLiCDISyv7m63TDEMb0hdTZcpnf_AU9UypalKj2kUKTU8b9tvUj4wJ5ISGC7lzQxmvVBgId_FSWrv9ZkUogjqq3qvU7inrAulldbj31qVTR4fLPu8N1tVlgQy8zYRauISMdmFgItP97LJhZgScg1oLXtotyzqhGMC0A9Zcr44RMk6bGc2VFEXMeLsQ"/>
+</div>
+<span class="absolute -bottom-1 -right-1 bg-tertiary-container text-on-tertiary-container p-1 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-xs block">smart_toy</span>
+</span>
+</div>
+<div class="flex-1 text-center sm:text-left">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm font-bold mb-1.5">
+<span class="material-symbols-outlined text-sm">psychology</span>
+              Tutor Socrático QuimiBot
+            </div>
+<div class="relative bg-surface-container-low/80 p-space-sm rounded-xl text-on-surface">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+<span class="font-bold text-primary-container">¡Hola, futuro/a científico/a!</span> Soy QuimiBot, tu tutor personal de deducción química. Vamos a configurar tu laboratorio de aprendizaje en solo <span class="font-semibold text-tertiary">3 minutos</span>. Recuerda: aquí no te daré las respuestas directas, ¡descubrirás las leyes químicas formulando hipótesis!
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Registration Interactive Card Form -->
+<form class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col gap-space-lg" id="onboardingForm" onsubmit="event.preventDefault(); nextStep();">
+<!-- STEP 1 CONTENT: Basic & Academic Information -->
+<div class="step-panel flex flex-col gap-space-md" id="step-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-6 bg-primary-container rounded-full"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">1. Información Básica y Escolar</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold bg-surface-container px-2 py-1 rounded-md">1 de 4</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Full Name -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+<span>Nombre Completo *</span>
+<span class="text-tertiary text-xs font-normal" id="nameBadge">Dato verificado</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">person</span>
+<input class="w-full h-10 pl-10 pr-space-md bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-tertiary/40" id="inputName" required="" type="text" value="Sofía Morales Villanueva"/>
+</div>
+</div>
+<!-- School Email -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+<span>Correo Institucional o Escolar *</span>
+<span class="material-symbols-outlined text-tertiary text-sm">verified</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">mail</span>
+<input class="w-full h-10 pl-10 pr-space-md bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-tertiary/40" id="inputEmail" required="" type="email" value="sofia.morales@colegiosanpedro.edu"/>
+</div>
+</div>
+<!-- Institution Name -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">
+                Institución Educativa o Colegio *
+              </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">account_balance</span>
+<input class="w-full h-10 pl-10 pr-space-md bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-tertiary/40" id="inputSchool" required="" type="text" value="Colegio San Pedro de Alcántara"/>
+</div>
+</div>
+<!-- Academic Grade -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold">
+                Nivel / Grado Académico *
+              </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">school</span>
+<select class="w-full h-10 pl-10 pr-space-md bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-tertiary/40 appearance-none" id="inputGrade">
+<option value="1bach">Bachillerato - 1.º de Ciencias</option>
+<option selected="" value="2bach">Bachillerato - 2.º Preparatoria Universitaria</option>
+<option value="preuniv">Preuniversitario Intensivo (PAU / Selectividad)</option>
+<option value="secundaria">Educación Secundaria Superior (4.º ESO)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Live Validation Note -->
+<div class="flex items-center gap-space-xs p-space-xs rounded-xl bg-tertiary/5 text-tertiary">
+<span class="material-symbols-outlined text-base">info</span>
+<span class="font-body-sm text-body-sm">Vincularemos tus avances curriculares con el plan oficial de Química de tu comunidad autónoma o región.</span>
+</div>
+</div>
+<!-- STEP 2 CONTENT: Topics & Goals (Toggleable View) -->
+<div class="step-panel flex-col gap-space-md hidden" id="step-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-6 bg-tertiary-container rounded-full"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">2. Nivel y Objetivos de Química</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold bg-surface-container px-2 py-1 rounded-md">2 de 4</span>
+</div>
+<!-- Priority Topics -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-bold">Selecciona los temas prioritarios a reforzar (mínimo 1):</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs">
+<label class="flex items-start gap-space-xs p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer">
+<input checked="" class="mt-0.5 w-4 h-4 text-primary accent-primary-container rounded" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Tabla Periódica &amp; Enlaces</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Electronegatividad, geometría molecular y polaridad.</span>
+</div>
+</label>
+<label class="flex items-start gap-space-xs p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer">
+<input checked="" class="mt-0.5 w-4 h-4 text-primary accent-primary-container rounded" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Estequiometría &amp; Moles</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Reactivo limitante, pureza, rendimiento y gases ideales.</span>
+</div>
+</label>
+<label class="flex items-start gap-space-xs p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer">
+<input checked="" class="mt-0.5 w-4 h-4 text-primary accent-primary-container rounded" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Termoquímica &amp; Equilibrio</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Entalpía, Ley de Hess, constante Kc y Le Chatelier.</span>
+</div>
+</label>
+<label class="flex items-start gap-space-xs p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer">
+<input class="mt-0.5 w-4 h-4 text-primary accent-primary-container rounded" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Química Orgánica (Carbono)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Isomería, grupos funcionales y reactividad de síntesis.</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Study Objective Pills -->
+<div class="flex flex-col gap-space-xs mt-space-2xs">
+<span class="font-label-md text-label-md text-on-surface font-bold">Tu meta primordial este semestre:</span>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-xs">
+<label class="relative flex flex-col p-space-sm rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="material-symbols-outlined text-primary">military_tech</span>
+<input checked="" class="accent-primary-container" name="goal" type="radio" value="pau"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Superar PAU / Selectividad</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Enfoque en exámenes tipo con preguntas trampas.</span>
+</label>
+<label class="relative flex flex-col p-space-sm rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="material-symbols-outlined text-tertiary">biotech</span>
+<input class="accent-primary-container" name="goal" type="radio" value="deep"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Dominio Profundo &amp; Ciencia</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Comprensión física y modelos cuánticos.</span>
+</label>
+<label class="relative flex flex-col p-space-sm rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="material-symbols-outlined text-on-surface-variant">support_agent</span>
+<input class="accent-primary-container" name="goal" type="radio" value="support"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Apoyo Continuo de Clase</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Resolver tareas semanales paso a paso.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- STEP 3 CONTENT: Socratic Learning Style & Avatar Selection -->
+<div class="step-panel flex-col gap-space-md hidden" id="step-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-6 bg-tertiary rounded-full"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">3. Estilo Socrático &amp; Personalización</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold bg-surface-container px-2 py-1 rounded-md">3 de 4</span>
+</div>
+<!-- Dialog Preference -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-bold">¿Cómo prefieres que QuimiBot desafíe tu razonamiento?</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-xs">
+<div class="p-space-sm rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all flex flex-col gap-1 ring-2 ring-primary-container">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-primary-container">psychology_alt</span>
+<span class="text-xs font-bold text-primary">Recomendado</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Mayéutica Guiada</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Preguntas progresivas con pistas sutiles hasta deducir la ley química.</p>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-tertiary">bolt</span>
+<span class="text-xs font-bold text-tertiary">Velocidad</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Retos Deductivos Rápidos</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Preguntas de opción múltiple con contraejemplos inmediatos.</p>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-on-surface">view_in_ar</span>
+<span class="text-xs font-bold text-on-surface-variant">Visual</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Modelos 3D Moleculares</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Interacción visual con orbitales e hibridación antes de formular.</p>
+</div>
+</div>
+</div>
+<!-- Avatar Selection Section -->
+<div class="flex flex-col gap-space-xs mt-space-2xs">
+<span class="font-label-md text-label-md text-on-surface font-bold">Selecciona tu Avatar de Laboratorio:</span>
+<div class="flex flex-wrap items-center gap-space-md">
+<!-- Selected: Student Sofia -->
+<div class="relative flex flex-col items-center gap-1 cursor-pointer group">
+<div class="w-16 h-16 rounded-full p-0.5 bg-primary-container shadow-md">
+<img alt="Avatar Sofía" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida/AEtjO1Ugxaz_zZyDcfQ2ViC7OQ7HpRu_NFhmQVnUY_XSAOQulor3dWvZvQDlR_5yFzhw9RbqqEKOUoI6RLvblx9SUGQwt3YhSF_fuudgGkvF7DCHWiwYTrll56uOwBckwoB9TqpbSlZgApEE13_3Msb8cbPzDsPoI1HaeXncf2RgFefgLDjh-8abder2V_oybFZWmb4-pRW8osjXNDZqPD-evPicKTCgGPzFPXUQhhJU5ou_qcaxViI"/>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-primary">Sofía (Actual)</span>
+<span class="absolute -top-1 -right-1 bg-primary-container text-on-primary-container rounded-full p-0.5">
+<span class="material-symbols-outlined text-xs block">check</span>
+</span>
+</div>
+<!-- Avatar option 2: QuimiBot companion -->
+<div class="flex flex-col items-center gap-1 cursor-pointer group opacity-60 hover:opacity-100 transition-opacity">
+<div class="w-16 h-16 rounded-full p-0.5 bg-surface-container-high group-hover:bg-tertiary transition-colors">
+<img alt="Avatar QuimiBot Mini" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida/AEtjO1XWJydq0iYWzG0YROi5yO1iR_gVbNaoegZCuZDxiRqrDXTnXNwh6OliNKDTvLKseLiCDISyv7m63TDEMb0hdTZcpnf_AU9UypalKj2kUKTU8b9tvUj4wJ5ISGC7lzQxmvVBgId_FSWrv9ZkUogjqq3qvU7inrAulldbj31qVTR4fLPu8N1tVlgQy8zYRauISMdmFgItP97LJhZgScg1oLXtotyzqhGMC0A9Zcr44RMk6bGc2VFEXMeLsQ"/>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface-variant">QuimiBot</span>
+</div>
+<!-- Avatar option 3: Curie scientist -->
+<div class="flex flex-col items-center gap-1 cursor-pointer group opacity-60 hover:opacity-100 transition-opacity">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:bg-tertiary-container group-hover:text-on-tertiary-container transition-all">
+<span class="material-symbols-outlined text-2xl">science</span>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface-variant">Alquimista</span>
+</div>
+<!-- Avatar option 4: Upload Custom -->
+<div class="flex flex-col items-center gap-1 cursor-pointer group opacity-60 hover:opacity-100 transition-opacity">
+<div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant group-hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-2xl">add_a_photo</span>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface-variant">Subir Foto</span>
+</div>
+</div>
+</div>
+</div>
+<!-- STEP 4 CONTENT: Diagnostic Calibration -->
+<div class="step-panel flex-col gap-space-md hidden" id="step-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-6 bg-tertiary rounded-full"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">4. Calibración Diagnóstica Inicial</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold bg-surface-container px-2 py-1 rounded-md">4 de 4</span>
+</div>
+<div class="p-space-md rounded-2xl bg-surface-container-low flex flex-col md:flex-row items-center gap-space-md">
+<div class="w-20 h-20 rounded-2xl bg-surface-container-lowest flex-shrink-0 flex items-center justify-center text-primary-container shadow-sm">
+<span class="material-symbols-outlined text-4xl">neurology</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Prueba Breve de 5 Preguntas Socráticas</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                Al concluir tu registro, QuimiBot te planteará 5 acertijos sobre fenómenos reales (ej. ¿por qué el hielo flota en agua?). No hay calificación punitiva: calibraremos la dificultad inicial de tu tutoría.
+              </p>
+</div>
+</div>
+<!-- Summary checklist box -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-bold uppercase tracking-wider text-xs">Resumen de Matriculación</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs text-sm">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-sm">check_circle</span>
+<span>Estudiante: <strong class="font-semibold" id="summaryName">Sofía Morales</strong></span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-sm">check_circle</span>
+<span>Nivel: <strong class="font-semibold">2.º Bachillerato</strong></span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-sm">check_circle</span>
+<span>Objetivo: <strong class="font-semibold">Superar PAU / Selectividad</strong></span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-sm">check_circle</span>
+<span>Enfoque: <strong class="font-semibold">Mayéutica Guiada</strong></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Navigation & Submissions Buttons -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-sm">
+<button class="w-full sm:w-auto px-space-md py-2.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors hidden flex items-center justify-center gap-2" id="prevBtn" onclick="prevStep()" type="button">
+<span class="material-symbols-outlined text-base">arrow_back</span>
+<span>Paso Anterior</span>
+</button>
+<div class="flex items-center gap-space-sm w-full sm:w-auto sm:ml-auto">
+<button class="w-full sm:w-auto px-space-lg py-3 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-space-xs group" id="nextBtn" onclick="nextStep()" type="button">
+<span id="nextBtnText">Continuar a Objetivos</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+<!-- Right 4 Columns: Socratic Value Proposition & Platform Proof -->
+<div class="lg:col-span-4 flex flex-col gap-space-md">
+<!-- "¿Por qué el método Socrático?" Core Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">lightbulb</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">¿Por qué el Método Socrático?</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Memorizar fórmulas químicas sin comprender causa olvido rápido antes del examen. La deducción socrática activa la corteza prefrontal mediante preguntas que te guían a la conclusión.
+        </p>
+<!-- Metric 1: Retention -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary font-headline-md text-headline-md font-extrabold flex-shrink-0">
+            85%
+          </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Mayor retención a largo plazo</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Frente a tutorías de respuestas inmediatas.</span>
+</div>
+</div>
+<!-- Metric 2: Live Feedback -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center text-tertiary font-headline-md text-headline-md font-extrabold flex-shrink-0">
+            0s
+          </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Feedback adaptativo en vivo</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Detecta errores conceptuales al instante.</span>
+</div>
+</div>
+<!-- Metric 3: Active Students Community -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-on-surface font-headline-md text-headline-md font-extrabold flex-shrink-0">
+            +12k
+          </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Estudiantes activos</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">En más de 240 institutos y colegios.</span>
+</div>
+</div>
+<!-- Inline SVG Mini Concept Graphic: Socratic Question Arc -->
+<div class="mt-space-2xs p-space-sm rounded-xl bg-surface-container/50 flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">Ciclo de Aprendizaje Socrático</span>
+<svg class="w-full h-16 text-tertiary" fill="none" viewbox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+<path d="M 15 45 C 75 10, 105 10, 150 35 C 195 55, 225 20, 285 15" stroke="currentColor" stroke-dasharray="4 4" stroke-linecap="round" stroke-width="3"></path>
+<circle cx="15" cy="45" fill="#E02E2B" r="7"></circle>
+<circle cx="150" cy="35" fill="#008389" r="7"></circle>
+<circle cx="285" cy="15" fill="#00686d" r="7"></circle>
+<text fill="#5c403c" font-size="9" font-weight="bold" text-anchor="middle" x="15" y="58">Pregunta</text>
+<text fill="#00686d" font-size="9" font-weight="bold" text-anchor="middle" x="150" y="53">Hipótesis</text>
+<text fill="#151c24" font-size="9" font-weight="bold" text-anchor="middle" x="285" y="32">Descubrimiento</text>
+</svg>
+</div>
+</div>
+<!-- Quick Help & Teacher Concierge Card -->
+<div class="bg-gradient-to-br from-inverse-surface to-inverse-surface/90 text-inverse-on-surface rounded-2xl p-space-md shadow-md flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-tertiary-fixed">
+<span class="material-symbols-outlined text-xl">contact_support</span>
+<span class="font-label-md text-label-md uppercase tracking-wider font-extrabold">Soporte Académico</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-primary-container font-bold">¿Tienes dudas con el registro?</h4>
+<p class="font-body-sm text-body-sm text-inverse-on-surface/80">
+          Si tu colegio cuenta con licencia institucional, tu profesor puede enviarte una invitación directa con tu grupo asignado.
+        </p>
+<a class="mt-space-xs inline-flex items-center gap-1.5 font-label-md text-label-md text-tertiary-fixed hover:text-white transition-colors" href="#">
+<span>Consultar claves de acceso escolar</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let currentStep = 1;
+  const totalSteps = 4;
+
+  function updateStepUI() {
+    // Hide all step panels
+    for (let i = 1; i <= totalSteps; i++) {
+      const panel = document.getElementById(`step-${i}`);
+      if (panel) {
+        if (i === currentStep) {
+          panel.classList.remove('hidden');
+          panel.classList.add('flex');
+        } else {
+          panel.classList.add('hidden');
+          panel.classList.remove('flex');
+        }
+      }
+    }
+
+    // Update Top Step Navigation
+    document.querySelectorAll('.step-nav').forEach((nav, idx) => {
+      const stepNum = idx + 1;
+      const numBadge = nav.querySelector('div:first-child');
+      const tagSpan = nav.querySelector('span:first-child');
+
+      if (stepNum === currentStep) {
+        nav.classList.add('bg-surface-container-low');
+        nav.classList.remove('opacity-75');
+        if (numBadge) {
+          numBadge.className = 'w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-md text-label-md font-bold shadow-sm';
+        }
+        if (tagSpan) {
+          tagSpan.className = 'font-label-sm text-label-sm text-primary uppercase tracking-wider font-extrabold';
+          tagSpan.innerText = `Paso ${stepNum} • Activo`;
+        }
+      } else if (stepNum < currentStep) {
+        nav.classList.remove('bg-surface-container-low');
+        nav.classList.remove('opacity-75');
+        if (numBadge) {
+          numBadge.className = 'w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-label-md text-label-md font-bold shadow-sm';
+          numBadge.innerHTML = '<span class="material-symbols-outlined text-base">check</span>';
+        }
+        if (tagSpan) {
+          tagSpan.className = 'font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-bold';
+          tagSpan.innerText = `Paso ${stepNum} • Listo`;
+        }
+      } else {
+        nav.classList.remove('bg-surface-container-low');
+        nav.classList.add('opacity-75');
+        if (numBadge) {
+          numBadge.className = 'w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-md text-label-md font-bold';
+          numBadge.innerText = stepNum;
+        }
+        if (tagSpan) {
+          tagSpan.className = 'font-label-sm text-label-sm text-on-surface-variant/70 uppercase tracking-wider font-bold';
+          tagSpan.innerText = `Paso ${stepNum}`;
+        }
+      }
+    });
+
+    // Handle Buttons
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtnText = document.getElementById('nextBtnText');
+    const summaryName = document.getElementById('summaryName');
+    const inputName = document.getElementById('inputName');
+
+    if (inputName && summaryName) {
+      summaryName.innerText = inputName.value || 'Sofía Morales';
+    }
+
+    if (currentStep === 1) {
+      prevBtn.classList.add('hidden');
+      nextBtnText.innerText = 'Continuar a Objetivos';
+    } else {
+      prevBtn.classList.remove('hidden');
+      if (currentStep === 2) {
+        nextBtnText.innerText = 'Continuar a Estilo & Avatar';
+      } else if (currentStep === 3) {
+        nextBtnText.innerText = 'Continuar a Calibración';
+      } else if (currentStep === 4) {
+        nextBtnText.innerText = 'Completar Registro y Comenzar Diagnóstico →';
+      }
+    }
+  }
+
+  function nextStep() {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      updateStepUI();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Completed Action Mock
+      alert('¡Registro completado con éxito! Iniciando sesión de calibración diagnóstica con QuimiBot...');
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 1) {
+      currentStep--;
+      updateStepUI();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  // Click direct step header navigation
+  document.querySelectorAll('.step-nav').forEach((nav) => {
+    nav.addEventListener('click', () => {
+      const targetStep = parseInt(nav.getAttribute('data-step-nav'), 10);
+      if (targetStep) {
+        currentStep = targetStep;
+        updateStepUI();
+      }
+    });
+  });
+</script></main></div></body></html>

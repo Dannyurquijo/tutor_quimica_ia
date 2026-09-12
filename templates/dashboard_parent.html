@@ -1,0 +1,364 @@
+{% extends 'portal.html' %}
+{% block title %}Portal de Padres — {{ user.nombre }} {{ user.apellido }} · Química Balmoral{% endblock %}
+{% block content %}
+<style>
+@media print {
+  body { background: white !important; color: black !important; }
+  header, footer, #atomsCanvas, .no-print { display: none !important; }
+  .ios-glass-card { box-shadow: none !important; border: 1px solid #cbd5e1 !important; background: white !important; }
+  .print-page { max-width: 100% !important; padding: 0 !important; }
+}
+</style>
+
+<div class="max-w-6xl mx-auto flex flex-col gap-6 px-2 md:px-4 py-2 print-page">
+
+  <!-- ============================================================ -->
+  <!-- CABECERA PRINCIPAL DEL PORTAL FAMILIAR                        -->
+  <!-- ============================================================ -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass border border-white/80">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-16 h-16 md:w-20 md:h-20 rounded-[24px] bg-gradient-to-tr from-sky-600 via-cyan-500 to-indigo-600 text-white flex items-center justify-center font-extrabold text-2xl md:text-3xl shadow-lg shadow-sky-500/25 border border-white/60">
+          👨‍👩‍👧
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-sky-100/80 text-sky-800 border border-sky-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-sky-600 animate-pulse"></span>
+              Portal de Seguimiento Familiar
+            </span>
+            <span class="text-xs font-mono font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">
+              Código: <strong class="text-sky-700 font-extrabold">{{ codigo_padre or alumno.codigo_padre }}</strong>
+            </span>
+          </div>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Expediente de {{ user.nombre }} {{ user.apellido }}
+          </h1>
+          <p class="text-xs md:text-sm text-slate-500 mt-0.5 font-medium">
+            Preparatoria Balmoral · <span class="text-slate-700 font-semibold">{{ alumno.grado or "2do Bachillerato" }}</span> · Estilo: <span class="text-slate-700 font-semibold">{{ alumno.estilo_aprendizaje or "Visual" }}</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Acciones de Cabecera -->
+      <div class="flex items-center gap-2 self-stretch sm:self-auto justify-end no-print">
+        <button onclick="window.print()" class="ios-tap px-4 py-2 rounded-2xl bg-white/90 hover:bg-white text-slate-700 text-xs font-bold border border-slate-200 shadow-xs flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base text-slate-600">print</span>
+          <span>Imprimir Reporte PDF</span>
+        </button>
+        <a href="/logout" class="ios-tap px-4 py-2 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200 shadow-xs flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base">logout</span>
+          <span>Salir</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- WIDGETS DE RENDIMIENTO Y AUTONOMÍA (Estilo Apple iOS Widgets) -->
+  <!-- ============================================================ -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    
+    <!-- Widget 1: Dominio Curricular -->
+    <div class="ios-glass-card p-5 shadow-ios-card flex flex-col justify-between">
+      <div class="flex items-center justify-between text-slate-400 mb-2">
+        <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">Dominio Global</span>
+        <span class="material-symbols-outlined text-xl text-emerald-600">verified</span>
+      </div>
+      <div>
+        <div class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+          {{ alumno.progreso_global }}%
+        </div>
+        <div class="w-full bg-slate-200/80 h-2 rounded-full overflow-hidden mt-3">
+          <div class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-700" style="width: {{ alumno.progreso_global }}%"></div>
+        </div>
+      </div>
+      <span class="text-[11px] text-slate-400 font-semibold mt-2">Del programa de química</span>
+    </div>
+
+    <!-- Widget 2: Nivel de Deducción -->
+    <div class="ios-glass-card p-5 shadow-ios-card flex flex-col justify-between">
+      <div class="flex items-center justify-between text-slate-400 mb-2">
+        <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">Autonomía Socrática</span>
+        <span class="material-symbols-outlined text-xl text-sky-600">psychology</span>
+      </div>
+      <div>
+        <div class="text-2xl md:text-3xl font-extrabold text-sky-700 tracking-tight">
+          {{ alumno.nivel or "Intermedio" }}
+        </div>
+        <span class="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-sky-800 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
+          {% if alumno.nivel == 'Avanzado' %}Razonamiento autónomo
+          {% elif alumno.nivel == 'Intermedio' %}Deducción con guía
+          {% else %}Requiere pistas inductivas{% endif %}
+        </span>
+      </div>
+      <span class="text-[11px] text-slate-400 font-semibold mt-2">Capacidad deductiva</span>
+    </div>
+
+    <!-- Widget 3: Sesiones de Aprendizaje -->
+    <div class="ios-glass-card p-5 shadow-ios-card flex flex-col justify-between">
+      <div class="flex items-center justify-between text-slate-400 mb-2">
+        <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">Tutorías con IA</span>
+        <span class="material-symbols-outlined text-xl text-amber-500">smart_toy</span>
+      </div>
+      <div>
+        <div class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+          {{ sessions_list|length }}
+        </div>
+        <span class="text-xs font-semibold text-slate-600 mt-1 block">
+          {{ total_messages }} mensajes intercambiados
+        </span>
+      </div>
+      <span class="text-[11px] text-slate-400 font-semibold mt-2">Interacciones socráticas</span>
+    </div>
+
+    <!-- Widget 4: Racha de Estudio -->
+    <div class="ios-glass-card p-5 shadow-ios-card flex flex-col justify-between">
+      <div class="flex items-center justify-between text-slate-400 mb-2">
+        <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">Constancia</span>
+        <span class="text-xl">🔥</span>
+      </div>
+      <div>
+        <div class="text-3xl md:text-4xl font-extrabold text-amber-600 tracking-tight">
+          {{ alumno.racha_dias }} <span class="text-base text-slate-500 font-normal">días</span>
+        </div>
+        <span class="text-xs font-semibold text-slate-600 mt-1 block">
+          Racha de práctica activa
+        </span>
+      </div>
+      <span class="text-[11px] text-slate-400 font-semibold mt-2">Frecuencia de estudio</span>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- RESUMEN EJECUTIVO GENERADO POR IA PARA LOS PADRES            -->
+  <!-- ============================================================ -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass border border-sky-200/60 bg-gradient-to-br from-white/90 via-sky-50/30 to-indigo-50/20">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 border-b border-slate-200/60 pb-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-600 to-indigo-600 text-white flex items-center justify-center font-bold shadow-md shadow-sky-500/20">
+          <span class="material-symbols-outlined text-xl">psychology_alt</span>
+        </div>
+        <div>
+          <h2 class="text-lg md:text-xl font-extrabold text-slate-900 tracking-tight">
+            Informe Pedagógico Semanal para Padres
+          </h2>
+          <p class="text-xs text-slate-500 font-medium">Síntesis generada automáticamente analizando las preguntas y deducciones de {{ user.nombre }}</p>
+        </div>
+      </div>
+
+      <button id="refreshSummaryBtn" onclick="refreshSummary()" class="no-print ios-tap px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200/90 shadow-xs flex items-center gap-1.5 transition-all">
+        <span id="refreshIcon" class="material-symbols-outlined text-sm text-sky-600">refresh</span>
+        <span id="refreshText">Actualizar Síntesis</span>
+      </button>
+    </div>
+
+    <!-- Contenido del Resumen -->
+    <div id="summaryBody" class="text-sm md:text-base text-slate-700 leading-relaxed font-medium whitespace-pre-line space-y-2">
+      {{ parent_summary }}
+    </div>
+
+    <!-- Recomendación de Apoyo Familiar -->
+    <div class="mt-6 p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200/80 flex items-start gap-3">
+      <span class="text-2xl flex-shrink-0">💡</span>
+      <div class="text-xs md:text-sm text-emerald-900 leading-relaxed">
+        <strong class="font-bold block mb-0.5 text-emerald-950">Consejo para la familia:</strong>
+        El modelo socrático de Balmoral busca que {{ user.nombre }} desarrolle pensamiento crítico y no memorice respuestas. 
+        En casa, pregúntele qué metáforas o ejemplos de la vida real le dio QuimiBot hoy. ¡Eso refuerza el 80% de la retención a largo plazo!
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- AVANCE POR MÓDULOS DEL PROGRAMA OFICIAL DE QUÍMICA           -->
+  <!-- ============================================================ -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6">
+      <div>
+        <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Avance Curricular por Temas Oficiales</h2>
+        <p class="text-xs text-slate-500 mt-0.5">Progreso por cada unidad evaluada en el Bachillerato Balmoral</p>
+      </div>
+      <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+        Total de temas: <strong>{{ topics|length }}</strong>
+      </span>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for topic in topics %}
+      <div class="p-4 rounded-2xl bg-white/80 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:border-sky-300 transition-colors">
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full
+              {% if topic.estado == 'Dominado' %}bg-emerald-500/10 text-emerald-700 border border-emerald-500/20
+              {% elif topic.estado == 'En Progreso' %}bg-sky-500/10 text-sky-700 border border-sky-500/20
+              {% else %}bg-slate-100 text-slate-600{% endif %}">
+              {{ topic.estado }}
+            </span>
+            <span class="text-[11px] font-bold text-slate-500">
+              Deducción: <strong class="text-slate-800">{{ topic.nivel_deduccion }}</strong>
+            </span>
+          </div>
+          <h3 class="font-bold text-slate-900 text-sm mb-2 leading-snug">
+            {{ topic.tema_nombre }}
+          </h3>
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+            <span>Dominio del tema</span>
+            <span class="font-extrabold text-slate-800">{{ topic.progreso }}%</span>
+          </div>
+          <div class="w-full bg-slate-200/70 h-2 rounded-full overflow-hidden">
+            <div class="h-full rounded-full transition-all duration-500
+              {% if topic.progreso >= 75 %}bg-emerald-500
+              {% elif topic.progreso >= 30 %}bg-sky-500
+              {% else %}bg-amber-500{% endif %}"
+              style="width: {{ topic.progreso }}%"></div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- HISTORIAL Y EXTRACTOS DE CONVERSACIONES CON QUIMIBOT IA       -->
+  <!-- ============================================================ -->
+  <div class="ios-glass-card p-6 md:p-8 shadow-ios-glass">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6">
+      <div>
+        <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Registro de Diálogos Socráticos con la IA</h2>
+        <p class="text-xs text-slate-500 mt-0.5">
+          Revise cómo su hijo(a) interactúa con QuimiBot y cómo el bot le plantea preguntas para deducir cada concepto
+        </p>
+      </div>
+      <span class="text-xs font-semibold text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
+        💬 {{ sessions_list|length }} Sesiones Registradas
+      </span>
+    </div>
+
+    {% if not sessions_list %}
+    <div class="text-center py-10 bg-slate-50/60 rounded-2xl border border-dashed border-slate-300">
+      <span class="material-symbols-outlined text-4xl text-slate-400 mb-2">chat_bubble_outline</span>
+      <p class="text-sm font-semibold text-slate-600">Aún no hay conversaciones registradas</p>
+      <p class="text-xs text-slate-400 mt-1">En cuanto {{ user.nombre }} comience a chatear con QuimiBot, las transcripciones aparecerán aquí.</p>
+    </div>
+    {% else %}
+    <div class="space-y-4">
+      {% for session in sessions_list %}
+      <div class="rounded-2xl border border-slate-200/90 bg-white/70 overflow-hidden shadow-xs">
+        <!-- Encabezado de Sesión -->
+        <button type="button" onclick="toggleSession('session-{{ loop.index }}')" class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50/80 transition-colors">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs flex-shrink-0">
+              #{{ loop.index }}
+            </div>
+            <div class="min-w-0">
+              <h4 class="text-sm font-extrabold text-slate-900 truncate">
+                Sesión de Estudio Socrático
+              </h4>
+              <p class="text-xs text-slate-500 truncate">
+                {% if session.messages and session.messages[0].role == 'user' %}
+                  Pregunta inicial: "<em>{{ session.messages[0].content[:70] }}...</em>"
+                {% else %}
+                  Interacción con QuimiBot
+                {% endif %}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 flex-shrink-0">
+            <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
+              {{ session.messages|length }} mensajes
+            </span>
+            <span id="chevron-session-{{ loop.index }}" class="material-symbols-outlined text-slate-400 text-lg transition-transform">
+              expand_more
+            </span>
+          </div>
+        </button>
+
+        <!-- Contenido Desplegable de la Conversación -->
+        <div id="session-{{ loop.index }}" class="hidden p-4 border-t border-slate-100 bg-slate-50/50 space-y-3">
+          {% for msg in session.messages %}
+          <div class="flex gap-2.5 items-start {% if msg.role == 'user' %}justify-end{% else %}justify-start{% endif %}">
+            {% if msg.role != 'user' %}
+            <div class="w-7 h-7 rounded-lg bg-slate-900 text-cyan-400 flex items-center justify-center text-xs flex-shrink-0 mt-1 font-bold">
+              🤖
+            </div>
+            {% endif %}
+
+            <div class="max-w-md lg:max-w-xl p-3 rounded-2xl text-xs sm:text-sm leading-relaxed
+              {% if msg.role == 'user' %}
+                bg-sky-600 text-white rounded-br-xs font-medium shadow-xs
+              {% else %}
+                bg-white border border-slate-200 text-slate-800 rounded-tl-xs font-medium shadow-xs
+              {% endif %}">
+              <div class="text-[10px] font-bold uppercase tracking-wider mb-1 opacity-75">
+                {{ user.nombre if msg.role == 'user' else 'QuimiBot Socrático' }}
+              </div>
+              <div class="whitespace-pre-line">{{ msg.content }}</div>
+            </div>
+
+            {% if msg.role == 'user' %}
+            <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-800 flex items-center justify-center text-xs flex-shrink-0 mt-1 font-bold">
+              {{ user.nombre[0] }}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+
+</div>
+
+<script>
+function toggleSession(id) {
+  const el = document.getElementById(id);
+  const chevron = document.getElementById('chevron-' + id);
+  if (!el) return;
+  
+  if (el.classList.contains('hidden')) {
+    el.classList.remove('hidden');
+    if (chevron) chevron.style.transform = 'rotate(180deg)';
+  } else {
+    el.classList.add('hidden');
+    if (chevron) chevron.style.transform = 'rotate(0deg)';
+  }
+}
+
+async function refreshSummary() {
+  const btn = document.getElementById('refreshSummaryBtn');
+  const icon = document.getElementById('refreshIcon');
+  const text = document.getElementById('refreshText');
+  const body = document.getElementById('summaryBody');
+
+  btn.disabled = true;
+  icon.classList.add('animate-spin');
+  text.textContent = 'Analizando diálogos...';
+
+  try {
+    const res = await fetch('/api/padres/refresh-summary', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const data = await res.json();
+    if (res.ok && data.summary) {
+      body.textContent = data.summary;
+    }
+  } catch (err) {
+    console.error('Error al actualizar resumen:', err);
+  } finally {
+    icon.classList.remove('animate-spin');
+    btn.disabled = false;
+    text.textContent = 'Actualizar Síntesis';
+  }
+}
+</script>
+{% endblock %}

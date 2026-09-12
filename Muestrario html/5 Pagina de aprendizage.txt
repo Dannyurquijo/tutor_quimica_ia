@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-tint":"#bd0e16","tertiary":"#00686d","on-secondary-fixed":"#410003","on-tertiary":"#ffffff","tertiary-container":"#008389","surface-container-lowest":"#ffffff","primary-fixed":"#ffdad6","on-tertiary-container":"#feffff","primary-fixed-dim":"#ffb4ab","secondary":"#a83632","tertiary-fixed":"#83f4fb","primary":"#bb0c15","on-error":"#ffffff","on-primary-fixed-variant":"#93000b","primary-container":"#e02e2b","inverse-on-surface":"#eaf1fd","background":"#f8f9ff","surface-variant":"#dce3ee","secondary-container":"#ff766d","surface-container":"#e8eefa","on-secondary":"#ffffff","on-surface-variant":"#5c403c","on-secondary-fixed-variant":"#881e1d","surface-dim":"#d4dae6","on-tertiary-fixed-variant":"#004f53","secondary-fixed-dim":"#ffb3ac","on-tertiary-fixed":"#002022","on-surface":"#151c24","tertiary-fixed-dim":"#64d7de","surface-container-low":"#eef4ff","inverse-primary":"#ffb4ab","surface":"#f8f9ff","error":"#ba1a1a","secondary-fixed":"#ffdad6","on-secondary-container":"#720c0f","surface-container-high":"#e2e9f4","on-primary-container":"#fffeff","on-primary-fixed":"#410002","on-primary":"#ffffff","outline":"#916f6b","error-container":"#ffdad6","on-error-container":"#93000a","surface-container-highest":"#dce3ee","outline-variant":"#e5bdb8","inverse-surface":"#2a313a","on-background":"#151c24","surface-bright":"#f8f9ff"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-lg":"1.5rem","space-2xl":"2.5rem","space-2xs":"0.25rem","space-3xl":"3.5rem","gutter-desktop":"1.5rem","sidebar-width":"17.5rem","space-sm":"0.75rem","tutor-panel-width":"24rem","space-md":"1rem","layout-margin-desktop":"2rem","layout-margin-mobile":"1rem","gutter-mobile":"0.75rem","space-xs":"0.5rem","space-xl":"2rem"},fontFamily:{"label-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"]},fontSize:{"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"700"}],"headline-xl":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"26px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"display-hero-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"800"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"display-hero":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"800"}],"headline-md":["22px",{"lineHeight":"30px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-sidebar-width bg-inverse-surface z-50 flex flex-col justify-between p-space-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] text-inverse-on-surface"><div class="flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm px-space-xs py-space-2xs"><img alt="Logo Balmoral Escocés" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh6bUqhuALHMLqk5fFUOZp2j-UdIIvL9ViqcZrnNroVCY0s7EvlGncA7UfPB5JqRYTfAmNmezGbNju0qWu8juXIGBBOUl3fL9R23u-QLJ_CDBOWsUu-XwuPR7nHq2uhKPW06p2PSKHxl8iJDBcyuIfgiedNXHWdmBUrIApaHQ8Y6ZgWIfMZbajBsXPSDLtfFKsHIKFDrdIpQ_uRtRl0fmMVQI_5hm-Kte9Wd_MjXeXXy61d1wY2F52"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-primary-container leading-none">Balmoral Escocés</span><span class="font-label-sm text-label-sm text-tertiary-fixed uppercase tracking-wider">Química Socrática</span></div></div><div class="bg-surface-container-highest/10 rounded-xl p-space-sm flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-tertiary-fixed uppercase font-bold tracking-wider">Estudiante Supervisado</span><span class="material-symbols-outlined text-sm text-inverse-on-surface/60">supervised_user_circle</span></div><div class="flex items-center gap-space-sm"><img alt="Estudiante" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_Z-xBzF6B0hLQ0JttOaEuu47luG71gNLDyaKoKyL_IkE8zTSJ198uXUkP-3LmbGGqPvwA2XYYLOQ29RUaMxUQ93UyBb6vtldO01_6j_f9-8zxoPIws8nsTOuCNwzcY0p8VRvTSVt-59slCQCcyCNCl8vR03rd_xLnrjwWNUpdZpwY2hM0zk42U7K5QyJFyYaTbda_hwDzyAu4sd8lcfx937KqOXOPa20hXLIFrSW3jeHLFTx2eL0f"/><div class="flex flex-col overflow-hidden"><span class="font-label-md text-label-md text-inverse-on-surface truncate">Sofía Morales</span><span class="font-body-sm text-body-sm text-inverse-on-surface/70 truncate">4° Año Secundaria • Química</span></div></div><div class="mt-space-2xs flex flex-col gap-space-2xs"><div class="flex justify-between font-label-sm text-label-sm text-inverse-on-surface/80"><span>Rendimiento Global</span><span class="text-tertiary-fixed font-semibold">68% • Óptimo</span></div><div class="w-full bg-inverse-on-surface/20 h-1.5 rounded-full overflow-hidden"><div class="bg-tertiary-container h-full w-[68%] rounded-full"></div></div></div></div><nav class="flex flex-col gap-space-2xs mt-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-label-lg rounded-xl"><div class="px-space-sm pt-space-xs pb-space-2xs font-label-sm text-label-sm text-inverse-on-surface/50 uppercase tracking-wider">Supervisión &amp; Seguimiento</div><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="portal-familias-docentes" href="#">Portal Familias &amp; Docentes</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="dashboard" href="#">Panel de Progreso</a><div class="px-space-sm pt-space-xs pb-space-2xs font-label-sm text-label-sm text-inverse-on-surface/50 uppercase tracking-wider">Academia de Química</div><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="modulos-de-quimica" href="#">Módulos de Química</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="laboratorio-virtual" href="#">Laboratorio Virtual</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="foros-y-comunidad" href="#">Foros &amp; Comunidad</a><a class="flex items-center px-space-sm py-space-xs rounded-xl font-label-lg text-label-lg text-inverse-on-surface/80 hover:bg-surface-container-highest/20 hover:text-inverse-on-surface transition-colors" data-path="ajustes-y-perfil" href="#">Ajustes &amp; Supervisión</a></nav></div><div class="px-space-xs py-space-sm"><div class="flex items-center justify-between font-label-sm text-label-sm text-inverse-on-surface/50"><span>Colegio Balmoral Escocés</span><span class="material-symbols-outlined text-sm">verified_user</span></div></div></aside><div class="pl-sidebar-width"><header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter-desktop"><div class="flex items-center gap-space-md w-full max-w-md"><div class="relative w-full"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span><input class="w-full h-10 pl-10 pr-space-md bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-tertiary/20" placeholder="Buscar diagnóstico, tareas, competencias o reactivos..." type="search"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-2xs bg-surface-container-high/60 px-space-sm py-1 rounded-full"><span class="material-symbols-outlined text-primary text-base">verified</span><span class="font-label-md text-label-md text-on-surface font-bold">Tutoría Activa</span></div><div class="flex items-center gap-space-2xs bg-tertiary-container text-on-tertiary-container px-space-sm py-1 rounded-full font-label-md text-label-md shadow-[0_1px_3px_rgba(56,63,72,0.05)]"><span class="material-symbols-outlined text-base">shield_person</span><span>Rol Tutor / Docente</span></div><button class="relative p-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full"></span></button><div class="flex items-center gap-space-xs pl-space-xs"><img alt="Perfil del Supervisor" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_Z-xBzF6B0hLQ0JttOaEuu47luG71gNLDyaKoKyL_IkE8zTSJ198uXUkP-3LmbGGqPvwA2XYYLOQ29RUaMxUQ93UyBb6vtldO01_6j_f9-8zxoPIws8nsTOuCNwzcY0p8VRvTSVt-59slCQCcyCNCl8vR03rd_xLnrjwWNUpdZpwY2hM0zk42U7K5QyJFyYaTbda_hwDzyAu4sd8lcfx937KqOXOPa20hXLIFrSW3jeHLFTx2eL0f"/></div></div></header><main class="w-full pt-16 bg-surface-container-low/40 min-h-screen"><div class="flex flex-col w-full">
+<!-- Dynamic View Switcher & Notification Toast Container -->
+<div class="px-layout-margin-desktop py-space-lg flex flex-col gap-space-lg">
+<!-- 1. Encabezado de Supervisión & Student Switcher -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col xl:flex-row xl:items-center justify-between gap-space-lg relative overflow-hidden">
+<div class="absolute -top-16 -right-16 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Student Badge Info -->
+<div class="flex flex-wrap sm:flex-nowrap items-center gap-space-md z-10">
+<div class="relative">
+<img class="w-16 h-16 rounded-full object-cover shadow-sm ring-4 ring-tertiary-fixed-dim/40" data-alt="Fotografía de perfil de Sofía Morales, estudiante de secundaria concentrada en uniforme de laboratorio con fondo académico limpio y cálido" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3UvMx2SM0Vnyop_22VXFmFJ6xHcI54mM7mYHvCzm62etjHIY7VM0IEwc2ikaGSb0LCX4lDbo7s5MzKEmohfJjoCdgmxu1jZ9qW4XomdNBMQJPuYW5chxAH2vhOedsim45DAEtYMyKBNEMjK1t3lEOeiNjv98EDvqNMBipr1BBfk4HX2Afr6IKm-Vy9v2a1BIc7gc05Q6ivuVUcvxjelKQrhahWr8wIKOuApajEYA06Vq5F1OkhWDF"/>
+<span class="absolute bottom-0 right-0 w-4 h-4 bg-tertiary-container rounded-full ring-2 ring-surface-container-lowest" title="Sesión activa y sincronizada"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<h1 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">Sofía Morales Villanueva</h1>
+<span class="bg-tertiary/10 text-tertiary font-label-sm text-label-sm px-space-xs py-0.5 rounded-full uppercase tracking-wider font-semibold">2.º Bachillerato B</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-sm text-tertiary">school</span>
+            Colegio San Pedro de Alcántara • Ciclo Lectivo 2024-2025 • ID: #QUIM-8841
+          </p>
+</div>
+<!-- Student Switcher Modal Trigger -->
+<button class="ml-auto sm:ml-2 p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50 rounded-lg transition-colors flex items-center gap-1 font-label-md text-label-md" id="switchStudentBtn" title="Cambiar estudiante">
+<span class="material-symbols-outlined text-base">swap_horiz</span>
+<span class="hidden md:inline">Cambiar Alumno</span>
+</button>
+</div>
+<!-- Perspectives Tabs & Action CTAs -->
+<div class="flex flex-wrap items-center gap-space-sm z-10">
+<!-- Dual Mode Navigation Pills -->
+<div class="bg-surface-container p-1 rounded-xl flex items-center shadow-inner">
+<button class="flex items-center gap-1.5 px-space-md py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 bg-surface-container-lowest text-primary-container shadow-sm font-bold" id="tabFamily" onclick="togglePerspective('family')">
+<span class="material-symbols-outlined text-base">family_restroom</span>
+            Vista Familias
+          </button>
+<button class="flex items-center gap-1.5 px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all duration-200" id="tabTeacher" onclick="togglePerspective('teacher')">
+<span class="material-symbols-outlined text-base">psychology</span>
+            Vista Docente
+          </button>
+</div>
+<!-- PDF Export & Direct Tutor Directive -->
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface px-space-md h-10 rounded-lg font-label-md text-label-md transition-colors shadow-sm" onclick="triggerReportDownload()">
+<span class="material-symbols-outlined text-base text-primary">picture_as_pdf</span>
+<span class="hidden sm:inline font-semibold">Informe Semanal</span>
+</button>
+<button class="flex items-center gap-1.5 bg-primary-container hover:bg-primary text-on-primary-container px-space-md h-10 rounded-lg font-label-md text-label-md transition-all duration-150 active:scale-95 shadow-sm font-semibold" onclick="openDirectiveModal()">
+<span class="material-symbols-outlined text-base">forward_to_inbox</span>
+<span>Instruir a QuimiBot</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 2. KPI Cards: Rendimiento & Autonomía Cognitiva -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Autonomía Socrática -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">Autonomía Socrática</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-extrabold">84%</span>
+<span class="inline-flex items-center font-label-sm text-label-sm text-tertiary font-bold bg-tertiary/10 px-1.5 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs">arrow_upward</span> +6%
+              </span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-tertiary/15 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">self_improvement</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mb-2">
+<div class="bg-tertiary-container h-full rounded-full transition-all duration-700" style="width: 84%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Formula hipótesis previas en <strong class="text-on-surface font-semibold">4 de cada 5 retos</strong> sin pedir solución directa.
+          </p>
+</div>
+</div>
+<!-- Card 2: Tiempo de Inducción -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">Tiempo Efectivo Químico</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-extrabold">14.5<span class="text-headline-md font-medium text-on-surface-variant">h</span></span>
+<span class="inline-flex items-center font-label-sm text-label-sm text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-xs">local_fire_department</span> 12 días
+              </span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">avg_pace</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant mb-1">
+<span>Racha activa diaria</span>
+<span class="text-on-surface font-semibold">Meta mensual: 18h</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full transition-all duration-700" style="width: 80%;"></div>
+</div>
+</div>
+</div>
+<!-- Card 3: Dominio Curricular -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">Dominio Curricular Global</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl text-on-surface font-extrabold">68%</span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-semibold">3 / 5 Unidades</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-xl bg-tertiary-container/15 text-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">model_training</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="flex items-center gap-1.5 mb-1.5">
+<div class="h-2 flex-1 rounded-full bg-tertiary-container"></div>
+<div class="h-2 flex-1 rounded-full bg-tertiary-container"></div>
+<div class="h-2 flex-1 rounded-full bg-tertiary/40"></div>
+<div class="h-2 flex-1 rounded-full bg-surface-container-high"></div>
+<div class="h-2 flex-1 rounded-full bg-surface-container-high"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Progreso ponderado según estándares oficiales MINEDUC / Cambridge.</p>
+</div>
+</div>
+<!-- Card 4: Alerta Pedagógica Adaptativa -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-bold">Atención Pedagógica</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Balance Redox</span>
+</div>
+<div class="w-10 h-10 rounded-xl bg-error/10 text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">priority_high</span>
+</div>
+</div>
+<div class="mt-space-xs bg-error-container/40 p-space-xs rounded-lg">
+<p class="font-body-sm text-body-sm text-on-error-container leading-tight">
+            Vacilación al asignar números de oxidación a elementos de transición en medio ácido.
+          </p>
+</div>
+</div>
+</section>
+<!-- 3. QuimiBot 3D Insight Card (IA Pedagógica) -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm relative overflow-hidden">
+<div class="flex flex-col lg:flex-row items-center gap-space-xl">
+<!-- Robot 3D Character Illustration Container -->
+<div class="relative w-44 h-44 sm:w-52 sm:h-52 flex-shrink-0 flex items-center justify-center">
+<div class="absolute inset-0 bg-tertiary/10 rounded-full blur-2xl transform scale-90"></div>
+<img alt="QuimiBot Tutor Inteligente 3D sosteniendo un matraz Erlenmeyer con soluciones reactivas luminosas" class="relative z-10 w-full h-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1XWJydq0iYWzG0YROi5yO1iR_gVbNaoegZCuZDxiRqrDXTnXNwh6OliNKDTvLKseLiCDISyv7m63TDEMb0hdTZcpnf_AU9UypalKj2kUKTU8b9tvUj4wJ5ISGC7lzQxmvVBgId_FSWrv9ZkUogjqq3qvU7inrAulldbj31qVTR4fLPu8N1tVlgQy8zYRauISMdmFgItP97LJhZgScg1oLXtotyzqhGMC0A9Zcr44RMk6bGc2VFEXMeLsQ"/>
+<div class="absolute bottom-1 bg-surface-container-lowest/90 backdrop-blur-md px-space-xs py-0.5 rounded-full shadow-sm z-20 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">QuimiBot Tutor IA</span>
+</div>
+</div>
+<!-- Socratic Dialogue Bubble & Actions -->
+<div class="flex-1 flex flex-col gap-space-sm w-full">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">chat_spark</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Diagnóstico Cognitivo de la Semana</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-space-xs py-1 rounded-full">Actualizado hace 22 minutos</span>
+</div>
+<!-- Speech bubble -->
+<div class="bg-tertiary/5 p-space-md rounded-xl rounded-tl-sm text-on-surface flex flex-col gap-space-xs shadow-[0_1px_3px_rgba(56,63,72,0.05)]">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              «¡Hola Profesor Valenzuela y Sra. Villanueva! Sofía muestra un <strong class="text-tertiary font-semibold">pensamiento deductivo sobresaliente</strong> en <em class="not-italic text-on-surface font-medium">Estructura Atómica y Enlaces Covalentes</em>. Durante la última sesión resolvió por sí misma la hibridación del carbono en acetileno sin pistas.»
+            </p>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              «Detecté vacilaciones en el cálculo de estados de oxidación Redox al trabajar con dicromato de potasio. Para consolidarlo sin frustración, le he programado <strong class="text-primary font-semibold">2 micro-retos socráticos de 5 minutos</strong> previos a la evaluación del viernes.»
+            </p>
+</div>
+<!-- Interactive Chips & Trigger Actions -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm mt-space-xs pt-space-xs">
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center gap-1.5 px-space-md py-2 bg-surface-container-high/60 hover:bg-surface-container-highest text-on-surface rounded-lg font-label-md text-label-md transition-colors" onclick="openTranscriptModal()">
+<span class="material-symbols-outlined text-sm text-tertiary">forum</span>
+                Ver Transcripción Socrática
+              </button>
+<button class="flex items-center gap-1.5 px-space-md py-2 bg-surface-container-high/60 hover:bg-surface-container-highest text-on-surface rounded-lg font-label-md text-label-md transition-colors" onclick="toggleTutorRigidity()">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">tune</span>
+                Rigurosidad: <span class="font-bold text-tertiary" id="rigidityLabel">Moderada Socrática</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Confianza del modelo:</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold bg-tertiary/10 px-2 py-0.5 rounded-full">98.4% Precisión</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Area: 2-Column Responsive Layout (Curricular Matrix vs Habits & Actions) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg">
+<!-- 4. Cuadrícula de Desglose Curricular & Competencias (8 Cols) -->
+<section class="xl:col-span-8 flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Matriz de Competencias Curriculares</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Desglose de autonomía, retención y taxonomía de dominio químico.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary-container"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-2">Dominado</span>
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-2">En Curso</span>
+<span class="w-3 h-3 rounded-full bg-surface-container-highest"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Pendiente</span>
+</div>
+</div>
+<!-- Curricular Unit Cards -->
+<div class="flex flex-col gap-space-sm">
+<!-- Unidad 1: Estructura Atómica -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center font-headline-sm font-extrabold">
+                  01
+                </div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Estructura Atómica &amp; Tabla Periódica</h3>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-tertiary bg-tertiary/10 px-2 py-0.5 rounded-full font-bold">Nivel Maestro</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 0 Alertas pedagógicas</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-lg">
+<div class="text-right">
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">95%</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Calificación: 9.8/10</span>
+</div>
+<div class="w-12 h-12 flex-shrink-0">
+<!-- Circular Gauge SVG 95% -->
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-tertiary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="95, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-space-xs text-body-sm font-body-sm text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-base">verified</span>
+<span>Configuración electrónica, números cuánticos y radio atómico consolidados.</span>
+</div>
+<button class="font-label-sm text-label-sm text-tertiary font-bold hover:underline flex items-center gap-0.5" onclick="toggleDetail('unit-1')">
+                Ver detalle pedagógico <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+<div class="hidden pt-space-xs flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant bg-surface p-space-sm rounded-lg" id="unit-1">
+<div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+<div><strong>Taxonomía:</strong> Nivel 5 (Evaluar)</div>
+<div><strong>Autonomía:</strong> Muy Alta (92%)</div>
+<div><strong>Ejercicios resueltos:</strong> 28/28</div>
+</div>
+</div>
+</article>
+<!-- Unidad 2: Enlace Químico -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center font-headline-sm font-extrabold">
+                  02
+                </div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Enlace Químico &amp; Geometría Molecular</h3>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-tertiary bg-tertiary/10 px-2 py-0.5 rounded-full font-bold">En Curso Avanzado</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 82% Retención conceptual</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-lg">
+<div class="text-right">
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">78%</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Calificación: 8.9/10</span>
+</div>
+<div class="w-12 h-12 flex-shrink-0">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-tertiary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="78, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Visual Formula Demonstration -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-space-xs text-body-sm font-body-sm text-on-surface">
+<div class="bg-surface-container-lowest px-2 py-1 rounded font-mono text-body-sm text-tertiary font-bold shadow-xs">
+                  sp³ → CH₄ (109.5°) vs H₂O (104.5°)
+                </div>
+<span class="hidden md:inline text-on-surface-variant">Deducción de par de electrones no enlazantes exitosa.</span>
+</div>
+<button class="font-label-sm text-label-sm text-tertiary font-bold hover:underline flex items-center gap-0.5" onclick="toggleDetail('unit-2')">
+                Ver detalle pedagógico <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+<div class="hidden pt-space-xs flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant bg-surface p-space-sm rounded-lg" id="unit-2">
+<div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+<div><strong>Taxonomía:</strong> Nivel 4 (Analizar)</div>
+<div><strong>Autonomía:</strong> Alta (86%)</div>
+<div><strong>Tiempo invertido:</strong> 4h 15m</div>
+</div>
+</div>
+</article>
+<!-- Unidad 3: Estequiometría & Redox -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-sm border-l-4 border-primary-container">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-headline-sm font-extrabold">
+                  03
+                </div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Estequiometría &amp; Reacciones Redox</h3>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-primary bg-primary/10 px-2 py-0.5 rounded-full font-bold">Refuerzo Requerido</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2 Pistas Socráticas solicitadas</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-lg">
+<div class="text-right">
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">62%</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Calificación: 7.4/10</span>
+</div>
+<div class="w-12 h-12 flex-shrink-0">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="62, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+</div>
+</div>
+</div>
+<div class="bg-primary/5 p-space-sm rounded-lg flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-space-xs text-body-sm font-body-sm text-on-surface">
+<span class="material-symbols-outlined text-primary text-base">help_center</span>
+<span>Dificultad en balance de semirreacciones por método ion-electrón.</span>
+</div>
+<button class="font-label-sm text-label-sm text-primary font-bold hover:underline flex items-center gap-0.5" onclick="toggleDetail('unit-3')">
+                Ver detalle pedagógico <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+<div class="hidden pt-space-xs flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant bg-surface p-space-sm rounded-lg" id="unit-3">
+<div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+<div><strong>Taxonomía:</strong> Nivel 3 (Aplicar)</div>
+<div><strong>Autonomía:</strong> Media (61%)</div>
+<div><strong>Intervención sugerida:</strong> Práctica guiada con reactivo limitante</div>
+</div>
+</div>
+</article>
+<!-- Unidad 4: Termoquímica & Cinética -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-sm opacity-90">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center font-headline-sm font-bold">
+                  04
+                </div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface font-bold">Termoquímica &amp; Cinética Química</h3>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full font-semibold">Introducción Iniciada</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• Diagnóstico preliminar</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-lg">
+<div class="text-right">
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">35%</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Calificación: En proceso</span>
+</div>
+<div class="w-12 h-12 flex-shrink-0">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-tertiary/40" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="35, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+</div>
+</div>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-tertiary/40 h-full rounded-full" style="width: 35%;"></div>
+</div>
+</article>
+<!-- Unidad 5: Equilibrio Químico (Bloqueada) -->
+<article class="bg-surface-container-low/50 rounded-xl p-space-md shadow-none flex items-center justify-between text-on-surface-variant/70">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container text-on-surface-variant/50 flex items-center justify-center font-headline-sm">
+<span class="material-symbols-outlined text-lg">lock</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg font-bold text-on-surface-variant">Unidad 5: Equilibrio Químico y Principio de Le Châtelier</h3>
+<span class="font-body-sm text-body-sm">Se desbloqueará al consolidar la Unidad 3 (&gt;75%)</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container px-space-xs py-1 rounded">Pendiente</span>
+</article>
+</div>
+</section>
+<!-- 5. Panel Lateral: Hábitos de Estudio & Recomendaciones (4 Cols) -->
+<aside class="xl:col-span-4 flex flex-col gap-space-md">
+<!-- Mapa de Hábitos y Horarios de Mayor Rendimiento -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Ventana de Máxima Concentración</h3>
+<span class="material-symbols-outlined text-tertiary">schedule</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Sofía registra su menor tiempo de vacilación y mayor retención entre las <strong class="text-on-surface font-semibold">17:00 y las 19:30 hrs</strong>.
+          </p>
+<!-- Micro Chrono-Chart (SVG Spark Bars) -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-2">
+<div class="flex items-end justify-between h-20 px-2 pt-2">
+<div class="flex flex-col items-center gap-1">
+<div class="w-4 bg-surface-container-high rounded-t" style="height: 25%;"></div>
+<span class="text-[10px] text-on-surface-variant">14h</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="w-4 bg-surface-container-high rounded-t" style="height: 40%;"></div>
+<span class="text-[10px] text-on-surface-variant">15h</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="w-4 bg-tertiary/40 rounded-t" style="height: 60%;"></div>
+<span class="text-[10px] text-on-surface-variant">16h</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="w-4 bg-tertiary-container rounded-t shadow-sm" style="height: 95%;"></div>
+<span class="text-[10px] font-bold text-tertiary">17h</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="w-4 bg-tertiary-container rounded-t shadow-sm" style="height: 90%;"></div>
+<span class="text-[10px] font-bold text-tertiary">18h</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="w-4 bg-tertiary/60 rounded-t" style="height: 70%;"></div>
+<span class="text-[10px] text-on-surface-variant">19h</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="w-4 bg-surface-container-high rounded-t" style="height: 30%;"></div>
+<span class="text-[10px] text-on-surface-variant">20h</span>
+</div>
+</div>
+<div class="text-center font-label-sm text-label-sm text-tertiary font-bold bg-surface-container-lowest py-1 rounded">
+              Índice de Fatiga Cognitiva: Muy bajo en la tarde
+            </div>
+</div>
+</div>
+<!-- Registro de Preguntas Socráticas Formuladas por Sofía -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Curiosidad Socrática</h3>
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Preguntas reflexivas planteadas recientemente por la alumna:</p>
+<div class="flex flex-col gap-space-xs mt-1">
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-start gap-2 group hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-tertiary text-sm mt-0.5">help</span>
+<div class="flex flex-col">
+<p class="font-body-sm text-body-sm text-on-surface font-medium italic">"¿Por qué el agua tiene ángulo de 104.5° si el metano tiene 109.5° con la misma hibridación?"</p>
+<span class="text-[11px] text-on-surface-variant mt-1">Ayer a las 18:22 • QuimiBot guió por repulsión de pares libres</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-start gap-2 group hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-tertiary text-sm mt-0.5">help</span>
+<div class="flex flex-col">
+<p class="font-body-sm text-body-sm text-on-surface font-medium italic">"¿Si un elemento se reduce, siempre significa que gana masa atómica o solo electrones?"</p>
+<span class="text-[11px] text-on-surface-variant mt-1">Hace 2 días • Concepto aclarado satisfactoriamente</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Acciones Recomendadas Diferenciadas (Familia vs Docente) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Acciones Recomendadas</h3>
+<!-- Parent Focus -->
+<div class="flex flex-col gap-space-xs" id="familyActions">
+<div class="p-space-sm rounded-lg bg-tertiary/10 flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-base mt-0.5">thumb_up</span>
+<div class="flex flex-col text-on-surface">
+<span class="font-label-md text-label-md font-bold text-tertiary">Para Padres en Casa</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug mt-0.5">
+                  Felicitar su autonomía en enlaces polares. Si pide ayuda en tareas Redox, animarla con preguntas en vez de darle la respuesta directa.
+                </p>
+</div>
+</div>
+</div>
+<!-- Teacher Focus -->
+<div class="flex flex-col gap-space-xs" id="teacherActions">
+<div class="p-space-sm rounded-lg bg-primary/10 flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-base mt-0.5">lab_profile</span>
+<div class="flex flex-col text-on-surface">
+<span class="font-label-md text-label-md font-bold text-primary">Para Docente en Laboratorio</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug mt-0.5">
+                  Asignarle el rol de balance estequiométrico en la práctica de titulación ácido-base del viernes para fijar electrones transferidos.
+                </p>
+</div>
+</div>
+</div>
+<button class="w-full mt-space-xs py-2 bg-surface-container text-on-surface hover:bg-surface-container-high rounded-lg font-label-md text-label-md transition-colors flex items-center justify-center gap-1.5 font-semibold" onclick="scheduleTeacherMeeting()">
+<span class="material-symbols-outlined text-base">calendar_add_on</span>
+            Solicitar Tutoría Presencial Docente-Familia
+          </button>
+</div>
+</aside>
+</div>
+</div>
+<!-- Socratic Transcript Modal (Interactive Micro-Experience) -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-space-md" id="transcriptModal">
+<div class="bg-surface-container-lowest max-w-2xl w-full rounded-xl p-space-lg shadow-2xl flex flex-col gap-space-md max-h-[85vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">receipt_long</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Transcripción Socrática: Hibridación sp³</h3>
+</div>
+<button class="p-1 text-on-surface-variant hover:text-on-surface rounded-full" onclick="closeTranscriptModal()">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<div class="overflow-y-auto pr-2 flex flex-col gap-space-sm font-body-sm text-body-sm">
+<!-- Tutor Bubble -->
+<div class="bg-tertiary/10 text-on-surface p-space-sm rounded-xl rounded-bl-sm max-w-[85%] self-start">
+<strong class="text-tertiary block mb-1">QuimiBot:</strong>
+          Sofía, si el oxígeno en la molécula de agua tiene 8 electrones en total y 4 pares en su capa de valencia, ¿qué forma espacial esperarías si todos repelieran por igual?
+        </div>
+<!-- Student Bubble -->
+<div class="bg-inverse-surface text-inverse-on-surface p-space-sm rounded-xl rounded-br-sm max-w-[85%] self-end">
+<strong class="text-tertiary-fixed block mb-1">Sofía Morales:</strong>
+          Sería un tetraedro perfecto, como el metano con ángulo de 109.5 grados.
+        </div>
+<!-- Tutor Bubble -->
+<div class="bg-tertiary/10 text-on-surface p-space-sm rounded-xl rounded-bl-sm max-w-[85%] self-start">
+<strong class="text-tertiary block mb-1">QuimiBot:</strong>
+          ¡Exacto! Pero el ángulo experimental medido es 104.5°. ¿Dos de esos pares están compartidos con hidrógenos y los otros dos están "solos"? ¿Qué crees que le hacen los pares libres no enlazantes a los enlaces enlazantes?
+        </div>
+<!-- Student Bubble -->
+<div class="bg-inverse-surface text-inverse-on-surface p-space-sm rounded-xl rounded-br-sm max-w-[85%] self-end">
+<strong class="text-tertiary-fixed block mb-1">Sofía Morales:</strong>
+          ¡Ah! Los pares libres ocupan más espacio porque no están atraídos por otro núcleo, entonces empujan y "cierran" el ángulo entre los hidrógenos hacia 104.5°.
+        </div>
+</div>
+<div class="pt-2 flex justify-end gap-2 border-t border-surface-container-high">
+<button class="px-space-md py-2 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-lg font-label-md text-label-md font-semibold" onclick="closeTranscriptModal()">Cerrar</button>
+</div>
+</div>
+</div>
+<!-- Instructor Directives Modal -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-space-md" id="directiveModal">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-xl p-space-lg shadow-2xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-high">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">psychology_alt</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Instrucción Docente para QuimiBot</h3>
+</div>
+<button class="p-1 text-on-surface-variant hover:text-on-surface rounded-full" onclick="closeDirectiveModal()">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Configure la estrategia con la que el agente IA interactuará con Sofía en las próximas 48 horas:
+      </p>
+<div class="flex flex-col gap-space-xs">
+<label class="flex items-center gap-2 p-space-xs rounded-lg hover:bg-surface-container-low cursor-pointer">
+<input checked="" class="accent-primary w-4 h-4" name="pedagogyPacing" type="radio"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">No dar soluciones directas; forzar analogías visuales de redox.</span>
+</label>
+<label class="flex items-center gap-2 p-space-xs rounded-lg hover:bg-surface-container-low cursor-pointer">
+<input class="accent-primary w-4 h-4" name="pedagogyPacing" type="radio"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Disminuir rigidez si detecta 3 fallos consecutivos en semi-reacciones.</span>
+</label>
+<label class="flex items-center gap-2 p-space-xs rounded-lg hover:bg-surface-container-low cursor-pointer">
+<input class="accent-primary w-4 h-4" name="pedagogyPacing" type="radio"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Asignar reto con límite de tiempo (Modo Examen Formativo).</span>
+</label>
+</div>
+<textarea class="w-full h-20 p-space-xs rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="Comentario personalizado adicional para el tutor IA..."></textarea>
+<div class="flex justify-end gap-2 pt-2">
+<button class="px-space-md py-2 bg-surface-container text-on-surface rounded-lg font-label-md text-label-md font-semibold" onclick="closeDirectiveModal()">Cancelar</button>
+<button class="px-space-md py-2 bg-primary-container text-on-primary-container hover:bg-primary rounded-lg font-label-md text-label-md font-semibold transition-all" onclick="saveDirectives()">Guardar Instrucción</button>
+</div>
+</div>
+</div>
+<!-- Inline Micro-Interactivity Script -->
+<script>
+    function togglePerspective(mode) {
+      const tabFamily = document.getElementById('tabFamily');
+      const tabTeacher = document.getElementById('tabTeacher');
+      const familyActions = document.getElementById('familyActions');
+      const teacherActions = document.getElementById('teacherActions');
+
+      if (mode === 'family') {
+        tabFamily.className = 'flex items-center gap-1.5 px-space-md py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 bg-surface-container-lowest text-primary-container shadow-sm font-bold';
+        tabTeacher.className = 'flex items-center gap-1.5 px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all duration-200';
+        familyActions.classList.remove('opacity-40');
+        teacherActions.classList.add('opacity-40');
+      } else {
+        tabTeacher.className = 'flex items-center gap-1.5 px-space-md py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 bg-surface-container-lowest text-tertiary shadow-sm font-bold';
+        tabFamily.className = 'flex items-center gap-1.5 px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all duration-200';
+        familyActions.classList.add('opacity-40');
+        teacherActions.classList.remove('opacity-40');
+      }
+    }
+
+    function toggleDetail(unitId) {
+      const el = document.getElementById(unitId);
+      if (el) {
+        el.classList.toggle('hidden');
+      }
+    }
+
+    function openTranscriptModal() {
+      document.getElementById('transcriptModal').classList.remove('hidden');
+    }
+
+    function closeTranscriptModal() {
+      document.getElementById('transcriptModal').classList.add('hidden');
+    }
+
+    function openDirectiveModal() {
+      document.getElementById('directiveModal').classList.remove('hidden');
+    }
+
+    function closeDirectiveModal() {
+      document.getElementById('directiveModal').classList.add('hidden');
+    }
+
+    function saveDirectives() {
+      closeDirectiveModal();
+      const notification = document.createElement('div');
+      notification.className = 'fixed bottom-4 right-4 bg-tertiary-container text-on-tertiary-container px-space-md py- space-xs py-2 rounded-xl shadow-lg font-label-md text-label-md flex items-center gap-2 z-50 animate-bounce';
+      notification.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Estrategia pedagógica actualizada en QuimiBot';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3500);
+    }
+
+    function triggerReportDownload() {
+      const notification = document.createElement('div');
+      notification.className = 'fixed bottom-4 right-4 bg-primary-container text-on-primary-container px-space-md py-2 rounded-xl shadow-lg font-label-md text-label-md flex items-center gap-2 z-50';
+      notification.innerHTML = '<span class="material-symbols-outlined text-sm">download_done</span> Generando Reporte Formal Balmoral PDF (Sofía Morales)...';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3500);
+    }
+
+    let rigidityLevel = 1;
+    const rigidityStates = ['Amigable Guiada', 'Moderada Socrática', 'Alto Rigor Académico'];
+    function toggleTutorRigidity() {
+      rigidityLevel = (rigidityLevel + 1) % rigidityStates.length;
+      document.getElementById('rigidityLabel').innerText = rigidityStates[rigidityLevel];
+    }
+
+    function scheduleTeacherMeeting() {
+      alert('Solicitud enviada a Coordinación Académica de Química (Prof. Valenzuela). Se notificará vía correo institucional.');
+    }
+  </script>
+</div></main></div></body></html>

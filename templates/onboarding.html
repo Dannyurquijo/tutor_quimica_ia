@@ -1,0 +1,69 @@
+{% extends 'portal.html' %}
+{% block content %}
+<div class="max-w-2xl mx-auto py-4">
+  <div class="mb-6 text-center sm:text-left">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-sky-50 text-sky-700 border border-sky-200/60 mb-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
+      Conozcámonos
+    </div>
+    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Tu punto de partida en química</h1>
+    <p class="text-slate-600 mt-2 text-sm sm:text-base leading-relaxed">
+      <strong class="text-slate-900 font-semibold">{{ user.nombre }}</strong>, este perfil inicial ayuda a QuimiBot a adaptar sus explicaciones y preguntas socráticas a tu propio ritmo. No es un examen ni una calificación.
+    </p>
+  </div>
+
+  <form id="onboardingForm" class="ios-glass-card rounded-[32px] p-6 sm:p-8 grid gap-5 border border-white/60">
+    <label class="grid gap-1.5">
+      <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Grado académico</span>
+      <select id="inputGrade" required class="w-full bg-white/70 border border-slate-200 rounded-2xl p-3.5 text-sm text-slate-900 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all">
+        <option value="">Selecciona tu grado</option>
+        {% for grade in ['1ro Bachillerato','2do Bachillerato','3ro Bachillerato'] %}
+        <option {% if alumno and alumno.grado == grade %}selected{% endif %}>{{ grade }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label class="grid gap-1.5">
+      <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">¿Cómo consideras tu nivel actual?</span>
+      <select id="inputLevel" class="w-full bg-white/70 border border-slate-200 rounded-2xl p-3.5 text-sm text-slate-900 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all">
+        {% for level in ['Básico','Intermedio','Avanzado'] %}
+        <option {% if alumno and alumno.nivel == level %}selected{% endif %}>{{ level }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label class="grid gap-1.5">
+      <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">¿Qué sabes de química?</span>
+      <textarea id="inputKnowledge" required maxlength="2000" rows="3" placeholder="Ej: He visto la tabla periódica, átomos, enlaces..."
+        class="w-full bg-white/70 border border-slate-200 rounded-2xl p-3.5 text-sm text-slate-900 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all leading-relaxed">{{ alumno.conocimiento_previo if alumno else '' }}</textarea>
+    </label>
+
+    <label class="grid gap-1.5">
+      <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">¿Qué te gustaría comprender mejor?</span>
+      <textarea id="inputDifficulties" required maxlength="2000" rows="3" placeholder="Ej: Balanceo por tanteo, configuración electrónica..."
+        class="w-full bg-white/70 border border-slate-200 rounded-2xl p-3.5 text-sm text-slate-900 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all leading-relaxed">{{ alumno.dificultades if alumno else '' }}</textarea>
+    </label>
+
+    <label class="grid gap-1.5">
+      <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">¿Cómo prefieres aprender?</span>
+      <select id="inputStyle" class="w-full bg-white/70 border border-slate-200 rounded-2xl p-3.5 text-sm text-slate-900 focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all">
+        {% for style in ['Visual','Ejemplos cotidianos','Práctica guiada','Lectura'] %}
+        <option {% if alumno and alumno.estilo_aprendizaje == style %}selected{% endif %}>{{ style }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <p id="diagnosticStatus" role="status" class="text-xs font-semibold text-rose-600"></p>
+
+    <button type="submit" class="h-12 bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-sm rounded-2xl hover:from-red-500 hover:to-rose-500 active:scale-[0.98] transition-all shadow-lg shadow-red-500/25 flex items-center justify-center gap-2">
+      <span class="material-symbols-outlined text-lg">check_circle</span>
+      Guardar diagnóstico y continuar
+    </button>
+  </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.QUIMIBOT_USER_ID={{ user.id|string|tojson }};</script>
+<script src="/static/script.js"></script>
+{% endblock %}
+

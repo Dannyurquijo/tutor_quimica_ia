@@ -154,17 +154,17 @@ tailwind.config = {
           <span>Acceso Rápido Demostración</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          <button type="button" onclick="fillDemo('sofia@balmoral.edu.mx', 'quimica123')" 
+          <button type="button" onclick="quickDemo('sofia@balmoral.edu.mx', 'quimica123')" 
             class="bg-white/80 hover:bg-white text-slate-700 text-xs font-semibold py-2 px-1.5 rounded-xl border border-slate-200/80 shadow-sm hover:shadow transition-all flex items-center justify-center gap-1 active:scale-95">
-            <span>🎓</span> Alumno
+            <span>🎓</span> Alumno (1-Clic)
           </button>
-          <button type="button" onclick="fillDemo('directora.demo@balmoral.example', 'jxSyoryogqGIJDwH6i4')" 
+          <button type="button" onclick="quickDemo('directora.demo@balmoral.example', 'directora123')" 
             class="bg-white/80 hover:bg-white text-slate-700 text-xs font-semibold py-2 px-1.5 rounded-xl border border-slate-200/80 shadow-sm hover:shadow transition-all flex items-center justify-center gap-1 active:scale-95">
-            <span>👩‍🏫</span> Directora
+            <span>👩‍🏫</span> Directora (1-Clic)
           </button>
           <a href="/padres?codigo=PADRE-SOF-1079"
             class="col-span-2 sm:col-span-1 bg-sky-50 hover:bg-sky-100 text-sky-800 text-xs font-bold py-2 px-1.5 rounded-xl border border-sky-200 shadow-sm hover:shadow transition-all flex items-center justify-center gap-1 active:scale-95 text-center">
-            <span>👨‍👩‍👧</span> Padres
+            <span>👨‍👩‍👧</span> Padres (1-Clic)
           </a>
         </div>
       </div>
@@ -240,6 +240,12 @@ function fillDemo(email, password) {
   document.getElementById('loginEmail').value = email;
   document.getElementById('loginPassword').value = password;
   hideMessages();
+}
+
+async function quickDemo(email, password) {
+  fillDemo(email, password);
+  const fakeEvent = { preventDefault: () => {} };
+  await handleLogin(fakeEvent);
 }
 
 function switchTab(tab) {

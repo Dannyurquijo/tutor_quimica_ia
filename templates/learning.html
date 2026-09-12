@@ -100,8 +100,12 @@
       {% endif %}
     </div>
 
-    <!-- Selector Rápido de Módulo estilo iOS Select + Reto Socrático -->
+    <!-- Selector Rápido de Módulo estilo iOS Select + Reto Socrático + Lab 3D -->
     <div class="flex items-center gap-2 self-stretch sm:self-auto justify-end flex-wrap">
+      <button type="button" onclick="openMoleculeViewer()" class="ios-tap px-3.5 py-2 rounded-full text-xs font-extrabold bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-xs flex items-center gap-1.5 transition-all">
+        <span>🔬</span>
+        <span>Laboratorio 3D</span>
+      </button>
       <button type="button" onclick="startSocraticChallenge()" class="ios-tap px-3.5 py-2 rounded-full text-xs font-extrabold bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 text-white shadow-xs flex items-center gap-1.5 transition-all">
         <span>⚡</span>
         <span>Reto del Módulo</span>
@@ -378,6 +382,101 @@ async function startSocraticChallenge() {
     console.error('Error al iniciar reto socrático:', err);
   }
 }
+
+// ── Control del Modal de Laboratorio Molecular 3D ──
+let viewerInitialized = false;
+function openMoleculeViewer() {
+  const modal = document.getElementById('mol3dModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    if (!viewerInitialized && window.MoleculeViewer) {
+      setTimeout(() => {
+        window.MoleculeViewer.init();
+        viewerInitialized = true;
+      }, 100);
+    }
+  }
+}
+
+function closeMoleculeViewer() {
+  const modal = document.getElementById('mol3dModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
+
+function setViewerMolecule(key, btn) {
+  if (window.MoleculeViewer) {
+    window.MoleculeViewer.selectMolecule(key);
+    document.querySelectorAll('.mol-tab-btn').forEach(b => {
+      b.classList.remove('bg-cyan-600', 'text-white', 'shadow-sm');
+      b.classList.add('bg-white/80', 'text-slate-700');
+    });
+    if (btn) {
+      btn.classList.add('bg-cyan-600', 'text-white', 'shadow-sm');
+      btn.classList.remove('bg-white/80', 'text-slate-700');
+    }
+  }
+}
 </script>
+
+<!-- MODAL VISOR MOLECULAR 3D RETINA OS -->
+<div id="mol3dModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5">
+  <div class="ios-glass-card bg-white/95 max-w-2xl w-full rounded-3xl shadow-2xl border border-white/60 flex flex-col overflow-hidden animate-in fade-in duration-200">
+    
+    <!-- Encabezado Modal -->
+    <div class="px-5 py-4 border-b border-slate-200/80 flex items-center justify-between bg-gradient-to-r from-slate-50 to-cyan-50/40">
+      <div class="flex items-center gap-2.5">
+        <span class="w-8 h-8 rounded-full bg-cyan-500/10 text-cyan-700 flex items-center justify-center font-bold text-base">🔬</span>
+        <div>
+          <h3 class="text-base font-extrabold text-slate-900 tracking-tight">Laboratorio Molecular 3D</h3>
+          <p class="text-[11px] font-medium text-slate-500">Arrastra para rotar en 360° · Modelo esférico interactivo</p>
+        </div>
+      </div>
+      <button type="button" onclick="closeMoleculeViewer()" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-700 flex items-center justify-center transition-colors">
+        <span class="font-bold text-sm">✕</span>
+      </button>
+    </div>
+
+    <!-- Pestañas de Moléculas -->
+    <div class="px-4 py-2.5 bg-slate-100/70 border-b border-slate-200/60 flex items-center gap-1.5 overflow-x-auto">
+      <button type="button" onclick="setViewerMolecule('h2o', this)" class="mol-tab-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-cyan-600 text-white shadow-sm transition-all whitespace-nowrap">💧 H₂O (Agua)</button>
+      <button type="button" onclick="setViewerMolecule('co2', this)" class="mol-tab-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-white/80 text-slate-700 hover:bg-white transition-all whitespace-nowrap">🫧 CO₂ (Dióxido)</button>
+      <button type="button" onclick="setViewerMolecule('ch4', this)" class="mol-tab-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-white/80 text-slate-700 hover:bg-white transition-all whitespace-nowrap">🔥 CH₄ (Metano)</button>
+      <button type="button" onclick="setViewerMolecule('nacl', this)" class="mol-tab-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-white/80 text-slate-700 hover:bg-white transition-all whitespace-nowrap">🧂 NaCl (Sal Iónica)</button>
+      <button type="button" onclick="setViewerMolecule('nh3', this)" class="mol-tab-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-white/80 text-slate-700 hover:bg-white transition-all whitespace-nowrap">🧪 NH₃ (Amoníaco)</button>
+    </div>
+
+    <!-- Canvas 3D Interactivo -->
+    <div class="relative w-full h-72 sm:h-80 bg-radial from-slate-900 via-slate-950 to-black flex items-center justify-center cursor-grab active:cursor-grabbing overflow-hidden">
+      <canvas id="mol3dCanvas" class="w-full h-full"></canvas>
+      
+      <div class="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-semibold text-slate-300 pointer-events-none flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+        <span>Giro 3D interactivo</span>
+      </div>
+    </div>
+
+    <!-- Tarjeta de Información Pedagógica Socrática -->
+    <div class="p-4 bg-white/90 border-t border-slate-200/80 flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <h4 id="mol3dTitle" class="text-sm font-extrabold text-slate-900">Agua (H₂O)</h4>
+        <span id="mol3dBond" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-200">Covalente Polar</span>
+      </div>
+      <div class="text-xs text-slate-600 flex items-center gap-2">
+        <span class="font-bold text-slate-700">Geometría:</span>
+        <span id="mol3dGeometry" class="font-semibold text-slate-900">Angular (104.5°)</span>
+      </div>
+      <p id="mol3dDesc" class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-200/60">
+        Dos átomos de hidrógeno unidos covalentemente a un oxígeno central con dipolo eléctrico permanente.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script src="/static/molecule-3d.js"></script>
 <script src="/static/script.js"></script>
 {% endblock %}

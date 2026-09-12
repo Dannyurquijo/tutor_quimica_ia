@@ -676,6 +676,13 @@ def chat_tutor(request: Request, req: ChatRequest, db: Session = Depends(get_db)
         db.commit()
     return {"respuesta": tutor_data["respuesta"], "image_url": tutor_data.get("image_url")}
 
+
+@app.get("/pitch")
+def business_pitch_deck(request: Request):
+    """Página ejecutiva de presentación comercial y pitch B2B para colegios e inversionistas."""
+    return templates.TemplateResponse(request=request, name="pitch.html")
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000)

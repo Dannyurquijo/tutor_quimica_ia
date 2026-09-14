@@ -93,6 +93,15 @@ def ensure_student_topics(db: Session, alumno_id: int):
 # Crear tablas en SQLite si no existen
 Base.metadata.create_all(bind=engine)
 
+# Auto-seed de usuarios demo para producción si la base de datos es nueva
+try:
+    _db_init = next(get_db())
+    if _db_init.query(User).count() == 0:
+        import seed_users
+        seed_users.seed()
+except Exception as _e:
+    print(f"[STARTUP] Seed check: {_e}")
+
 app = FastAPI(
     title="Tutor Socrático Balmoral",
     description="Plataforma de tutoría socrática con IA para Preparatoria Balmoral",

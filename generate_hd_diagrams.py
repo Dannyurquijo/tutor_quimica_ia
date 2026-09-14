@@ -279,3 +279,255 @@ print("Created disolucion_nacl_electricidad.svg")
 with open(os.path.join(DIAGRAMS_DIR, "geometria_molecular_vsepr.svg"), "w", encoding="utf-8") as f:
     f.write(vsepr_svg)
 print("Created geometria_molecular_vsepr.svg")
+
+# 4. Enlaces Químicos Realistas (Covalente vs Iónico)
+enlaces_svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%">
+  <defs>
+    <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="shadow-soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+    <radialGradient id="sphere-oxygen" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff8585" />
+      <stop offset="35%" stop-color="#ef4444" />
+      <stop offset="75%" stop-color="#991b1b" />
+      <stop offset="100%" stop-color="#450a0a" />
+    </radialGradient>
+    <radialGradient id="sphere-hydrogen" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="45%" stop-color="#e2e8f0" />
+      <stop offset="80%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#475569" />
+    </radialGradient>
+    <radialGradient id="sphere-sodium" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="40%" stop-color="#8b5cf6" />
+      <stop offset="80%" stop-color="#5b21b6" />
+      <stop offset="100%" stop-color="#2e1065" />
+    </radialGradient>
+    <radialGradient id="sphere-chlorine" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#86efac" />
+      <stop offset="35%" stop-color="#22c55e" />
+      <stop offset="75%" stop-color="#15803d" />
+      <stop offset="100%" stop-color="#052e16" />
+    </radialGradient>
+    <radialGradient id="covalent-cloud" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.5" />
+      <stop offset="60%" stop-color="#0284c7" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1000" height="620" fill="#090d16" />
+  <g transform="translate(30, 24)">
+    <rect width="940" height="60" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1.2" filter="url(#shadow-soft)"/>
+    <text x="35" y="38" fill="#38bdf8" font-size="20" font-weight="900" text-anchor="middle" font-family="'Segoe UI',sans-serif">&#x269B;</text>
+    <text x="65" y="32" fill="#f8fafc" font-size="17" font-weight="800" font-family="'Segoe UI',sans-serif">ENLACES QUÍMICOS FUNDAMENTALES: COMPARATIVA COVALENTE vs. IÓNICO</text>
+    <text x="65" y="49" fill="#94a3b8" font-size="12" font-family="'Segoe UI',sans-serif">Diferencia de electronegatividad, compartición de electrones y atracción electrostática</text>
+  </g>
+
+  <!-- COLUMNA COVALENTE -->
+  <g transform="translate(30, 105)">
+    <rect width="455" height="485" rx="18" fill="#0f172a" stroke="#0284c7" stroke-width="1.8" filter="url(#shadow-soft)"/>
+    <path d="M 0 18 Q 0 0 18 0 L 437 0 Q 455 0 455 18 L 455 48 L 0 48 Z" fill="#0369a1" fill-opacity="0.25" />
+    <text x="20" y="31" fill="#38bdf8" font-size="15" font-weight="800" font-family="'Segoe UI',sans-serif">1. ENLACE COVALENTE (H₂O, CH₄, CO₂)</text>
+    <rect x="330" y="14" width="110" height="22" rx="6" fill="#0284c7" fill-opacity="0.3"/>
+    <text x="385" y="29" fill="#bae6fd" font-size="10.5" font-weight="700" text-anchor="middle" font-family="'Segoe UI',sans-serif">No metal + No metal</text>
+    <text x="20" y="75" fill="#e2e8f0" font-size="13" font-weight="600" font-family="'Segoe UI',sans-serif">Mecanismo: <tspan fill="#38bdf8" font-weight="800">COMPARTICIÓN MUTUA</tspan> de electrones</text>
+    <text x="20" y="94" fill="#94a3b8" font-size="11.5" font-family="'Segoe UI',sans-serif">Ambos átomos comparten electrones para alcanzar estabilidad (octeto).</text>
+
+    <g transform="translate(225, 230)">
+      <ellipse cx="-45" cy="25" rx="55" ry="32" transform="rotate(-35 -45 25)" fill="url(#covalent-cloud)"/>
+      <ellipse cx="45" cy="25" rx="55" ry="32" transform="rotate(35 45 25)" fill="url(#covalent-cloud)"/>
+      <line x1="0" y1="-30" x2="-80" y2="70" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 4" opacity="0.6"/>
+      <line x1="0" y1="-30" x2="80" y2="70" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 4" opacity="0.6"/>
+      <circle cx="0" cy="-30" r="58" fill="url(#sphere-oxygen)" filter="url(#shadow-soft)"/>
+      <text x="0" y="-21" fill="#ffffff" font-size="28" font-weight="900" text-anchor="middle" font-family="'Segoe UI',sans-serif">O</text>
+      <circle cx="-85" cy="75" r="34" fill="url(#sphere-hydrogen)" filter="url(#shadow-soft)"/>
+      <text x="-85" y="82" fill="#0f172a" font-size="18" font-weight="900" text-anchor="middle" font-family="'Segoe UI',sans-serif">H</text>
+      <circle cx="85" cy="75" r="34" fill="url(#sphere-hydrogen)" filter="url(#shadow-soft)"/>
+      <text x="85" y="82" fill="#0f172a" font-size="18" font-weight="900" text-anchor="middle" font-family="'Segoe UI',sans-serif">H</text>
+
+      <g filter="url(#glow-gold)">
+        <circle cx="-45" cy="18" r="5.5" fill="#facc15"/>
+        <circle cx="-35" cy="30" r="5.5" fill="#facc15"/>
+        <circle cx="45" cy="18" r="5.5" fill="#facc15"/>
+        <circle cx="35" cy="30" r="5.5" fill="#facc15"/>
+      </g>
+      <rect x="-70" y="118" width="140" height="24" rx="6" fill="#0369a1" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1"/>
+      <text x="0" y="134" fill="#e0f2fe" font-size="10.5" font-weight="800" text-anchor="middle" font-family="'Segoe UI',sans-serif">Pares e&#x207B; Compartidos</text>
+    </g>
+    <g transform="translate(18, 395)">
+      <rect width="418" height="74" rx="10" fill="#090d16" stroke="#1e293b" stroke-width="1.2"/>
+      <text x="14" y="24" fill="#38bdf8" font-size="12" font-weight="800" font-family="'Segoe UI',sans-serif">Regla del Covalente:</text>
+      <text x="14" y="44" fill="#cbd5e1" font-size="11" font-family="'Segoe UI',sans-serif">• Los electrones orbitan entre ambos núcleos.</text>
+      <text x="14" y="62" fill="#cbd5e1" font-size="11" font-family="'Segoe UI',sans-serif">• No hay iones libres aislados &#x2794; No conduce electricidad en agua pura.</text>
+    </g>
+  </g>
+
+  <!-- COLUMNA IÓNICA -->
+  <g transform="translate(515, 105)">
+    <rect width="455" height="485" rx="18" fill="#0f172a" stroke="#ef4444" stroke-width="1.8" filter="url(#shadow-soft)"/>
+    <path d="M 0 18 Q 0 0 18 0 L 437 0 Q 455 0 455 18 L 455 48 L 0 48 Z" fill="#991b1b" fill-opacity="0.25" />
+    <text x="20" y="31" fill="#f87171" font-size="15" font-weight="800" font-family="'Segoe UI',sans-serif">2. ENLACE IÓNICO (NaCl, MgO, CaCl₂)</text>
+    <rect x="330" y="14" width="110" height="22" rx="6" fill="#ef4444" fill-opacity="0.3"/>
+    <text x="385" y="29" fill="#fecaca" font-size="10.5" font-weight="700" text-anchor="middle" font-family="'Segoe UI',sans-serif">Metal + No metal</text>
+    <text x="20" y="75" fill="#e2e8f0" font-size="13" font-weight="600" font-family="'Segoe UI',sans-serif">Mecanismo: <tspan fill="#f87171" font-weight="800">TRANSFERENCIA TOTAL</tspan> de electrones</text>
+    <text x="20" y="94" fill="#94a3b8" font-size="11.5" font-family="'Segoe UI',sans-serif">El metal cede su electrón de valencia al no metal muy electronegativo.</text>
+
+    <g transform="translate(225, 230)">
+      <path d="M -70 -25 Q 0 -95 70 -20" fill="none" stroke="#facc15" stroke-width="3" stroke-dasharray="6 4" />
+      <polygon points="73,-14 62,-26 73,-30" fill="#facc15"/>
+      <circle cx="0" cy="-60" r="7.5" fill="#facc15" filter="url(#glow-gold)"/>
+      <text x="0" y="-76" fill="#facc15" font-size="11" font-weight="800" text-anchor="middle" font-family="'Segoe UI',sans-serif">e&#x207B; transferido</text>
+
+      <circle cx="-105" cy="0" r="46" fill="url(#sphere-sodium)" filter="url(#shadow-soft)"/>
+      <text x="-105" y="8" fill="#ffffff" font-size="24" font-weight="900" text-anchor="middle" font-family="'Segoe UI',sans-serif">Na&#x207A;</text>
+      <circle cx="105" cy="0" r="66" fill="url(#sphere-chlorine)" filter="url(#shadow-soft)"/>
+      <text x="105" y="10" fill="#ffffff" font-size="28" font-weight="900" text-anchor="middle" font-family="'Segoe UI',sans-serif">Cl&#x207B;</text>
+      <g filter="url(#glow-gold)">
+        <circle cx="105" cy="-56" r="4.5" fill="#facc15"/>
+        <circle cx="116" cy="-54" r="4.5" fill="#facc15"/>
+        <circle cx="160" cy="-5" r="4.5" fill="#facc15"/>
+        <circle cx="160" cy="8" r="4.5" fill="#facc15"/>
+        <circle cx="105" cy="56" r="4.5" fill="#facc15"/>
+        <circle cx="116" cy="54" r="4.5" fill="#facc15"/>
+        <circle cx="50" cy="-5" r="4.5" fill="#facc15"/>
+        <circle cx="50" cy="8" r="4.5" fill="#facc15"/>
+      </g>
+    </g>
+    <g transform="translate(18, 395)">
+      <rect width="418" height="74" rx="10" fill="#090d16" stroke="#1e293b" stroke-width="1.2"/>
+      <text x="14" y="24" fill="#f87171" font-size="12" font-weight="800" font-family="'Segoe UI',sans-serif">Regla del Iónico:</text>
+      <text x="14" y="44" fill="#cbd5e1" font-size="11" font-family="'Segoe UI',sans-serif">• Los iones se mantienen unidos por fuerzas electrostáticas (Coulomb).</text>
+      <text x="14" y="62" fill="#cbd5e1" font-size="11" font-family="'Segoe UI',sans-serif">• En agua se disocian &#x2794; Iones libres que SÍ conducen electricidad.</text>
+    </g>
+  </g>
+</svg>"""
+
+with open(os.path.join(DIAGRAMS_DIR, "enlaces_quimicos.svg"), "w", encoding="utf-8") as f:
+    f.write(enlaces_svg)
+print("Updated enlaces_quimicos.svg")
+
+# 5. Modelo Atómico de Bohr (Sodio Na Z=11)
+bohr_svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%">
+  <defs>
+    <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="shadow-deep" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+    <radialGradient id="grad-proton" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff8585" />
+      <stop offset="40%" stop-color="#ef4444" />
+      <stop offset="85%" stop-color="#991b1b" />
+      <stop offset="100%" stop-color="#450a0a" />
+    </radialGradient>
+    <radialGradient id="grad-neutron" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#f1f5f9" />
+      <stop offset="40%" stop-color="#94a3b8" />
+      <stop offset="85%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </radialGradient>
+    <radialGradient id="grad-electron" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#38bdf8" />
+      <stop offset="80%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </radialGradient>
+    <radialGradient id="grad-valence" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="30%" stop-color="#fde047" />
+      <stop offset="75%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1000" height="620" fill="#070b14" />
+  <g transform="translate(30, 24)">
+    <rect width="940" height="60" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1.2" filter="url(#shadow-deep)"/>
+    <text x="35" y="38" fill="#38bdf8" font-size="20" font-weight="900" text-anchor="middle" font-family="'Segoe UI',sans-serif">&#x269B;</text>
+    <text x="65" y="32" fill="#f8fafc" font-size="17" font-weight="800" font-family="'Segoe UI',sans-serif">MODELO ATÓMICO DE BOHR: SODIO (Na, Z = 11, A = 23)</text>
+    <text x="65" y="49" fill="#94a3b8" font-size="12" font-family="'Segoe UI',sans-serif">Estructura nuclear (protones y neutrones) y capas cuánticas de energía (K, L, M) con electrón de valencia</text>
+  </g>
+
+  <g transform="translate(420, 335)">
+    <ellipse cx="0" cy="0" rx="280" ry="175" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" opacity="0.6"/>
+    <ellipse cx="0" cy="0" rx="195" ry="120" fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.75"/>
+    <ellipse cx="0" cy="0" rx="115" ry="70" fill="none" stroke="#818cf8" stroke-width="1.8" opacity="0.85"/>
+
+    <g filter="url(#shadow-deep)">
+      <circle cx="-16" cy="-14" r="14" fill="url(#grad-neutron)" />
+      <circle cx="18" cy="-12" r="14" fill="url(#grad-neutron)" />
+      <circle cx="-12" cy="16" r="14" fill="url(#grad-neutron)" />
+      <circle cx="15" cy="14" r="14" fill="url(#grad-neutron)" />
+      <circle cx="-20" cy="2" r="15" fill="url(#grad-proton)" /><text x="-20" y="7" fill="#fff" font-size="15" font-weight="900" text-anchor="middle">+</text>
+      <circle cx="2" cy="-8" r="15" fill="url(#grad-proton)" /><text x="2" y="-3" fill="#fff" font-size="15" font-weight="900" text-anchor="middle">+</text>
+      <circle cx="22" cy="4" r="15" fill="url(#grad-proton)" /><text x="22" y="9" fill="#fff" font-size="15" font-weight="900" text-anchor="middle">+</text>
+    </g>
+
+    <!-- K layer e- -->
+    <g filter="url(#glow-cyan)">
+      <circle cx="-115" cy="0" r="7" fill="url(#grad-electron)" />
+      <circle cx="115" cy="0" r="7" fill="url(#grad-electron)" />
+    </g>
+    <!-- L layer e- -->
+    <g filter="url(#glow-cyan)">
+      <circle cx="0" cy="-120" r="7" fill="url(#grad-electron)" />
+      <circle cx="0" cy="120" r="7" fill="url(#grad-electron)" />
+      <circle cx="-195" cy="0" r="7" fill="url(#grad-electron)" />
+      <circle cx="195" cy="0" r="7" fill="url(#grad-electron)" />
+    </g>
+    <!-- M layer (Valencia) -->
+    <g filter="url(#glow-gold)">
+      <circle cx="215" cy="-112" r="16" fill="none" stroke="#facc15" stroke-width="1.8" opacity="0.6"/>
+      <circle cx="215" cy="-112" r="9.5" fill="url(#grad-valence)" />
+      <text x="215" y="-108" fill="#713f12" font-size="11" font-weight="900" text-anchor="middle">-</text>
+    </g>
+    <path d="M 230 -118 L 290 -160 L 370 -160" fill="none" stroke="#facc15" stroke-width="2" />
+    <rect x="370" y="-185" width="165" height="50" rx="8" fill="#1e1b4b" stroke="#eab308" stroke-width="1.5" filter="url(#shadow-deep)"/>
+    <text x="382" y="-167" fill="#fef08a" font-size="11.5" font-weight="900" font-family="'Segoe UI',sans-serif">&#x26A1; Electrón de Valencia</text>
+    <text x="382" y="-149" fill="#fef9c3" font-size="10" font-family="'Segoe UI',sans-serif">Capa 3 (M): Cede este e&#x207B;</text>
+    <text x="382" y="-137" fill="#facc15" font-size="10" font-weight="700" font-family="'Segoe UI',sans-serif">para formar Na&#x207A; (octeto)</text>
+  </g>
+
+  <!-- PANEL DERECHO -->
+  <g transform="translate(740, 105)">
+    <rect width="230" height="150" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1.4" filter="url(#shadow-deep)"/>
+    <rect x="0" y="0" width="230" height="34" rx="14" fill="#1e293b" />
+    <text x="16" y="23" fill="#38bdf8" font-size="12.5" font-weight="800" font-family="'Segoe UI',sans-serif">Distribución Cuántica</text>
+    <text x="16" y="58" fill="#94a3b8" font-size="11" font-family="'Segoe UI',sans-serif">Configuración completa:</text>
+    <text x="16" y="76" fill="#f8fafc" font-size="12.5" font-weight="800" font-family="'Segoe UI',sans-serif">1s² 2s² 2p⁶ <tspan fill="#facc15">3s¹</tspan></text>
+    <text x="16" y="108" fill="#94a3b8" font-size="11" font-family="'Segoe UI',sans-serif">Capas de Bohr:</text>
+    <text x="16" y="126" fill="#38bdf8" font-size="12" font-weight="700" font-family="'Segoe UI',sans-serif">K: 2 e⁻ | L: 8 e⁻</text>
+    <text x="16" y="142" fill="#facc15" font-size="12" font-weight="800" font-family="'Segoe UI',sans-serif">M: 1 e⁻ (Valencia)</text>
+  </g>
+  <g transform="translate(740, 275)">
+    <rect width="230" height="195" rx="14" fill="#0f172a" stroke="#334155" stroke-width="1.4" filter="url(#shadow-deep)"/>
+    <rect x="0" y="0" width="230" height="34" rx="14" fill="#1e293b" />
+    <text x="16" y="23" fill="#34d399" font-size="12.5" font-weight="800" font-family="'Segoe UI',sans-serif">Propiedades Clave</text>
+    <text x="16" y="56" fill="#94a3b8" font-size="11" font-family="'Segoe UI',sans-serif">Familia:</text>
+    <text x="16" y="73" fill="#f8fafc" font-size="11.5" font-weight="700" font-family="'Segoe UI',sans-serif">Metales Alcalinos (Grupo 1)</text>
+    <text x="16" y="96" fill="#94a3b8" font-size="11" font-family="'Segoe UI',sans-serif">Comportamiento:</text>
+    <text x="16" y="113" fill="#fca5a5" font-size="11.5" font-weight="700" font-family="'Segoe UI',sans-serif">Alta reactividad química</text>
+    <text x="16" y="136" fill="#94a3b8" font-size="11" font-family="'Segoe UI',sans-serif">Energía de ionización:</text>
+    <text x="16" y="153" fill="#fef08a" font-size="11.5" font-weight="700" font-family="'Segoe UI',sans-serif">Baja (cede e⁻ fácilmente)</text>
+  </g>
+</svg>"""
+
+with open(os.path.join(DIAGRAMS_DIR, "estructura_atomica_bohr.svg"), "w", encoding="utf-8") as f:
+    f.write(bohr_svg)
+print("Updated estructura_atomica_bohr.svg")

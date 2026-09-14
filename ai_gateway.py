@@ -200,7 +200,7 @@ def _get_failsafe_socratic_response(messages):
 
 
 class LLMService:
-    def chat(self, messages, system_prompt=QUIMIBOT_SYSTEM_PROMPT, temperature=0.3, max_tokens=650):
+    def chat(self, messages, system_prompt=QUIMIBOT_SYSTEM_PROMPT, temperature=0.3, max_tokens=650, timeout_read=3.5):
         full_messages = [{"role": "system", "content": system_prompt}] + messages
         providers = [("nvidia", NVIDIA_API_KEY, NVIDIA_BASE_URL, NVIDIA_FAST_MODEL)] if (AI_PROVIDER == "nvidia" and NVIDIA_API_KEY) else []
         providers.append(("openrouter", OPENROUTER_API_KEY, OPENROUTER_BASE_URL, OPENROUTER_FAST_MODEL))
@@ -210,9 +210,9 @@ class LLMService:
                 continue
             start = time.monotonic()
             try:
-                # Timeout generoso de 12.0s para inferencia completa
+                # Fast timeout resiliente (connect=2.0s, read=timeout_read) para respuesta ágil
                 with OpenAI(api_key=key, base_url=url, max_retries=1,
-                            timeout=httpx.Timeout(connect=3.0, read=12.0, write=3.0, pool=5.0)) as client:
+                            timeout=httpx.Timeout(connect=2.0, read=timeout_read, write=2.0, pool=3.0)) as client:
                     kwargs = dict(model=model, messages=full_messages, temperature=temperature, max_tokens=max_tokens)
                     if provider == "nvidia":
                         kwargs["extra_body"] = {"chat_template_kwargs": {"thinking": False}}
@@ -291,51 +291,60 @@ class ImageService:
         "molecula_agua": {
             "keywords": ["agua", "h2o", "polar", "polaridad", "dipolo", "dipolar", "puente de hidrogeno", "hidrogeno", "oxigeno", "covalente polar"],
             "url": "/static/diagrams/molecula_agua_polaridad.svg",
-            "title": "Molécula de Agua (H₂O) — Geometría Angular y Polaridad"
+            "title": "Molécula de Agua (H₂O) — Geometría Angular y Polaridad",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! 🌊 Observa la estructura angular de la molécula de agua (H₂O) y cómo el átomo de oxígeno (en rojo) concentra mayor densidad de carga negativa (δ⁻) mientras los hidrógenos quedan con carga positiva (δ⁺).\n\n¿Por qué crees que esta asimetría de cargas permite que el agua forme puentes de hidrógeno y actúe como disolvente universal?"
         },
         "disolucion_nacl": {
             "keywords": ["sal", "cloruro", "conduce", "electricidad", "electric", "disoluci", "disolución", "disuelve", "foco", "electrolito", "luz", "iones libres", "solucion acuosa", "nacl disuelto", "red cristalina", "corriente"],
             "url": "/static/diagrams/disolucion_nacl_electricidad.svg",
-            "title": "Conducción Eléctrica y Disolución de Sal (NaCl)"
+            "title": "Conducción Eléctrica y Disolución de Sal (NaCl)",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! ⚡ Observa ambos matraces: en el agua pura sin sal el foco permanece apagado. Pero al disolverse el NaCl, los iones Na⁺ y Cl⁻ se separan e hidratan, quedando libres y móviles.\n\n¿Qué permite exactamente el paso de la corriente eléctrica hacia el foco: la molécula entera o los iones cargados en movimiento?"
         },
         "geometria_molecular": {
             "keywords": ["geometria", "geometría", "vsepr", "rpecv", "forma espacial", "tetraedr", "tetraédrica", "trigonal", "lineal", "104.5", "109.5", "180", "repulsion", "repulsión"],
             "url": "/static/diagrams/geometria_molecular_vsepr.svg",
-            "title": "Geometría Molecular 3D (VSEPR)"
+            "title": "Geometría Molecular 3D (VSEPR)",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! 📐 Compara las tres formas fundamentales: lineal (180°), trigonal plana (120°) y tetraédrica (109.5°).\n\n¿Qué fuerza electrostática entre las nubes de electrones de valencia obliga a los enlaces a separarse lo máximo posible en el espacio tridimensional?"
         },
         "estructura_atomica": {
             "keywords": ["atomo", "átomo", "bohr", "electron", "electrón", "electrones", "protón", "protones", "proton", "neutron", "neutrones", "núcleo", "nucleo", "valencia", "orbita", "órbita", "cuantico", "subatom", "capa", "sodio"],
             "url": "/static/diagrams/estructura_atomica_bohr.svg",
-            "title": "Modelo Atómico de Bohr (Na, Z=11)"
+            "title": "Modelo Atómico de Bohr (Na, Z=11)",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! ⚛️ Observa el modelo de Bohr para el átomo de Sodio (Na, Z=11): 2 electrones en la primera capa interna, 8 en la segunda y sólo 1 electrón en la capa exterior (valencia).\n\n¿Qué le resulta energéticamente más fácil al átomo de sodio para completar su octeto: ceder ese único electrón externo o intentar capturar 7 electrones?"
         },
         "enlaces_quimicos": {
             "keywords": ["enlace", "covalente", "ionico", "iónico", "lewis", "compartir", "transferir", "metalico", "metálico", "electronegativ", "nacl", "molecula"],
             "url": "/static/diagrams/enlaces_quimicos.svg",
-            "title": "Comparación: Enlace Covalente vs. Enlace Iónico"
+            "title": "Comparación: Enlace Covalente vs. Enlace Iónico",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! 🔗 Compara ambos modelos: a la izquierda, los dos átomos comparten electrones (enlace covalente). A la derecha, el sodio transfiere su electrón de valencia al cloro (enlace iónico).\n\n¿Qué factor de electronegatividad crees que determina si los átomos comparten electrones o si uno se los arrebata al otro?"
         },
         "reaccion_quimica": {
             "keywords": ["reaccion", "reacción", "ecuacion", "ecuación", "balance", "balanceo", "reactivo", "reactivos", "producto", "productos", "conservacion", "conservación", "materia", "oxigeno"],
             "url": "/static/diagrams/reaccion_quimica.svg",
-            "title": "Ley de Conservación de la Materia (2H₂ + O₂ → 2H₂O)"
+            "title": "Ley de Conservación de la Materia (2H₂ + O₂ → 2H₂O)",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! ⚖️ Observa cómo se reorganizan los enlaces en 2H₂ + O₂ → 2H₂O: hay exactamente 4 átomos de Hidrógeno y 2 átomos de Oxígeno antes y después de la reacción.\n\n¿Cómo demuestra este esquema que en una reacción química la materia no se destruye, sino que los enlaces se rompen y se recombinan?"
         },
         "escala_ph": {
             "keywords": ["ph", "acido", "ácido", "acidos", "ácidos", "base", "bases", "alcalin", "alcalino", "neutraliz", "neutralización", "h+", "oh-", "poh", "indicador", "acidez"],
             "url": "/static/diagrams/escala_ph.svg",
-            "title": "Escala de pH y Equilibrio Ácido-Base"
+            "title": "Escala de pH y Equilibrio Ácido-Base",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! 🧪 Desde los ácidos (pH < 7, alta concentración de H⁺) hasta las bases (pH > 7, predominio de OH⁻), con el agua pura en el punto neutro (pH = 7).\n\nSi añades unas gotas de jugo de limón (ácido cítrico) a un vaso de agua, ¿hacia qué valor de pH crees que se desplazará la disolución?"
         },
         "estequiometria": {
             "keywords": ["mol", "moles", "estequiometr", "estequiometría", "avogadro", "gramos", "masa molar", "reactivo limitante", "rendimiento", "conversion", "particulas"],
             "url": "/static/diagrams/estequiometria_mol.svg",
-            "title": "Mapa de Conversión Estequiométrica del Mol"
+            "title": "Mapa de Conversión Estequiométrica del Mol",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! 📊 Este mapa es el corazón de la estequiometría: el **mol** es el puente obligatorio para convertir entre gramos (masa molar), número de moléculas (constante de Avogadro) y volumen molar.\n\nSi te dan la masa en gramos de un reactivo, ¿cuál es el primer paso indispensable antes de calcular la cantidad de producto que obtendrás?"
         },
         "tabla_periodica": {
             "keywords": ["tabla", "periodica", "periódica", "elemento", "elementos", "familia", "familias", "alcalino", "transicion", "transición", "gas noble", "gases nobles", "halogeno", "halógeno", "radio atomico", "grupo", "periodo"],
             "url": "/static/diagrams/tabla_periodica.svg",
-            "title": "Organización y Tendencias de la Tabla Periódica"
+            "title": "Organización y Tendencias de la Tabla Periódica",
+            "guide_text": "¡Aquí tienes la ilustración en pantalla! 🗺️ Observa la división en periodos (filas horizontales por nivel cuántico) y familias o grupos (columnas verticales con igual cantidad de electrones de valencia).\n\n¿Por qué crees que los elementos de una misma columna (como el litio, sodio y potasio) reaccionan de manera tan parecida con el agua?"
         }
     }
 
-    def generate(self, prompt, style=""):
+    def get_diagram(self, prompt):
         p = prompt.lower()
         best_key = None
         best_score = 0
@@ -348,11 +357,14 @@ class ImageService:
         if best_key and best_score > 0:
             info = self.DIAGRAM_MAP[best_key]
             logger.info(f"[ImageService] Best matched diagram '{best_key}' (score={best_score}) -> {info['url']}")
-            return info["url"]
+            return info
         
         # Fallback genérico visual: molécula de agua
         logger.info("[ImageService] Serving default water molecule diagram")
-        return "/static/diagrams/molecula_agua_polaridad.svg"
+        return self.DIAGRAM_MAP["molecula_agua"]
+
+    def generate(self, prompt, style=""):
+        return self.get_diagram(prompt)["url"]
 
 
 class VisionService:
@@ -383,9 +395,11 @@ class AIRouter:
     REASONING_KEYWORDS = ["paso a paso", "demuestra", "calcula", "resuelve", "balancea", "balance", "estequiometria", "moles", "reactivo limitante", "rendimiento", "ph de", "kc", "kp", "buffer", "tampon"]
     IMAGE_KEYWORDS = [
         "imagen", "foto", "diagrama", "esquema", "dibuja", "dibujo",
-        "muestrame", "muéstrame", "grafica", "gráfica", "ejemplo visual", "representa", "representación",
-        "estructura de", "molecula de", "molécula de", "formula estructural", "fórmula estructural",
-        "modelo", "ilustra", "ilustración", "quiero ver", "como se ve", "cómo se ve", "visual"
+        "muestrame", "muéstrame", "muestra", "mostrar", "enseñame", "enséñame",
+        "grafica", "gráfica", "grafico", "gráfico", "figura", "ejemplo visual",
+        "representa", "representación", "estructura de", "molecula de", "molécula de",
+        "formula estructural", "fórmula estructural", "modelo", "ilustra", "ilustración",
+        "quiero ver", "como se ve", "cómo se ve", "visual"
     ]
 
     def __init__(self):
@@ -415,15 +429,37 @@ class AIRouter:
         
         image_url = None
         if mode == "image":
-            image_url = self.image.generate(last_message)
-            system += (
-                f"\n\n[INSTRUCCIÓN CRÍTICA DE ILUSTRACIÓN]: El sistema gráfico de la plataforma YA ha colocado exitosamente la ilustración visual científica en la pantalla del alumno ({image_url}). "
-                "Está ESTRICTAMENTE PROHIBIDO decir que eres un modelo de texto o que no puedes mostrar imágenes. "
-                "Confirma con entusiasmo al alumno que la ilustración ya está visible en su pantalla ('¡Aquí tienes la ilustración en pantalla!') "
-                "y hazle una pregunta socrática enfocada guiándolo a observar los detalles visuales de este modelo."
-            )
+            diag_info = self.image.get_diagram(last_message)
+            image_url = diag_info["url"]
+            fallback_guide = diag_info.get("guide_text", "¡Aquí tienes la ilustración en pantalla! Observa detenidamente cada componente del esquema.\n\n¿Qué detalle visual te llama más la atención?")
+            
+            # Para solicitudes de diagramas, imágenes o esquemas, entregamos de inmediato la guía pedagógica especializada
+            # Esto garantiza respuesta instantánea (< 0.1s) sin riesgo de cuellos de botella en APIs externas.
+            is_direct_diagram_query = any(k in last_message.lower() for k in [
+                "muestrame", "muéstrame", "muestra", "mostrar", "quiero ver", "dibuja", "dibujo", "enseñame", "enséñame",
+                "imagen", "foto", "diagrama", "esquema", "grafica", "gráfica", "cómo se ve", "como se ve",
+                "ilustra", "ilustración", "representa", "representación"
+            ])
 
-        text = self.llm.chat(messages, system_prompt=system)
+            if is_direct_diagram_query or len(messages) <= 1:
+                text = fallback_guide
+            else:
+                system += (
+                    f"\n\n[INSTRUCCIÓN CRÍTICA DE ILUSTRACIÓN]: El sistema gráfico de la plataforma YA ha colocado exitosamente la ilustración visual científica en la pantalla del alumno ({image_url}, '{diag_info.get('title', '')}'). "
+                    "Está ESTRICTAMENTE PROHIBIDO decir que eres un modelo de texto o que no puedes mostrar imágenes. "
+                    "Confirma con entusiasmo al alumno que la ilustración ya está visible en su pantalla ('¡Aquí tienes la ilustración en pantalla!') "
+                    "y hazle una pregunta socrática enfocada guiándolo a observar los detalles visuales de este modelo."
+                )
+                try:
+                    text = self.llm.chat(messages, system_prompt=system, timeout_read=1.5)
+                except Exception:
+                    text = fallback_guide
+
+                if not text or ("¡Aquí tienes" not in text and "pantalla" not in text and "observa" not in text.lower()):
+                    text = fallback_guide
+        else:
+            text = self.llm.chat(messages, system_prompt=system)
+
         return {
             "text": text,
             "mode": mode,

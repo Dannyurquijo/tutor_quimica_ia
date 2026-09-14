@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const loadingId = appendLoading();
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 15000); // 15s límite
+      const timer = setTimeout(() => controller.abort(), 30000); // 30s límite
       const sendButton = chatForm.querySelector('button[type=submit]');
       if (sendButton) sendButton.disabled = true;
 
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         removeLoading(loadingId);
         chatInput.value = message;
-        appendErrorMessage(error.name === 'AbortError' ? 'La respuesta demoró un poco. Haz clic en Enviar para continuar.' : 'Sin conexión con el servidor.');
+        appendErrorMessage(error.name === 'AbortError' ? 'La respuesta demoró más de lo esperado. Haz clic en Enviar para reintentar.' : 'Sin conexión con el servidor.');
         window.setBotEmotion('idle');
       } finally {
         clearTimeout(timer);

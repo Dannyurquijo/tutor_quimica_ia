@@ -207,9 +207,18 @@ tailwind.config = {
       </div>
       <div class="flex flex-col gap-1">
         <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-1">Tipo de cuenta</label>
-        <select id="regRol" class="ios-input h-11 px-3.5 rounded-2xl text-sm text-slate-900 focus:outline-none">
+        <select id="regRol" onchange="toggleTeacherCodeField()" class="ios-input h-11 px-3.5 rounded-2xl text-sm text-slate-900 focus:outline-none">
           <option value="alumno">🎓 Alumno de Química</option>
+          <option value="maestro">👩‍🏫 Docente / Maestro</option>
         </select>
+      </div>
+      <div id="teacherKeyContainer" class="flex flex-col gap-1 hidden">
+        <label class="text-[11px] font-bold text-amber-600 uppercase tracking-wider px-1 flex items-center gap-1">
+          <span class="material-symbols-outlined text-xs">key</span> Clave de Activación Docente
+        </label>
+        <input id="regTeacherKey" type="password" placeholder="BALMORAL-DOCENTE-2026"
+          class="ios-input h-11 px-3.5 rounded-2xl text-sm font-mono text-slate-900 focus:outline-none border-amber-300 bg-amber-50/50"/>
+        <span class="text-[10px] text-slate-500 px-1">Proporcionada por la Dirección Escolar para acceso docente.</span>
       </div>
       <button type="submit" id="registerBtn"
         class="h-12 bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold text-sm rounded-2xl hover:from-sky-500 hover:to-cyan-500 active:scale-[0.98] transition-all duration-200 mt-2 flex items-center justify-center gap-2 shadow-lg shadow-sky-500/25">
@@ -328,14 +337,28 @@ async function handleLogin(e) {
   }
 }
 
+function toggleTeacherCodeField() {
+  const rol = document.getElementById('regRol').value;
+  const container = document.getElementById('teacherKeyContainer');
+  const input = document.getElementById('regTeacherKey');
+  if (rol === 'maestro') {
+    container.classList.remove('hidden');
+    input.required = true;
+    input.focus();
+  } else {
+    container.classList.add('hidden');
+    input.required = false;
+  }
+}
+
 async function handleRegister(e) {
   e.preventDefault();
   hideMessages();
   setLoading('registerBtn', true);
 
-  const nombre = document.getElementById('regNombre').value;
-  const apellido = document.getElementById('regApellido').value;
-  const email = document.getElementById('regEmail').value;
+  const nombre = document.getElementById('regNombre').value.trim();
+  const apellido = document.getElementById('regApellido').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
   const password = document.getElementById('regPassword').value;
   const rol = document.getElementById('regRol').value;
 
@@ -345,11 +368,22 @@ async function handleRegister(e) {
     return;
   }
 
+  const payload = { nombre, apellido, email, password, rol };
+  if (rol === 'maestro') {
+    const key = document.getElementById('regTeacherKey').value.trim();
+    if (!key) {
+      showError('Ingresa la clave de activación docente proporcionada por la escuela.');
+      setLoading('registerBtn', false);
+      return;
+    }
+    payload.codigo_docente = key;
+  }
+
   try {
     const res = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, apellido, email, password, rol })
+      body: JSON.stringify(payload)
     });
     const data = await res.json();
 

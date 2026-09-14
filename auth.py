@@ -8,27 +8,48 @@ from sqlalchemy.orm import Session
 from schemas import User, Alumno, SessionToken, hash_password, verify_password, generate_token
 
 
+def is_secure_request(request: Request) -> bool:
+    """Detecta si la petición utiliza HTTPS directo o detrás de proxy/túnel."""
+    if not request:
+        return False
+    if request.url.scheme == "https":
+        return True
+    return request.headers.get("x-forwarded-proto", "").lower() == "https"
+
+
 def register_user(db: Session, nombre: str, apellido: str, email: str,
-                  password: str, rol: str = "alumno") -> User:
-    """Crea un nuevo usuario y perfil de alumno si aplica."""
-    # Verificar si ya existe el email
-    existing = db.query(User).filter(User.email == email.lower().strip()).first()
+                  password: str, rol: str = "alumno", codigo_docente: str = None) -> User:
+    """Crea un nuevo usuario y perfil de alumno si aplica, validando clave si es docente."""
+    clean_email = email.lower().strip()
+    existing = db.query(User).filter(User.email == clean_email).first()
     if existing:
         raise HTTPException(status_code=400, detail="Este correo ya está registrado")
+
+    if rol == "maestro":
+        import os
+        teacher_key = os.getenv("TEACHER_SIGNUP_KEY", "BALMORAL-DOCENTE-2026").strip()
+        if not codigo_docente or codigo_docente.strip() != teacher_key:
+            raise HTTPException(
+                status_code=403,
+                detail="Clave de activación docente inválida. Solicítala a la Dirección Escolar de Preparatoria Balmoral."
+            )
 
     user = User(
         nombre=nombre.strip(),
         apellido=apellido.strip(),
-        email=email.lower().strip(),
+        email=clean_email,
         password_hash=hash_password(password),
         rol=rol
     )
     db.add(user)
     db.flush()  # Para obtener el id antes del commit
 
-    # Si es alumno, crear perfil académico inicial
+    # Si es alumno, crear perfil académico inicial con su código familiar
     if rol == "alumno":
-        alumno = Alumno(user_id=user.id)
+        alumno = Alumno(
+            user_id=user.id,
+            codigo_padre=generate_parent_code(user.id, nombre)
+        )
         db.add(alumno)
 
     db.commit()

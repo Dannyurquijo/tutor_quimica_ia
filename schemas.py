@@ -90,10 +90,30 @@ class ChatMessage(Base):
 # ─────────────────────────────────────────────
 
 def hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
+    """Genera un hash seguro PBKDF2-HMAC-SHA256 con salt aleatorio."""
+    salt = secrets.token_bytes(16)
+    iterations = 100_000
+    derived = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, iterations)
+    return f"pbkdf2:sha256:{iterations}${salt.hex()}${derived.hex()}"
 
 def verify_password(password: str, hashed: str) -> bool:
-    return hash_password(password) == hashed
+    """Verifica la contraseña contra hash PBKDF2 o hash SHA-256 heredado."""
+    if not hashed:
+        return False
+    if hashed.startswith("pbkdf2:sha256:"):
+        try:
+            parts = hashed.split("$")
+            meta = parts[0].split(":")
+            iterations = int(meta[2])
+            salt = bytes.fromhex(parts[1])
+            expected_hex = parts[2]
+            derived = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, iterations)
+            return secrets.compare_digest(derived.hex(), expected_hex)
+        except Exception:
+            return False
+    # Compatibilidad retroactiva con SHA-256 simple
+    legacy_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
+    return secrets.compare_digest(legacy_hash, hashed)
 
 def generate_token() -> str:
     return secrets.token_urlsafe(32)
@@ -109,7 +129,8 @@ class RegisterRequest(BaseModel):
     apellido: str = Field(min_length=1, max_length=100)
     email: str = Field(pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$", max_length=254)
     password: str = Field(min_length=6, max_length=128)
-    rol: Literal["alumno"] = "alumno"
+    rol: Literal["alumno", "maestro"] = "alumno"
+    codigo_docente: Optional[str] = Field(default=None, max_length=100)
 
 class LoginRequest(BaseModel):
     email: str

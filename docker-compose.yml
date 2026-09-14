@@ -1,0 +1,16 @@
+﻿version: "3.8"
+services:
+  tutor-quimica:
+    build: .
+    container_name: tutor_quimica_app
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - TEACHER_SIGNUP_KEY=BALMORAL-DOCENTE-2026
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./chroma_db:/app/chroma_db

@@ -468,12 +468,13 @@ def parent_portal_landing(request: Request, codigo: Optional[str] = None, db: Se
 
 
 @app.post("/api/padres/login")
-def parent_login(req: ParentLoginRequest, response: Response, db: Session = Depends(get_db)):
+def parent_login(req: ParentLoginRequest, request: Request, response: Response, db: Session = Depends(get_db)):
     """Valida el código familiar del alumno y establece la sesión para el padre."""
     user, alumno, token = auth_service.login_parent_by_code(db, req.codigo)
     response.set_cookie(
         key="session_token", value=token,
-        httponly=True, max_age=30*24*3600, samesite="lax"
+        httponly=True, max_age=30*24*3600, samesite="lax",
+        secure=auth_service.is_secure_request(request)
     )
     return {
         "message": "Acceso familiar verificado",
@@ -505,7 +506,8 @@ def parent_dashboard(request: Request, response: Response, codigo: Optional[str]
             db.commit()
             response.set_cookie(
                 key="session_token", value=token,
-                httponly=True, max_age=30*24*3600, samesite="lax"
+                httponly=True, max_age=30*24*3600, samesite="lax",
+                secure=auth_service.is_secure_request(request)
             )
 
     if not user:
@@ -582,15 +584,16 @@ def refresh_parent_summary(request: Request, db: Session = Depends(get_db)):
 # ─────────────────────────────────────────────
 
 @app.post("/api/register")
-def register(req: RegisterRequest, response: Response, db: Session = Depends(get_db)):
-    """Registra un nuevo usuario y crea sesión automáticamente."""
+def register(req: RegisterRequest, request: Request, response: Response, db: Session = Depends(get_db)):
+    """Registra un nuevo usuario (alumno o maestro) y crea sesión automáticamente."""
     user = auth_service.register_user(
-        db, req.nombre, req.apellido, req.email, req.password, req.rol
+        db, req.nombre, req.apellido, req.email, req.password, req.rol, req.codigo_docente
     )
     _, token = auth_service.login_user(db, req.email, req.password)
     response.set_cookie(
         key="session_token", value=token,
-        httponly=True, max_age=30*24*3600, samesite="lax"
+        httponly=True, max_age=30*24*3600, samesite="lax",
+        secure=auth_service.is_secure_request(request)
     )
     return {
         "message": "Registro exitoso",
@@ -599,12 +602,13 @@ def register(req: RegisterRequest, response: Response, db: Session = Depends(get
     }
 
 @app.post("/api/login")
-def login(req: LoginRequest, response: Response, db: Session = Depends(get_db)):
-    """Inicia sesión y establece cookie de sesión."""
+def login(req: LoginRequest, request: Request, response: Response, db: Session = Depends(get_db)):
+    """Inicia sesión y establece cookie de sesión segura."""
     user, token = auth_service.login_user(db, req.email, req.password)
     response.set_cookie(
         key="session_token", value=token,
-        httponly=True, max_age=30*24*3600, samesite="lax"
+        httponly=True, max_age=30*24*3600, samesite="lax",
+        secure=auth_service.is_secure_request(request)
     )
     redirect = "/dashboard" if user.rol == "alumno" else "/dashboard-teacher"
     return {

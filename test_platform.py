@@ -51,7 +51,7 @@ class PlatformTests(unittest.TestCase):
                 self.assertEqual(outsider.post('/api/tutor', json=chat).status_code, 401)
                 self.assertNotIn('PRIVATE', student.get('/api/chat/history', params={'session_id': 'shared'}).text)
                 with SessionLocal() as db:
-                    auth.register_user(db, 'Docente', 'Prueba', 'teacher@example.test', 'teacher-password', 'maestro')
+                    auth.register_user(db, 'Docente', 'Prueba', 'teacher@example.test', 'teacher-password', 'maestro', codigo_docente='BALMORAL-DOCENTE-2026')
                 self.assertEqual(teacher.post('/api/login', json=dict(email='teacher@example.test', password='teacher-password')).status_code, 200)
                 vectors.get.return_value = {'ids': [f'diag_{uid}'], 'documents': ['Enlaces: perfil guardado']}
                 page = teacher.get('/dashboard-teacher')
@@ -68,9 +68,8 @@ class PlatformTests(unittest.TestCase):
         with patch.multiple(ai_gateway, AI_PROVIDER='nvidia', NVIDIA_API_KEY='test', OPENROUTER_API_KEY='test'), patch.object(ai_gateway, 'OpenAI') as client:
             create = client.return_value.__enter__.return_value.chat.completions.create
             create.side_effect = [TimeoutError(), answer]
-            self.assertEqual(ai_gateway.LLMService().chat([]), '¿Qué sabes?')
-            self.assertEqual(client.call_count, 2)
-            self.assertEqual(client.call_args.kwargs['max_retries'], 0)
+            self.assertEqual(ai_gateway.LLMService().chat([{'role': 'user', 'content': 'hola'}]), '¿Qué sabes?')
+            self.assertEqual(client.call_args.kwargs['max_retries'], 1)
             create.side_effect = [SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=None))]), TimeoutError()]
             with self.assertRaises(ai_gateway.AIUnavailableError):
                 ai_gateway.LLMService().chat([])

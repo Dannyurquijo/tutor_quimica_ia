@@ -1,0 +1,19 @@
+﻿services:
+  - type: web
+    name: tutor-quimica-balmoral
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: TEACHER_SIGNUP_KEY
+        value: BALMORAL-DOCENTE-2026
+      - key: AI_PROVIDER
+        value: nvidia
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false

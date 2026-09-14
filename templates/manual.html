@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Manual Interactivo · Tutor Socrático IA — DU Pixel Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#e11d48',
+        'primary-hover': '#be123c',
+        tertiary: '#0284c7',
+        darkbg: '#090d16'
+      },
+      fontFamily: {
+        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #090d16;
+    color: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+  }
+  .glass-panel {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+  }
+  .glass-card {
+    background: rgba(30, 41, 59, 0.55);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Animaciones Robot QuimiBot */
+  @keyframes floatBot {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-7px) rotate(1.2deg); }
+  }
+  @keyframes antennaGlow {
+    0%, 100% { fill: #38bdf8; filter: drop-shadow(0 0 4px #38bdf8); }
+    50% { fill: #f43f5e; filter: drop-shadow(0 0 12px #f43f5e); }
+  }
+  @keyframes pulseTalk {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(2.2); }
+  }
+  @keyframes eyeBlink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
+  }
+  .bot-float { animation: floatBot 3.6s ease-in-out infinite; }
+  .antenna-pulse { animation: antennaGlow 2s infinite; }
+  .eye-blink { animation: eyeBlink 3.8s infinite; transform-origin: center; }
+  .speaking-bar { animation: pulseTalk 0.4s ease-in-out infinite; }
+
+  /* Pestañas */
+  .tab-content-active { display: block; }
+  .tab-content-hidden { display: none; }
+</style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-rose-500 selection:text-white">
+
+<!-- Canvas de Partículas Atómicas a 60fps -->
+<canvas id="atomsCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+<!-- Navbar -->
+<nav class="relative z-30 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-2xl px-4 py-3">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+    
+    <!-- Logo DU Pixel Code -->
+    <a href="/" class="flex items-center gap-2.5 group">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-600 via-rose-500 to-amber-500 flex items-center justify-center text-white text-xl shadow-lg shadow-rose-600/30 border border-white/20 group-hover:scale-105 transition-transform">
+        <span>📖</span>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center gap-1.5">
+          <span class="font-black text-sm md:text-base text-white tracking-tight">Manual Interactivo</span>
+          <span class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Guía 360°</span>
+        </div>
+        <span class="text-[11px] text-slate-400 font-medium">Plataforma por <strong>DU Pixel Code</strong></span>
+      </div>
+    </a>
+
+    <!-- Atajos del Navbar -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="/pitch" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-rose-300 hover:text-white bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 transition-all">
+        <span class="material-symbols-outlined text-sm">slideshow</span>
+        <span class="hidden sm:inline">Presentación B2B</span>
+      </a>
+
+      <a href="/" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold text-white bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-md shadow-rose-600/25 transition-all">
+        <span class="material-symbols-outlined text-sm">play_arrow</span>
+        <span>Ir a la App</span>
+      </a>
+    </div>
+
+  </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- CONTENIDO PRINCIPAL: MANUAL INTERACTIVO SEGMENTADO           -->
+<!-- ============================================================ -->
+<main class="relative z-20 flex-1 max-w-6xl w-full mx-auto px-4 py-6 md:py-10">
+
+  <!-- Header del Manual con QuimiBot Tutor de Soporte -->
+  <section class="glass-panel rounded-3xl p-5 md:p-8 mb-8 border border-white/10 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden">
+    <div class="absolute -top-24 -right-24 w-60 h-60 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Avatar QuimiBot Guía -->
+    <div class="bot-float flex-shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 p-2 border-2 border-cyan-400 shadow-xl flex items-center justify-center cursor-pointer" onclick="manualChime()" title="¡Hola! Haz clic en mí para un tip">
+      <svg id="botManualSvg" viewBox="0 0 140 140" class="w-full h-full drop-shadow-md">
+        <line x1="70" y1="28" x2="70" y2="10" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="70" cy="8" r="7" class="antenna-pulse" fill="#38bdf8"/>
+        <rect x="14" y="52" width="8" height="22" rx="4" fill="#e11d48" stroke="#ffffff" stroke-width="1.5"/>
+        <rect x="118" y="52" width="8" height="22" rx="4" fill="#e11d48" stroke="#ffffff" stroke-width="1.5"/>
+        <rect x="22" y="26" width="96" height="80" rx="22" fill="#0f766e" stroke="#ffffff" stroke-width="3.5"/>
+        <rect x="32" y="38" width="76" height="56" rx="14" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+        <g id="manualCheeks">
+          <circle cx="39" cy="74" r="5" fill="#f43f5e"/>
+          <circle cx="101" cy="74" r="5" fill="#f43f5e"/>
+        </g>
+        <g class="eye-blink">
+          <circle cx="52" cy="60" r="8" fill="#38bdf8"/>
+          <circle cx="88" cy="60" r="8" fill="#38bdf8"/>
+          <circle cx="55" cy="57" r="2.8" fill="#ffffff"/>
+          <circle cx="91" cy="57" r="2.8" fill="#ffffff"/>
+        </g>
+        <path d="M 54 76 Q 70 88 86 76" stroke="#38bdf8" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Texto de Bienvenida del Manual -->
+    <div class="flex-1 text-center md:text-left">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 mb-2">
+        <span>🤖 Centro de Ayuda e Inducción Oficial</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+        Aprende a dominar la plataforma en 3 minutos.
+      </h1>
+      <p id="manualBotSpeech" class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+        ¡Bienvenido! Selecciona tu rol abajo para descubrir cómo interactuar conmigo, cómo consultar las métricas de tu grupo o cómo ver el avance de tu hijo sin contraseñas complicadas.
+      </p>
+    </div>
+  </section>
+
+  <!-- SELECTOR DE ROL PRINCIPAL (3 Pestañas Estilo iOS Cupertino) -->
+  <div class="flex justify-center mb-8">
+    <div class="bg-slate-900/80 p-1.5 rounded-2xl border border-white/10 shadow-xl flex items-center gap-1 sm:gap-2 max-w-xl w-full">
+      
+      <button onclick="switchTab('alumno')" id="tabBtn-alumno" class="flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-2 bg-rose-600 text-white shadow-lg shadow-rose-600/30">
+        <span class="text-base sm:text-lg">🎓</span>
+        <span>Para Alumnos</span>
+      </button>
+
+      <button onclick="switchTab('docente')" id="tabBtn-docente" class="flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-slate-400 hover:text-white transition-all flex items-center justify-center gap-2">
+        <span class="text-base sm:text-lg">👩‍🏫</span>
+        <span>Para Docentes</span>
+      </button>
+
+      <button onclick="switchTab('padres')" id="tabBtn-padres" class="flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-slate-400 hover:text-white transition-all flex items-center justify-center gap-2">
+        <span class="text-base sm:text-lg">👨‍👩‍👧</span>
+        <span>Para Padres</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PESTAÑA 1: MANUAL DEL ALUMNO                                 -->
+  <!-- ============================================================ -->
+  <div id="tabContent-alumno" class="tab-content-active space-y-6">
+
+    <!-- Credenciales Demo Alumno -->
+    <div class="glass-card rounded-2xl p-4 border border-rose-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 bg-gradient-to-r from-rose-950/40 via-slate-900/60 to-slate-900/40">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl font-black">
+          🎓
+        </div>
+        <div>
+          <span class="text-xs font-bold text-slate-400">Cuenta de Pruebas (Alumno Modelo)</span>
+          <p class="text-sm font-extrabold text-white">Sofía Morales (2do Bachillerato)</p>
+          <p class="text-xs text-slate-300">Correo: <strong class="text-rose-300">sofia@balmoral.edu.mx</strong> | Clave: <strong class="text-rose-300">quimica123</strong></p>
+        </div>
+      </div>
+      <a href="/" class="px-4 py-2 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-xs font-black transition-all flex items-center gap-1.5 shadow-md shadow-rose-600/30">
+        <span>Iniciar Sesión como Alumno ➜</span>
+      </a>
+    </div>
+
+    <!-- Paso a Paso Alumno -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <!-- Paso 1 -->
+      <div class="glass-panel rounded-3xl p-5 border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="w-8 h-8 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center font-black text-sm mb-3">1</div>
+          <h3 class="text-base font-extrabold text-white">Pregunta tus Dudas Reales</h3>
+          <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+            Escribe con tus propias palabras lo que no entiendas. QuimiBot no te regañará ni te dará la respuesta directa; te hará preguntas guía para que tú mismo deduzcas el principio químico.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-white/10 text-[11px] text-slate-400 font-semibold">
+          💡 Tip: Si te trabas, di <em>"no sé"</em> y te dará una pista más sencilla.
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="glass-panel rounded-3xl p-5 border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-black text-sm mb-3">2</div>
+          <h3 class="text-base font-extrabold text-white">Pide Esquemas en Tiempo Real</h3>
+          <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+            Usa palabras como <strong>"muéstrame"</strong>, <strong>"quiero ver"</strong> o <strong>"dibuja"</strong>. QuimiBot colocará en tu pantalla ilustraciones vectoriales en menos de medio segundo.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-white/10 text-[11px] text-cyan-400 font-semibold">
+          ⚡ Ejemplo: <em>"Muéstrame la molécula de agua"</em>
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="glass-panel rounded-3xl p-5 border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-black text-sm mb-3">3</div>
+          <h3 class="text-base font-extrabold text-white">Supera Micro-Desafíos</h3>
+          <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+            Haz clic en el botón <strong>🎯 Desafío Socrático</strong> para contestar 3 preguntas rápidas sobre el tema. Esto aumentará tu racha de días y tu porcentaje de avance curricular.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-white/10 text-[11px] text-amber-300 font-semibold">
+          🔥 Racha activa: Estudia al menos 10 minutos al día.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Simulador Interactivo de Preguntas para el Alumno -->
+    <div class="glass-panel rounded-3xl p-5 md:p-6 border border-white/10">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+        <div>
+          <span class="text-xs font-bold text-rose-400 uppercase tracking-wider">Simulador de Preguntas en Vivo</span>
+          <h4 class="text-lg font-black text-white">Pruébalo aquí sin salir del manual:</h4>
+        </div>
+        <span class="text-[10px] bg-white/10 px-2.5 py-1 rounded-full text-slate-300 font-bold">Interactivo</span>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button onclick="simularAlumno('agua')" class="px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all">
+          💧 "¿Por qué el agua es polar?"
+        </button>
+        <button onclick="simularAlumno('sal')" class="px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all">
+          ⚡ "Muéstrame cómo la sal conduce electricidad"
+        </button>
+        <button onclick="simularAlumno('enlace')" class="px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all">
+          🔗 "¿Cuál es la diferencia entre enlace iónico y covalente?"
+        </button>
+      </div>
+
+      <!-- Pantalla del Simulador -->
+      <div class="bg-slate-950/80 rounded-2xl p-4 border border-white/10 space-y-3">
+        <div id="simPreguntaAlumno" class="text-xs font-bold text-slate-400">
+          Alumno: <em>Haz clic en uno de los botones de arriba para ver mi respuesta socrática.</em>
+        </div>
+        <div id="simRespuestaBot" class="text-xs text-cyan-200 font-medium leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-cyan-500/20">
+          QuimiBot: ¡Hola! Selecciona una duda y te mostraré cómo te guiaría paso a paso.
+        </div>
+        <div id="simDiagramaContenedor" class="hidden text-center pt-2">
+          <img id="simDiagramaImg" src="" alt="Esquema" class="max-h-36 mx-auto object-contain drop-shadow-md rounded-lg"/>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PESTAÑA 2: MANUAL DOCENTE Y DIRECCIÓN                        -->
+  <!-- ============================================================ -->
+  <div id="tabContent-docente" class="tab-content-hidden space-y-6">
+
+    <!-- Credenciales Demo Docente -->
+    <div class="glass-card rounded-2xl p-4 border border-cyan-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 bg-gradient-to-r from-cyan-950/40 via-slate-900/60 to-slate-900/40">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl font-black">
+          👩‍🏫
+        </div>
+        <div>
+          <span class="text-xs font-bold text-slate-400">Cuenta de Pruebas (Docente / Directora)</span>
+          <p class="text-sm font-extrabold text-white">Directora Martha Balmoral</p>
+          <p class="text-xs text-slate-300">Correo: <strong class="text-cyan-300">directora.demo@balmoral.example</strong> | Clave: <strong class="text-cyan-300">directora123</strong></p>
+        </div>
+      </div>
+      <a href="/dashboard-teacher" class="px-4 py-2 rounded-full bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-black transition-all flex items-center gap-1.5 shadow-md shadow-cyan-600/30">
+        <span>Abrir Panel Docente ➜</span>
+      </a>
+    </div>
+
+    <!-- Guía del Semáforo y Gestión -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <div class="glass-panel rounded-3xl p-5 border border-white/10">
+        <span class="text-2xl mb-2 block">🚦</span>
+        <h3 class="text-base font-extrabold text-white">Semáforo de Deducción</h3>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          Cada interacción del alumno es evaluada cualitativamente. No medimos si acertó a la primera, sino su capacidad de razonar:
+        </p>
+        <ul class="mt-3 space-y-2 text-xs font-semibold">
+          <li class="text-emerald-400">🟢 <strong>Autónoma:</strong> Deduce conceptos con mínima intervención.</li>
+          <li class="text-amber-300">🟡 <strong>Guiada:</strong> Necesita 2 o más preguntas de andamiaje.</li>
+          <li class="text-rose-400">🔴 <strong>Inicial:</strong> Solicita respuestas directas o tiene rezago base.</li>
+        </ul>
+      </div>
+
+      <div class="glass-panel rounded-3xl p-5 border border-white/10">
+        <span class="text-2xl mb-2 block">🎯</span>
+        <h3 class="text-base font-extrabold text-white">Asignación Curricular</h3>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          Desde el Panel Docente, puedes cambiar el estado de cada tema con un solo clic:
+        </p>
+        <div class="mt-3 space-y-1.5 text-xs text-slate-300">
+          <p>• <strong>En Progreso:</strong> Tema en estudio actual.</p>
+          <p>• <strong>Dominado:</strong> Alumno acreditó la comprensión.</p>
+          <p>• <strong>Por Reforzar:</strong> Requiere ejercicios adicionales.</p>
+        </div>
+      </div>
+
+      <div class="glass-panel rounded-3xl p-5 border border-white/10">
+        <span class="text-2xl mb-2 block">📄</span>
+        <h3 class="text-base font-extrabold text-white">Reporte Institucional PDF</h3>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          Al final del mes o periodo, genera con 1 clic el documento formal con fecha automatizada, porcentaje de aprobación y métricas para comités escolares.
+        </p>
+        <div class="mt-4">
+          <a href="/dashboard-teacher/report" target="_blank" class="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/40 text-xs font-extrabold transition-all">
+            <span>Ver Reporte PDF de Muestra</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Registro de Nuevos Profesores -->
+    <div class="glass-panel rounded-3xl p-5 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <h4 class="text-sm font-extrabold text-white">¿Cómo dar de alta a más profesores?</h4>
+        <p class="text-xs text-slate-300 mt-1">
+          Los nuevos docentes deben registrarse en <strong class="text-white">/register</strong> seleccionando el rol <em>Maestro</em> e ingresando la Clave Escolar Institucional:
+        </p>
+      </div>
+      <div class="bg-slate-900 px-4 py-2 rounded-xl border border-white/20 text-xs font-mono font-bold text-amber-300 select-all">
+        BALMORAL-DOCENTE-2026
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PESTAÑA 3: MANUAL PARA PADRES DE FAMILIA                     -->
+  <!-- ============================================================ -->
+  <div id="tabContent-padres" class="tab-content-hidden space-y-6">
+
+    <!-- Acceso Rápido Padres -->
+    <div class="glass-card rounded-2xl p-4 border border-sky-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 bg-gradient-to-r from-sky-950/40 via-slate-900/60 to-slate-900/40">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl font-black">
+          👨‍👩‍👧
+        </div>
+        <div>
+          <span class="text-xs font-bold text-slate-400">Acceso Directo con Código Familiar</span>
+          <p class="text-sm font-extrabold text-white">Seguimiento de Sofía Morales</p>
+          <p class="text-xs text-slate-300">Código de Acceso: <strong class="text-sky-300 font-mono">PADRE-SOF-1079</strong></p>
+        </div>
+      </div>
+      <a href="/padres?codigo=PADRE-SOF-1079" class="px-4 py-2 rounded-full bg-sky-600 hover:bg-sky-500 text-white text-xs font-black transition-all flex items-center gap-1.5 shadow-md shadow-sky-600/30">
+        <span>Ver Portal de Padres en Vivo ➜</span>
+      </a>
+    </div>
+
+    <!-- Pasos para los Padres -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <div class="glass-panel rounded-3xl p-5 border border-white/10">
+        <span class="text-2xl mb-2 block">🔑</span>
+        <h3 class="text-base font-extrabold text-white">1. Cero Contraseñas</h3>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          Los padres no necesitan recordar correos ni contraseñas. Ingresan a <strong>tutor.dupixelcode.com/padres</strong> y colocan únicamente el código familiar que les entrega el colegio.
+        </p>
+      </div>
+
+      <div class="glass-panel rounded-3xl p-5 border border-white/10">
+        <span class="text-2xl mb-2 block">🤖</span>
+        <h3 class="text-base font-extrabold text-white">2. Síntesis en 3 Puntos</h3>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          QuimiBot analiza todas las dudas formuladas por el alumno y redacta un informe ejecutivo claro, afectivo y sin tecnicismos aburridos.
+        </p>
+      </div>
+
+      <div class="glass-panel rounded-3xl p-5 border border-white/10">
+        <span class="text-2xl mb-2 block">🏡</span>
+        <h3 class="text-base font-extrabold text-white">3. Tips para el Hogar</h3>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          Cada reporte incluye una recomendación específica para que los padres puedan hacer una pregunta en la cena y reforzar lo aprendido ese día.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+<!-- Footer DU Pixel Code -->
+<footer class="relative z-20 border-t border-white/10 bg-slate-950/80 backdrop-blur-xl py-4 px-4 text-center text-xs text-slate-400">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>Producción: <strong class="text-white">tutor.dupixelcode.com</strong></span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span>Desarrollado con IA por <strong class="text-rose-400">DU Pixel Code</strong></span>
+      <span>•</span>
+      <a href="/pitch" class="text-slate-300 hover:text-white underline">Presentación B2B</a>
+      <span>•</span>
+      <a href="/privacy" class="text-slate-400 hover:text-white">Privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/atoms-bg.js"></script>
+
+<!-- Lógica Interactiva de Pestañas y Simulador -->
+<script>
+function switchTab(tabId) {
+  // Ocultar todos los contenidos
+  document.getElementById('tabContent-alumno').className = 'tab-content-hidden space-y-6';
+  document.getElementById('tabContent-docente').className = 'tab-content-hidden space-y-6';
+  document.getElementById('tabContent-padres').className = 'tab-content-hidden space-y-6';
+
+  // Desactivar botones
+  const defaultBtnClass = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-slate-400 hover:text-white transition-all flex items-center justify-center gap-2';
+  document.getElementById('tabBtn-alumno').className = defaultBtnClass;
+  document.getElementById('tabBtn-docente').className = defaultBtnClass;
+  document.getElementById('tabBtn-padres').className = defaultBtnClass;
+
+  // Activar tab seleccionado
+  const speech = document.getElementById('manualBotSpeech');
+  if (tabId === 'alumno') {
+    document.getElementById('tabContent-alumno').className = 'tab-content-active space-y-6';
+    document.getElementById('tabBtn-alumno').className = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-2 bg-rose-600 text-white shadow-lg shadow-rose-600/30';
+    if (speech) speech.innerText = "¡Pestaña del Alumno activa! Aquí aprenderás cómo hacer preguntas socráticas, cómo pedirme esquemas químicos y cómo superar los micro-desafíos.";
+  } else if (tabId === 'docente') {
+    document.getElementById('tabContent-docente').className = 'tab-content-active space-y-6';
+    document.getElementById('tabBtn-docente').className = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-2 bg-cyan-600 text-white shadow-lg shadow-cyan-600/30';
+    if (speech) speech.innerText = "¡Pestaña de Docentes y Dirección activa! Aprende a interpretar el semáforo cualitativo de deducción, reasignar temas y generar el reporte institucional en PDF.";
+  } else if (tabId === 'padres') {
+    document.getElementById('tabContent-padres').className = 'tab-content-active space-y-6';
+    document.getElementById('tabBtn-padres').className = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-2 bg-sky-600 text-white shadow-lg shadow-sky-600/30';
+    if (speech) speech.innerText = "¡Pestaña para Padres activa! Descubre cómo ingresar sin contraseñas usando el código familiar y cómo leer los reportes ejecutivos de tu hijo.";
+  }
+}
+
+// Simulador interactivo de preguntas para el alumno
+function simularAlumno(tipo) {
+  const qEl = document.getElementById('simPreguntaAlumno');
+  const aEl = document.getElementById('simRespuestaBot');
+  const diagBox = document.getElementById('simDiagramaContenedor');
+  const diagImg = document.getElementById('simDiagramaImg');
+
+  if (tipo === 'agua') {
+    qEl.innerHTML = 'Alumno: <em>"¿Por qué el agua es una molécula polar?"</em>';
+    aEl.innerHTML = 'QuimiBot: ¡Excelente duda! Observa el átomo de oxígeno en el centro: tiene mayor electronegatividad y concentra carga negativa (δ⁻), mientras los hidrógenos quedan con carga positiva (δ⁺). <strong>¿Por qué crees que esta asimetría de cargas permite que el agua actúe como el disolvente universal?</strong>';
+    diagImg.src = '/static/diagrams/molecula_agua_polaridad.svg';
+    diagBox.classList.remove('hidden');
+  } else if (tipo === 'sal') {
+    qEl.innerHTML = 'Alumno: <em>"Muéstrame cómo la sal conduce electricidad"</em>';
+    aEl.innerHTML = 'QuimiBot: ¡Aquí tienes la ilustración en pantalla! ⚡ En el matraz sin sal, el agua pura no conduce y el foco permanece apagado. Pero al disolverse el NaCl, los iones Na⁺ y Cl⁻ quedan libres y móviles en el agua. <strong>¿Qué permite exactamente el paso de la corriente: la molécula entera o los iones cargados en movimiento?</strong>';
+    diagImg.src = '/static/diagrams/disolucion_nacl_electricidad.svg';
+    diagBox.classList.remove('hidden');
+  } else if (tipo === 'enlace') {
+    qEl.innerHTML = 'Alumno: <em>"¿Cuál es la diferencia entre enlace iónico y covalente?"</em>';
+    aEl.innerHTML = 'QuimiBot: ¡Gran tema! Imagina que un átomo necesita desesperadamente un electrón y otro tiene uno que le estorba. En el enlace iónico uno se lo <strong>transfiere</strong> al otro. En cambio, en el covalente, ambos deciden <strong>compartir</strong> electrones para completar 8. ¿Tiene sentido esta diferencia? ¿Te gustaría ver un ejemplo de la vida diaria?';
+    diagImg.src = '/static/diagrams/enlaces_quimicos.svg';
+    diagBox.classList.remove('hidden');
+  }
+}
+
+function manualChime() {
+  const speech = document.getElementById('manualBotSpeech');
+  const tips = [
+    "¡Hola! ¿Sabías que puedes acceder a la plataforma desde tu teléfono celular y se adapta automáticamente?",
+    "¡Todos los diagramas son SVG vectoriales de alta definición, nunca se pixelan!",
+    "¡Cada respuesta que doy está supervisada pedagógicamente para fomentar el pensamiento crítico!"
+  ];
+  if (speech) speech.innerText = tips[Math.floor(Math.random() * tips.length)];
+}
+</script>
+</body>
+</html>

@@ -691,9 +691,17 @@ def chat_tutor(request: Request, req: ChatRequest, db: Session = Depends(get_db)
 
 
 @app.get("/pitch")
+@app.get("/presentacion")
 def business_pitch_deck(request: Request):
     """Página ejecutiva de presentación comercial y pitch B2B para colegios e inversionistas."""
     return templates.TemplateResponse(request=request, name="pitch.html")
+
+
+@app.get("/manual")
+@app.get("/guia")
+def interactive_user_manual(request: Request):
+    """Manual interactivo gamificado para Alumnos, Docentes y Padres."""
+    return templates.TemplateResponse(request=request, name="manual.html")
 
 
 if __name__ == "__main__":

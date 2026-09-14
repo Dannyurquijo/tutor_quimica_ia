@@ -2,129 +2,895 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Propuesta Comercial B2B — Tutor de Química IA Socrático</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Presentación Ejecutiva B2B · Tutor Socrático IA — DU Pixel Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com"></script>
-<style>
-  body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#e11d48',
+        'primary-hover': '#be123c',
+        tertiary: '#0284c7',
+        darkbg: '#090d16'
+      },
+      fontFamily: {
+        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+      }
+    }
   }
-  .ios-glass {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(25px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+</script>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #090d16;
+    color: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+  }
+  .glass-panel {
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.5);
+  }
+  .glass-card {
+    background: rgba(30, 41, 59, 0.55);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .glow-rose {
+    box-shadow: 0 0 50px -10px rgba(225, 29, 72, 0.35);
+  }
+  .glow-cyan {
+    box-shadow: 0 0 50px -10px rgba(6, 182, 212, 0.3);
+  }
+
+  /* Animaciones del Robot QuimiBot */
+  @keyframes floatBot {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+  }
+  @keyframes antennaGlow {
+    0%, 100% { fill: #38bdf8; filter: drop-shadow(0 0 4px #38bdf8); }
+    50% { fill: #f43f5e; filter: drop-shadow(0 0 12px #f43f5e); }
+  }
+  @keyframes pulseTalk {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(2.2); }
+  }
+  @keyframes eyeBlink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
+  }
+  .bot-float { animation: floatBot 3.6s ease-in-out infinite; }
+  .antenna-pulse { animation: antennaGlow 2s infinite; }
+  .eye-blink { animation: eyeBlink 3.8s infinite; transform-origin: center; }
+  .speaking-bar { animation: pulseTalk 0.4s ease-in-out infinite; }
+
+  /* Transiciones suaves entre slides */
+  .slide-container {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .slide-hidden {
+    display: none;
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  .slide-active {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
   }
 </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 min-h-screen text-slate-100 selection:bg-rose-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-rose-500 selection:text-white">
 
-  <!-- Navbar -->
-  <nav class="border-b border-white/10 bg-slate-900/60 backdrop-blur-xl sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span class="text-2xl">🧪</span>
-        <div>
-          <span class="font-extrabold text-base tracking-tight text-white">QuimiBot Enterprise</span>
-          <span class="text-[10px] uppercase font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full ml-2 border border-rose-500/20">EdTech B2B</span>
+<!-- Canvas interactivo de partículas atómicas a 60fps -->
+<canvas id="atomsCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+<!-- Barra Superior / Navbar Ejecutiva -->
+<nav class="relative z-30 w-full border-b border-white/10 bg-slate-950/70 backdrop-blur-2xl px-4 py-3">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+    
+    <!-- Logo DU Pixel Code & QuimiBot Enterprise -->
+    <a href="/" class="flex items-center gap-2.5 group">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-600 via-rose-500 to-amber-500 flex items-center justify-center text-white text-xl shadow-lg shadow-rose-600/30 border border-white/20 group-hover:scale-105 transition-transform">
+        <span>🧪</span>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center gap-1.5">
+          <span class="font-black text-sm md:text-base text-white tracking-tight">QuimiBot</span>
+          <span class="bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Enterprise B2B</span>
         </div>
+        <span class="text-[11px] text-slate-400 font-medium">Desarrollado por <strong>DU Pixel Code</strong></span>
       </div>
-      <div class="flex items-center gap-3">
-        <a href="/" class="text-xs font-bold text-slate-300 hover:text-white transition-colors">Volver a la App</a>
-        <a href="/?demo=directora" class="bg-gradient-to-r from-rose-600 to-amber-600 text-white text-xs font-extrabold px-4 py-2 rounded-full shadow-lg shadow-rose-600/30 hover:scale-105 active:scale-95 transition-all">
-          Probar Demo en Vivo ➜
-        </a>
+    </a>
+
+    <!-- Acciones Rápidas del Navbar -->
+    <div class="flex items-center gap-2 md:gap-3">
+      <a href="/manual" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-white/10 transition-all">
+        <span class="material-symbols-outlined text-sm text-cyan-400">menu_book</span>
+        <span class="hidden sm:inline">Manual Interactivo</span>
+      </a>
+
+      <a href="/" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold text-white bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-md shadow-rose-600/25 transition-all">
+        <span class="material-symbols-outlined text-sm">play_arrow</span>
+        <span>Probar App</span>
+      </a>
+    </div>
+
+  </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- CONTENIDO PRINCIPAL: SHOWCASE DE PRESENTACIÓN EJECUTIVA       -->
+<!-- ============================================================ -->
+<main class="relative z-20 flex-1 max-w-7xl w-full mx-auto px-4 py-6 md:py-8 flex flex-col justify-center">
+
+  <!-- Selector de Diapositivas (Píldoras Superiores) -->
+  <div class="w-full flex items-center justify-between gap-2 mb-4 overflow-x-auto pb-2 scrollbar-none">
+    <div class="flex items-center gap-1.5 sm:gap-2">
+      <button onclick="goToSlide(0)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="0">
+        <span>🚀</span> <span class="hidden md:inline">1. Visión B2B</span>
+      </button>
+      <button onclick="goToSlide(1)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="1">
+        <span>⚠️</span> <span class="hidden md:inline">2. El Problema</span>
+      </button>
+      <button onclick="goToSlide(2)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="2">
+        <span>💡</span> <span class="hidden md:inline">3. Método Socrático</span>
+      </button>
+      <button onclick="goToSlide(3)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="3">
+        <span>⚡</span> <span class="hidden md:inline">4. Diagramas en Vivo</span>
+      </button>
+      <button onclick="goToSlide(4)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="4">
+        <span>👩‍🏫</span> <span class="hidden md:inline">5. Alivio Docente</span>
+      </button>
+      <button onclick="goToSlide(5)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="5">
+        <span>👨‍👩‍👧</span> <span class="hidden md:inline">6. Portal de Padres</span>
+      </button>
+      <button onclick="goToSlide(6)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="6">
+        <span>💰</span> <span class="hidden md:inline">7. Adopción y ROI</span>
+      </button>
+    </div>
+
+    <!-- Contador de Slide -->
+    <div class="flex-shrink-0 bg-white/5 border border-white/10 px-3 py-1 rounded-full text-xs font-extrabold text-slate-300">
+      <span id="slideCounterCurrent" class="text-rose-400">01</span> / <span id="slideCounterTotal">07</span>
+    </div>
+  </div>
+
+  <!-- Contenedor Principal: QuimiBot Co-Piloto (Izq) + Slide Interactiva (Der) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    
+    <!-- COLUMNA IZQUIERDA: QuimiBot Co-Piloto Interactivo -->
+    <aside class="lg:col-span-4 glass-panel rounded-3xl p-5 md:p-6 flex flex-col justify-between gap-5 relative overflow-hidden border border-rose-500/20">
+      
+      <!-- Glow ambiental -->
+      <div class="absolute -top-20 -left-20 w-48 h-48 bg-rose-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Encabezado del Co-Piloto -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-black text-white uppercase tracking-wider">Co-Piloto Ejecutivo</span>
+          <span class="bg-rose-500/20 text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-500/30">IA en Vivo</span>
+        </div>
+        <span id="botMoodBadge" class="text-[11px] font-bold text-cyan-400 flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span>Presentando</span>
+        </span>
       </div>
-    </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <header class="max-w-5xl mx-auto px-4 pt-16 pb-12 text-center flex flex-col items-center">
-    <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
-      <span>🚀 Solución Institucional para Colegios Privados de Bachillerato</span>
-    </div>
-    <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15] max-w-4xl">
-      Eleva el rendimiento en Ciencias con un <span class="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 via-amber-300 to-cyan-400">Tutor de IA Socrática</span> para cada alumno.
-    </h1>
-    <p class="mt-6 text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
-      Acompañamiento pedagógico personalizado 24/7 que <strong>no resuelve tareas ni hace trampa</strong>: guía al estudiante a deducir el concepto por sí mismo, alivia la carga del profesor e involucra a los padres de familia.
-    </p>
-    <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="/" class="bg-white text-slate-900 font-extrabold text-sm px-6 py-3 rounded-full hover:bg-slate-100 shadow-xl shadow-white/10 transition-all flex items-center gap-2">
-        <span>🧪 Probar Plataforma Alumno</span>
-      </a>
-      <a href="/padres" class="bg-slate-800/80 hover:bg-slate-800 border border-white/20 text-white font-extrabold text-sm px-6 py-3 rounded-full transition-all flex items-center gap-2">
-        <span>👨‍👩‍👧 Probar Portal para Padres</span>
-      </a>
-      <a href="/dashboard-teacher/report" class="bg-cyan-900/60 hover:bg-cyan-900 border border-cyan-500/30 text-cyan-200 font-extrabold text-sm px-6 py-3 rounded-full transition-all flex items-center gap-2">
-        <span>📊 Ver Reporte Institucional PDF</span>
-      </a>
-    </div>
-  </header>
+      <!-- Avatar QuimiBot Animado (Interactivo al clic) -->
+      <div class="flex flex-col items-center justify-center my-auto cursor-pointer group" onclick="reactQuimiBot()" title="¡Haz clic en QuimiBot para interactuar!">
+        <div id="botAvatarWrapper" class="bot-float relative w-40 h-40 sm:w-48 sm:h-48 rounded-3xl bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 p-3 border-4 border-slate-700 shadow-2xl transition-all group-hover:scale-105 group-hover:border-rose-400">
+          
+          <svg id="botSvg" viewBox="0 0 140 140" class="w-full h-full drop-shadow-xl">
+            <!-- Antena con Onda -->
+            <line x1="70" y1="28" x2="70" y2="10" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+            <circle id="botAntenna" cx="70" cy="8" r="7" class="antenna-pulse" fill="#38bdf8"/>
 
-  <!-- 3 Pilares de Valor para el Colegio -->
-  <section class="max-w-6xl mx-auto px-4 py-12">
-    <div class="text-center mb-10">
-      <h2 class="text-xs font-bold text-rose-400 uppercase tracking-widest">Retorno de Inversión Educativo</h2>
-      <p class="text-2xl sm:text-3xl font-extrabold text-white mt-1">¿Por qué los colegios privados eligen esta plataforma?</p>
-    </div>
+            <!-- Orejas Laterales -->
+            <rect x="14" y="52" width="8" height="22" rx="4" fill="#e11d48" stroke="#ffffff" stroke-width="1.5"/>
+            <rect x="118" y="52" width="8" height="22" rx="4" fill="#e11d48" stroke="#ffffff" stroke-width="1.5"/>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Card 1 -->
-      <div class="bg-slate-800/40 border border-white/10 rounded-3xl p-6 backdrop-blur-md flex flex-col gap-3 hover:border-rose-500/40 transition-colors">
-        <div class="w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-2xl font-bold">🏫</div>
-        <h3 class="text-lg font-bold text-white">Diferenciador de Admisiones</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Posiciona al colegio como pionero tecnológico en la captación de nuevas matrículas, ofreciendo a los aspirantes un tutor de inteligencia artificial disponible las 24 horas del día.
+            <!-- Cabeza Principal -->
+            <rect id="botHead" x="22" y="26" width="96" height="80" rx="22" fill="#0f766e" stroke="#ffffff" stroke-width="3.5"/>
+
+            <!-- Pantalla Visor Digital -->
+            <rect x="32" y="38" width="76" height="56" rx="14" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+
+            <!-- Mejillas Felices -->
+            <g id="botCheeks" class="hidden opacity-90">
+              <circle cx="39" cy="74" r="5" fill="#f43f5e"/>
+              <circle cx="101" cy="74" r="5" fill="#f43f5e"/>
+            </g>
+
+            <!-- Ojos Idle -->
+            <g id="botEyesIdle" class="eye-blink">
+              <circle cx="52" cy="60" r="8" fill="#38bdf8"/>
+              <circle cx="88" cy="60" r="8" fill="#38bdf8"/>
+              <circle cx="55" cy="57" r="2.8" fill="#ffffff"/>
+              <circle cx="91" cy="57" r="2.8" fill="#ffffff"/>
+            </g>
+
+            <!-- Ojos Felices (^ ^) -->
+            <g id="botEyesHappy" class="hidden">
+              <path d="M 43 64 Q 52 50 61 64" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M 79 64 Q 88 50 97 64" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Ojos Pensando (Láser ámbar) -->
+            <g id="botEyesThinking" class="hidden">
+              <circle cx="52" cy="60" r="8" fill="#f59e0b"/>
+              <circle cx="88" cy="60" r="8" fill="#f59e0b"/>
+              <line x1="36" y1="60" x2="104" y2="60" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 2"/>
+            </g>
+
+            <!-- Ojos Curiosos -->
+            <g id="botEyesCurious" class="hidden">
+              <circle cx="50" cy="62" r="5" fill="#38bdf8"/>
+              <circle cx="88" cy="58" r="9" fill="#38bdf8"/>
+              <circle cx="91" cy="55" r="3" fill="#ffffff"/>
+            </g>
+
+            <!-- Bocas -->
+            <rect id="botMouthNormal" x="58" y="78" width="24" height="4.5" rx="2.2" fill="#38bdf8"/>
+            <path id="botMouthHappy" d="M 54 76 Q 70 88 86 76" stroke="#38bdf8" stroke-width="4.5" fill="none" stroke-linecap="round" class="hidden"/>
+            <g id="botMouthSpeaking" class="hidden">
+              <rect x="54" y="76" width="5" height="9" rx="2" fill="#38bdf8" class="speaking-bar"/>
+              <rect x="62" y="73" width="5" height="15" rx="2" fill="#38bdf8" class="speaking-bar" style="animation-delay: 0.1s"/>
+              <rect x="70" y="71" width="5" height="18" rx="2" fill="#38bdf8" class="speaking-bar" style="animation-delay: 0.15s"/>
+              <rect x="78" y="73" width="5" height="15" rx="2" fill="#38bdf8" class="speaking-bar" style="animation-delay: 0.2s"/>
+              <rect x="86" y="76" width="5" height="9" rx="2" fill="#38bdf8" class="speaking-bar" style="animation-delay: 0.05s"/>
+            </g>
+          </svg>
+        </div>
+
+        <span class="text-[11px] text-slate-400 mt-2.5 font-semibold group-hover:text-rose-400 transition-colors flex items-center gap-1">
+          <span>👆 Haz clic en mí para probar mi voz</span>
+        </span>
+      </div>
+
+      <!-- Globo de Diálogo de QuimiBot (Cambia en cada Slide) -->
+      <div class="glass-card rounded-2xl p-4 border border-white/10 relative">
+        <div class="absolute -top-2 left-8 w-4 h-4 bg-slate-800 rotate-45 border-t border-l border-white/10"></div>
+        <p id="botSpeechBubble" class="text-xs sm:text-sm font-semibold text-slate-200 leading-relaxed">
+          ¡Hola! Soy QuimiBot. Estoy aquí para mostrarte por qué los mejores colegios nos eligen como su tutor oficial de inteligencia artificial.
         </p>
       </div>
 
-      <!-- Card 2 -->
-      <div class="bg-slate-800/40 border border-white/10 rounded-3xl p-6 backdrop-blur-md flex flex-col gap-3 hover:border-amber-500/40 transition-colors">
-        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl font-bold">👩‍🏫</div>
-        <h3 class="text-lg font-bold text-white">Alivio Real al Profesorado</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Ahorra hasta 6 horas semanales por docente en repetición de dudas básicas y elaboración manual de reportes. El maestro recibe diagnósticos automáticos listos para comités escolares.
-        </p>
-      </div>
+    </aside>
 
-      <!-- Card 3 -->
-      <div class="bg-slate-800/40 border border-white/10 rounded-3xl p-6 backdrop-blur-md flex flex-col gap-3 hover:border-sky-500/40 transition-colors">
-        <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-2xl font-bold">👨‍👩‍👧</div>
-        <h3 class="text-lg font-bold text-white">Transparencia para Padres</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Los tutores ingresan con un código familiar memorable para ver síntesis de IA sobre el esfuerzo de su hijo, elevando la satisfacción y retención de la colegiatura.
-        </p>
-      </div>
-    </div>
-  </section>
+    <!-- COLUMNA DERECHA: Diapositiva Activa Dinámica -->
+    <section class="lg:col-span-8 glass-panel rounded-3xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden min-h-[520px]">
+      
+      <!-- Contenedor de Diapositivas -->
+      <div id="slidesContainer" class="flex-1">
 
-  <!-- Modelo Financiero y Pricing B2B -->
-  <section class="max-w-5xl mx-auto px-4 py-12">
-    <div class="bg-gradient-to-br from-slate-800/80 via-slate-900 to-indigo-950 border border-white/15 rounded-3xl p-6 sm:p-10 shadow-2xl">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div>
-          <span class="text-xs font-extrabold uppercase tracking-widest text-amber-400">Modelo de Suscripción Institucional</span>
-          <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Plan Piloto y Licenciamiento Escolar</h3>
-          <p class="text-xs sm:text-sm text-slate-300 mt-2 max-w-xl leading-relaxed">
-            Iniciamos con un <strong>Piloto Gratuito de 30 días</strong> para una generación. Posteriormente, la licencia anual por alumno tiene una inversión de <strong>$350 a $450 MXN / año</strong> (apenas ~$35 MXN al mes), absorbiendo todos los costos de infraestructura e IA.
+        <!-- ============================================== -->
+        <!-- SLIDE 0: VISIÓN B2B & APERTURA                 -->
+        <!-- ============================================== -->
+        <article class="slide-container slide-active" id="slide-0">
+          <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            <span>🚀 Innovación EdTech B2B para Colegios Privados</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight tracking-tight">
+            Eleva el rendimiento en Ciencias con un <span class="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 via-amber-300 to-cyan-400">Tutor de IA Socrática</span> para cada alumno.
+          </h2>
+
+          <p class="text-slate-300 text-sm sm:text-base mt-4 leading-relaxed max-w-2xl">
+            La inteligencia artificial llegó a las aulas, pero la mayoría de las herramientas solo fomentan la trampa. 
+            <strong>QuimiBot Enterprise</strong> transforma ese riesgo en una ventaja competitiva de admisiones: una IA que 
+            <strong>no resuelve tareas</strong>, sino que guía al estudiante a deducir el concepto por sí mismo.
           </p>
-        </div>
-        <div class="flex-shrink-0 text-center bg-white/5 border border-white/10 p-5 rounded-2xl">
-          <div class="text-3xl font-black text-rose-400">$350 MXN</div>
-          <div class="text-[11px] font-semibold text-slate-400">por alumno / año escolar</div>
-          <div class="mt-3 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">Piloto 30 días sin costo</div>
-        </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+            <div class="glass-card p-4 rounded-2xl border-l-4 border-l-rose-500">
+              <span class="text-2xl font-black text-white">100%</span>
+              <p class="text-xs font-bold text-slate-300 mt-0.5">Método Socrático</p>
+              <p class="text-[11px] text-slate-400">Cero respuestas directas regaladas.</p>
+            </div>
+            <div class="glass-card p-4 rounded-2xl border-l-4 border-l-cyan-400">
+              <span class="text-2xl font-black text-white">&lt; 0.6s</span>
+              <p class="text-xs font-bold text-slate-300 mt-0.5">Esquemas Visuales</p>
+              <p class="text-[11px] text-slate-400">Diagramas SVG vectoriales al instante.</p>
+            </div>
+            <div class="glass-card p-4 rounded-2xl border-l-4 border-l-amber-400">
+              <span class="text-2xl font-black text-white">3 en 1</span>
+              <p class="text-xs font-bold text-slate-300 mt-0.5">Ecosistema Completo</p>
+              <p class="text-[11px] text-slate-400">Alumno + Docente + Familia.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 1: EL PROBLEMA EN LAS INSTITUCIONES       -->
+        <!-- ============================================== -->
+        <article class="slide-container slide-hidden" id="slide-1">
+          <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            <span>⚠️ El Dilema de la Educación Tradicional</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            El 82% de los alumnos usa IA para <span class="text-rose-400">copiar</span>, no para aprender.
+          </h2>
+
+          <p class="text-slate-300 text-sm mt-3 leading-relaxed">
+            Las instituciones educativas se enfrentan a un desafío triple sin precedentes:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div class="glass-card p-4 rounded-2xl border-t-2 border-rose-500/50">
+              <div class="text-3xl mb-2">📋</div>
+              <h4 class="text-sm font-extrabold text-white">Plagio y Falsa Comprensión</h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Los alumnos copian respuestas de ChatGPT. Sacan 10 en la tarea, pero reprueban los exámenes departamentales y el examen de admisión a la Universidad.
+              </p>
+            </div>
+
+            <div class="glass-card p-4 rounded-2xl border-t-2 border-amber-500/50">
+              <div class="text-3xl mb-2">⏳</div>
+              <h4 class="text-sm font-extrabold text-white">Sobrecarga del Docente</h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                El profesor no puede atender a 90 alumnos al mismo tiempo de noche cuando hacen la tarea. Pierde hasta 6 horas a la semana repitiendo dudas básicas.
+              </p>
+            </div>
+
+            <div class="glass-card p-4 rounded-2xl border-t-2 border-cyan-500/50">
+              <div class="text-3xl mb-2">👨‍👩‍👧</div>
+              <h4 class="text-sm font-extrabold text-white">Padres Desconectados</h4>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Los padres pagan colegiaturas premium pero no saben si su hijo realmente comprende las ciencias hasta que llega la boleta con malas notas.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 2: LA SOLUCIÓN SOCRÁTICA                 -->
+        <!-- ============================================== -->
+        <article class="slide-container slide-hidden" id="slide-2">
+          <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            <span>💡 Nuestra Solución Pedagógica</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            La Regla de Oro: <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-rose-400">Nunca dar la respuesta masticada</span>.
+          </h2>
+
+          <p class="text-slate-300 text-sm mt-3 leading-relaxed">
+            QuimiBot implementa el andamiaje cognitivo de Sócrates adaptado a modelos de lenguaje modernos:
+          </p>
+
+          <div class="glass-card rounded-2xl p-4 mt-5 border border-white/10 space-y-3">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">1</span>
+              <div>
+                <strong class="text-xs sm:text-sm text-white">Pregunta de Activación:</strong>
+                <p class="text-xs text-slate-300">Si el alumno pregunta <em>"¿Cuál es el enlace del NaCl?"</em>, QuimiBot pregunta: <em>"¿Qué pasa con los electrones cuando un metal y un no metal se encuentran?"</em>.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">2</span>
+              <div>
+                <strong class="text-xs sm:text-sm text-white">Validación de Hipótesis:</strong>
+                <p class="text-xs text-slate-300">Celebra el razonamiento lógico del estudiante y corrige conceptos erróneos con analogías de la vida cotidiana.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">3</span>
+              <div>
+                <strong class="text-xs sm:text-sm text-white">Cierre con Bloque '💡 Conclusión del Concepto':</strong>
+                <p class="text-xs text-slate-300">Una vez que el estudiante deduce la idea, QuimiBot le sintetiza la regla oficial para fijar la memoria a largo plazo.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 3: DIAGRAMAS VECTORIALES EN TIEMPO REAL  -->
+        <!-- ============================================== -->
+        <article class="slide-container slide-hidden" id="slide-3">
+          <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            <span>⚡ Laboratorio Visual Instantáneo (&lt; 0.6s)</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            La química no se memoriza: <span class="text-cyan-400">se visualiza en 3D</span>.
+          </h2>
+
+          <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+            Haz clic en cualquiera de estos botones para probar el renderizador vectorial en tiempo real:
+          </p>
+
+          <!-- Botones de Demostración de Esquemas -->
+          <div class="flex flex-wrap gap-2 my-4">
+            <button onclick="previewDiagram('/static/diagrams/molecula_agua_polaridad.svg', 'Molécula de Agua (H₂O) — Polaridad', 'Observa la geometría angular a 104.5° y por qué concentra densidades de carga δ⁺ y δ⁻.')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all flex items-center gap-1.5">
+              <span>💧</span> Molécula de Agua
+            </button>
+            <button onclick="previewDiagram('/static/diagrams/disolucion_nacl_electricidad.svg', 'Disolución de Sal y Conducción', 'Compara el matraz con sal disuelta vs. agua pura: los iones libres cierran el circuito y encienden el foco.')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all flex items-center gap-1.5">
+              <span>⚡</span> Sal y Electricidad
+            </button>
+            <button onclick="previewDiagram('/static/diagrams/geometria_molecular_vsepr.svg', 'Geometría VSEPR', 'Compara la forma lineal, trigonal y tetraédrica y la repulsión de pares de electrones.')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all flex items-center gap-1.5">
+              <span>📐</span> Geometría Molecular
+            </button>
+            <button onclick="previewDiagram('/static/diagrams/estructura_atomica_bohr.svg', 'Modelo de Bohr (Na, Z=11)', 'Capas electrónicas 2-8-1 del Sodio y su electrón de valencia reactivo.')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all flex items-center gap-1.5">
+              <span>⚛️</span> Modelo de Bohr
+            </button>
+          </div>
+
+          <!-- Visor Interactivo de Esquemas -->
+          <div class="glass-card rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 border border-cyan-500/30">
+            <div class="w-full sm:w-1/2 flex items-center justify-center bg-slate-950/80 rounded-xl p-3 border border-white/10 min-h-[160px]">
+              <img id="diagramPreviewImg" src="/static/diagrams/molecula_agua_polaridad.svg" alt="Esquema Científico" class="max-h-36 max-w-full object-contain filter drop-shadow-md"/>
+            </div>
+            <div class="w-full sm:w-1/2">
+              <span id="diagramPreviewBadge" class="bg-cyan-500/20 text-cyan-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Demostración Activa</span>
+              <h5 id="diagramPreviewTitle" class="text-sm font-extrabold text-white mt-1.5">Molécula de Agua (H₂O) — Polaridad</h5>
+              <p id="diagramPreviewDesc" class="text-xs text-slate-300 mt-1 leading-relaxed">
+                Observa la geometría angular a 104.5° y por qué concentra densidades de carga δ⁺ y δ⁻.
+              </p>
+              <div class="mt-3 flex items-center gap-2 text-[11px] font-bold text-emerald-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Renderizado Vectorial en 0.54 segundos</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 4: ALIVIO DOCENTE Y REPORTE              -->
+        <!-- ============================================== -->
+        <article class="slide-container slide-hidden" id="slide-4">
+          <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            <span>👩‍🏫 Acompañamiento y Analítica Docente</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            Ahorra <span class="text-amber-400">6 horas semanales</span> a cada profesor de ciencias.
+          </h2>
+
+          <p class="text-slate-300 text-sm mt-2 leading-relaxed">
+            La plataforma no compite con el maestro: le entrega superpoderes de analítica en tiempo real:
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+            <div class="glass-card p-4 rounded-2xl border border-white/10">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xl">🚦</span>
+                <h4 class="text-sm font-extrabold text-white">Semáforo de Deducción</h4>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Clasifica a cada estudiante en 3 niveles de razonamiento:
+              </p>
+              <div class="mt-2.5 space-y-1.5 text-[11px] font-bold">
+                <div class="flex items-center gap-2 text-emerald-400">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span>Autónoma: Deduce con una sola pista.</span>
+                </div>
+                <div class="flex items-center gap-2 text-amber-300">
+                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                  <span>Guiada: Requiere 2 o 3 preguntas de apoyo.</span>
+                </div>
+                <div class="flex items-center gap-2 text-rose-400">
+                  <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                  <span>Inicial: Pide respuesta directa o tiene lagunas.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-2xl border border-white/10 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">📊</span>
+                  <h4 class="text-sm font-extrabold text-white">Reporte Institucional PDF</h4>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Genera con 1 clic un informe ejecutivo formal con membrete del colegio, estadísticas de grupo y desglose para consejos técnicos escolares.
+                </p>
+              </div>
+
+              <div class="mt-4">
+                <a href="/dashboard-teacher/report" target="_blank" class="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/40 text-xs font-extrabold transition-all">
+                  <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                  <span>Ver Demo de Reporte Institucional PDF</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 5: PORTAL DE PADRES DE FAMILIA           -->
+        <!-- ============================================== -->
+        <article class="slide-container slide-hidden" id="slide-5">
+          <div class="inline-flex items-center gap-2 bg-sky-500/10 border border-sky-500/30 text-sky-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            <span>👨‍👩‍👧 Retención y Fidelización de Matrícula</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            Transparencia total para las familias con <span class="text-sky-300">Código Familiar Único</span>.
+          </h2>
+
+          <p class="text-slate-300 text-sm mt-2 leading-relaxed">
+            Los padres no quieren contraseñas complicadas ni reportes aburridos. Ingresan con un código familiar memorable (ej. <strong>PADRE-SOF-1079</strong>):
+          </p>
+
+          <div class="glass-card rounded-2xl p-4 mt-4 border border-sky-500/30">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
+              <span class="text-xs font-black text-sky-300 uppercase tracking-wider">Síntesis de IA para Padres de Familia</span>
+              <span class="text-[10px] text-slate-400 font-semibold">Generado por QuimiBot</span>
+            </div>
+
+            <div class="space-y-2.5 text-xs text-slate-200 leading-relaxed">
+              <div class="flex items-start gap-2">
+                <span class="text-amber-400">🌟</span>
+                <p><strong>Temas explorados:</strong> Sofía dominó Enlace Covalente y Polaridad del Agua mediante deducción visual.</p>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-emerald-400">💡</span>
+                <p><strong>Nivel de deducción:</strong> Razonamiento autónomo (resolvió la hipótesis del octeto en el 2do intento).</p>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-sky-400">🏡</span>
+                <p><strong>Recomendación para el hogar:</strong> Preguntarle en la cena por qué el hielo flota en el agua líquida para reforzar el concepto de densidad.</p>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
+              <span class="text-[11px] text-slate-400">Código demo: <strong class="text-white">PADRE-SOF-1079</strong></span>
+              <a href="/padres?codigo=PADRE-SOF-1079" target="_blank" class="text-xs font-extrabold text-sky-300 hover:text-white underline flex items-center gap-1">
+                <span>Abrir Portal de Padres en Vivo ➜</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 6: MODELOS COMERCIALES & ROI             -->
+        <!-- ============================================== -->
+        <article class="slide-container slide-hidden" id="slide-6">
+          <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            <span>💰 Propuesta Comercial y Alianzas B2B</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            Tres modalidades flexibles para <span class="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-300">cada institución</span>.
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-5">
+            <!-- Plan 1 -->
+            <div class="glass-card p-4 rounded-2xl border border-white/10 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-black text-slate-400 uppercase">Fase 1</span>
+                <h4 class="text-base font-black text-white mt-1">Piloto Escolar</h4>
+                <p class="text-[11px] text-slate-300 mt-1.5 leading-relaxed">
+                  30 días de prueba en 1 grupo selecto de ciencias para medir impacto en calificaciones y satisfacción de padres.
+                </p>
+              </div>
+              <div class="mt-3 pt-3 border-t border-white/10 text-xs font-bold text-rose-400">
+                Garantía de Adopción
+              </div>
+            </div>
+
+            <!-- Plan 2 (Destacado) -->
+            <div class="glass-card p-4 rounded-2xl border-2 border-rose-500 flex flex-col justify-between relative bg-gradient-to-b from-rose-950/40 to-slate-900/60">
+              <div class="absolute -top-2.5 right-4 bg-rose-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
+                Más Popular
+              </div>
+              <div>
+                <span class="text-xs font-black text-rose-400 uppercase">Fase 2</span>
+                <h4 class="text-base font-black text-white mt-1">Licencia de Campus</h4>
+                <p class="text-[11px] text-slate-200 mt-1.5 leading-relaxed">
+                  Acceso completo para toda la matrícula de Bachillerato, panel docente multi-grupo y portal ilimitado de padres.
+                </p>
+              </div>
+              <div class="mt-3 pt-3 border-t border-white/10 text-xs font-bold text-amber-300">
+                SaaS Anual por Alumno
+              </div>
+            </div>
+
+            <!-- Plan 3 -->
+            <div class="glass-card p-4 rounded-2xl border border-white/10 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-black text-cyan-400 uppercase">Fase 3</span>
+                <h4 class="text-base font-black text-white mt-1">Marca Blanca</h4>
+                <p class="text-[11px] text-slate-300 mt-1.5 leading-relaxed">
+                  Despliegue bajo el subdominio y colores oficiales del colegio (ej. <em>quimica.tucolegio.edu.mx</em>).
+                </p>
+              </div>
+              <div class="mt-3 pt-3 border-t border-white/10 text-xs font-bold text-cyan-400">
+                Exclusividad Institucional
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de Acción Directa -->
+          <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+            <a href="/" class="px-5 py-2.5 rounded-full bg-white text-slate-950 font-black text-xs hover:bg-slate-200 transition-all flex items-center gap-1.5 shadow-lg shadow-white/10">
+              <span>🧪 Probar Plataforma Alumno</span>
+            </a>
+            <a href="/dashboard-teacher" class="px-5 py-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-white border border-white/20 font-bold text-xs transition-all flex items-center gap-1.5">
+              <span>👩‍🏫 Probar Panel Docente</span>
+            </a>
+            <a href="/manual" class="px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-black text-xs transition-all flex items-center gap-1.5 shadow-lg shadow-rose-600/30">
+              <span>📖 Abrir Manual Interactivo</span>
+            </a>
+          </div>
+        </article>
+
       </div>
+
+      <!-- Barra Inferior de Navegación de Diapositivas (Flechas + Teclado) -->
+      <div class="w-full flex items-center justify-between border-t border-white/10 pt-4 mt-6">
+        
+        <!-- Botón Anterior -->
+        <button id="prevSlideBtn" onclick="prevSlide()" class="px-4 py-2 rounded-full text-xs font-black text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-white/10 transition-all flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+          <span>Anterior</span>
+        </button>
+
+        <!-- Indicador central de teclado -->
+        <span class="hidden sm:inline-flex items-center gap-1 text-[11px] text-slate-500 font-semibold">
+          <span>Usa las teclas</span>
+          <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-white/10 text-slate-300 font-mono text-[10px]">←</kbd>
+          <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-white/10 text-slate-300 font-mono text-[10px]">→</kbd>
+        </span>
+
+        <!-- Botón Siguiente -->
+        <button id="nextSlideBtn" onclick="nextSlide()" class="px-5 py-2 rounded-full text-xs font-black text-white bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-md shadow-rose-600/20 transition-all flex items-center gap-1">
+          <span>Siguiente</span>
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </button>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</main>
+
+<!-- Footer Corporativo DU Pixel Code -->
+<footer class="relative z-20 border-t border-white/10 bg-slate-950/80 backdrop-blur-xl py-4 px-4 text-center text-xs text-slate-400">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>Producción Activa en: <strong class="text-white">tutor.dupixelcode.com</strong></span>
     </div>
-  </section>
+    <div class="flex items-center gap-3">
+      <span>Desarrollado con IA por <strong class="text-rose-400">DU Pixel Code</strong></span>
+      <span>•</span>
+      <a href="/manual" class="text-slate-300 hover:text-white underline">Manual de Uso</a>
+      <span>•</span>
+      <a href="/privacy" class="text-slate-400 hover:text-white">Privacidad</a>
+    </div>
+  </div>
+</footer>
 
-  <!-- Footer -->
-  <footer class="border-t border-white/10 mt-12 py-8 text-center text-xs text-slate-500">
-    <p>© 2026 Tutor Socrático IA · Preparatoria Balmoral & DU Pixel Code</p>
-    <p class="mt-1 opacity-70">Desarrollado con FastAPI, NVIDIA NIM AI y arquitectura pedagógica socrática.</p>
-  </footer>
+<!-- Script de Partículas Atómicas a 60fps -->
+<script src="/static/atoms-bg.js"></script>
 
+<!-- ============================================================ -->
+<!-- LÓGICA INTERACTIVA DEL SHOWCASE & CONTROL DE SLIDES           -->
+<!-- ============================================================ -->
+<script>
+let currentSlide = 0;
+const totalSlides = 7;
+
+// Discursos y emociones de QuimiBot para cada diapositiva
+const botScripts = [
+  {
+    emotion: 'happy',
+    badge: '¡Bienvenido!',
+    speech: '¡Hola! Soy QuimiBot. Estoy aquí para mostrarte por qué los mejores colegios nos eligen como su tutor oficial de inteligencia artificial.'
+  },
+  {
+    emotion: 'curious',
+    badge: 'El Problema',
+    speech: '¿Sabías que los alumnos usan ChatGPT tradicional solo para copiar y no aprenden? Eso alarma a directores y profesores. Yo fui diseñado para hacer lo contrario.'
+  },
+  {
+    emotion: 'explaining',
+    badge: 'Método Socrático',
+    speech: 'Tengo estrictamente prohibido dar respuestas fáciles. Cuando un alumno me pregunta algo, le hago una pregunta guía para que descubra la química por sí mismo.'
+  },
+  {
+    emotion: 'happy',
+    badge: 'Visual & Rápido',
+    speech: '¡Pruébalo ahora mismo! Haz clic en los botones de arriba para ver cómo proyecto moléculas y diagramas vectoriales en menos de medio segundo.'
+  },
+  {
+    emotion: 'explaining',
+    badge: 'Alivio al Docente',
+    speech: 'Ahorro hasta 6 horas a la semana a los profesores. Les entrego un semáforo de quién razona solo y quién necesita apoyo, además de reportes PDF listos.'
+  },
+  {
+    emotion: 'happy',
+    badge: 'Familia Feliz',
+    speech: 'A los papás les encanta: no necesitan contraseña, solo su código familiar para ver un resumen cálido y claro del avance de su hijo.'
+  },
+  {
+    emotion: 'happy',
+    badge: 'Alianzas B2B',
+    speech: 'Podemos iniciar con un programa piloto de 30 días o desplegar la plataforma con la marca y escudo oficial de tu colegio. ¡Hablemos de negocios!'
+  }
+];
+
+function updateSlideView() {
+  // 1. Mostrar slide activa y ocultar las demás
+  for (let i = 0; i < totalSlides; i++) {
+    const el = document.getElementById(`slide-${i}`);
+    if (el) {
+      if (i === currentSlide) {
+        el.classList.remove('slide-hidden');
+        el.classList.add('slide-active');
+      } else {
+        el.classList.add('slide-hidden');
+        el.classList.remove('slide-active');
+      }
+    }
+  }
+
+  // 2. Actualizar botones de navegación superior
+  document.querySelectorAll('.slide-nav-btn').forEach(btn => {
+    const idx = parseInt(btn.getAttribute('data-slide'), 10);
+    if (idx === currentSlide) {
+      btn.className = 'slide-nav-btn px-3 py-1.5 rounded-full text-xs font-black transition-all border border-rose-500 bg-rose-500 text-white shadow-md shadow-rose-500/20 flex items-center gap-1.5';
+    } else {
+      btn.className = 'slide-nav-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all border border-white/10 bg-slate-900/60 text-slate-400 hover:text-white flex items-center gap-1.5';
+    }
+  });
+
+  // 3. Actualizar contador
+  document.getElementById('slideCounterCurrent').innerText = (currentSlide + 1).toString().padStart(2, '0');
+
+  // 4. Actualizar estado y habla de QuimiBot
+  const script = botScripts[currentSlide] || botScripts[0];
+  setBotEmotion(script.emotion, script.speech, script.badge);
+
+  // 5. Botones anterior/siguiente
+  const prevBtn = document.getElementById('prevSlideBtn');
+  const nextBtn = document.getElementById('nextSlideBtn');
+  if (prevBtn) prevBtn.disabled = (currentSlide === 0);
+  if (nextBtn) {
+    if (currentSlide === totalSlides - 1) {
+      nextBtn.innerHTML = '<span>Comenzar Demo</span><span class="material-symbols-outlined text-sm">rocket_launch</span>';
+      nextBtn.onclick = () => window.location.href = '/';
+    } else {
+      nextBtn.innerHTML = '<span>Siguiente</span><span class="material-symbols-outlined text-sm">arrow_forward</span>';
+      nextBtn.onclick = nextSlide;
+    }
+  }
+}
+
+function nextSlide() {
+  if (currentSlide < totalSlides - 1) {
+    currentSlide++;
+    updateSlideView();
+  }
+}
+
+function prevSlide() {
+  if (currentSlide > 0) {
+    currentSlide--;
+    updateSlideView();
+  }
+}
+
+function goToSlide(idx) {
+  if (idx >= 0 && idx < totalSlides) {
+    currentSlide = idx;
+    updateSlideView();
+  }
+}
+
+// Navegación por teclado (Flechas)
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    nextSlide();
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    prevSlide();
+  }
+});
+
+// Cambiar emoción animada de QuimiBot
+function setBotEmotion(emotion, text, badge) {
+  const speechBubble = document.getElementById('botSpeechBubble');
+  const moodBadge = document.getElementById('botMoodBadge');
+  
+  if (speechBubble && text) speechBubble.innerText = text;
+  if (moodBadge && badge) moodBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span><span>${badge}</span>`;
+
+  const cheeks = document.getElementById('botCheeks');
+  const eyesIdle = document.getElementById('botEyesIdle');
+  const eyesHappy = document.getElementById('botEyesHappy');
+  const eyesThinking = document.getElementById('botEyesThinking');
+  const eyesCurious = document.getElementById('botEyesCurious');
+  const mouthNormal = document.getElementById('botMouthNormal');
+  const mouthHappy = document.getElementById('botMouthHappy');
+  const mouthSpeaking = document.getElementById('botMouthSpeaking');
+  const antenna = document.getElementById('botAntenna');
+
+  // Reset
+  if (cheeks) cheeks.classList.add('hidden');
+  if (eyesIdle) eyesIdle.classList.add('hidden');
+  if (eyesHappy) eyesHappy.classList.add('hidden');
+  if (eyesThinking) eyesThinking.classList.add('hidden');
+  if (eyesCurious) eyesCurious.classList.add('hidden');
+  if (mouthNormal) mouthNormal.classList.add('hidden');
+  if (mouthHappy) mouthHappy.classList.add('hidden');
+  if (mouthSpeaking) mouthSpeaking.classList.add('hidden');
+
+  switch (emotion) {
+    case 'happy':
+      if (cheeks) cheeks.classList.remove('hidden');
+      if (eyesHappy) eyesHappy.classList.remove('hidden');
+      if (mouthHappy) mouthHappy.classList.remove('hidden');
+      if (antenna) antenna.setAttribute('fill', '#f43f5e');
+      break;
+    case 'thinking':
+      if (eyesThinking) eyesThinking.classList.remove('hidden');
+      if (mouthNormal) mouthNormal.classList.remove('hidden');
+      if (antenna) antenna.setAttribute('fill', '#f59e0b');
+      break;
+    case 'curious':
+      if (eyesCurious) eyesCurious.classList.remove('hidden');
+      if (mouthNormal) mouthNormal.classList.remove('hidden');
+      if (antenna) antenna.setAttribute('fill', '#38bdf8');
+      break;
+    case 'explaining':
+    default:
+      if (eyesIdle) eyesIdle.classList.remove('hidden');
+      if (mouthSpeaking) mouthSpeaking.classList.remove('hidden');
+      if (antenna) antenna.setAttribute('fill', '#38bdf8');
+      break;
+  }
+}
+
+// Clic interactivo en QuimiBot
+function reactQuimiBot() {
+  const audioChime = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...'); // sutil
+  const compliments = [
+    "¡Jeje! ¿Te gusta cómo me muevo? ¡Diseñado 100% por DU Pixel Code!",
+    "¡Puedo responder en menos de 0.6 segundos y nunca me canso!",
+    "¡Pregúntame sobre cualquier molécula y te haré pensar como científico!",
+    "¡Mis algoritmos guían al alumno paso a paso hacia el conocimiento!"
+  ];
+  const rand = compliments[Math.floor(Math.random() * compliments.length)];
+  setBotEmotion('happy', rand, '¡Interactuando!');
+  setTimeout(() => {
+    const s = botScripts[currentSlide];
+    setBotEmotion(s.emotion, s.speech, s.badge);
+  }, 3500);
+}
+
+// Previsualizador dinámico de diagramas para el Slide 3
+function previewDiagram(svgUrl, title, desc) {
+  const img = document.getElementById('diagramPreviewImg');
+  const t = document.getElementById('diagramPreviewTitle');
+  const d = document.getElementById('diagramPreviewDesc');
+  if (img) img.src = svgUrl;
+  if (t) t.innerText = title;
+  if (d) d.innerText = desc;
+  setBotEmotion('explaining', `¡Aquí tienes el esquema interactivo de ${title}! Observa cada detalle gráfico.`, 'Demostrando');
+}
+
+// Inicializar vista al cargar
+document.addEventListener('DOMContentLoaded', () => {
+  updateSlideView();
+});
+</script>
 </body>
 </html>

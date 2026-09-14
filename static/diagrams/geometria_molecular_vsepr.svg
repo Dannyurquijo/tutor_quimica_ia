@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 540" width="100%" height="100%" style="background:#0b1329; font-family:'Segoe UI',system-ui,sans-serif;">
+  <rect x="25" y="20" width="790" height="58" rx="14" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="50" y="55" fill="#38bdf8" font-size="20" font-weight="800">Geometría Molecular 3D — Teoría de Repulsión (VSEPR / RPECV)</text>
+
+  <!-- 4 TARJETAS COMPARATIVAS -->
+  <!-- 1. LINEAL -->
+  <g transform="translate(30, 95)">
+    <rect x="0" y="0" width="180" height="310" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" fill="#38bdf8" font-size="15" font-weight="800">1. Lineal</text>
+    <text x="20" y="52" fill="#f59e0b" font-size="13" font-weight="bold">Ángulo: 180°</text>
+
+    <!-- Molécula CO2 -->
+    <g transform="translate(90, 150)">
+      <line x1="-55" y1="0" x2="55" y2="0" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="22" fill="#334155" stroke="#94a3b8" stroke-width="2"/><text x="0" y="5" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">C</text>
+      <circle cx="-55" cy="0" r="18" fill="#ef4444"/><text x="-55" y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">O</text>
+      <circle cx="55" cy="0" r="18" fill="#ef4444"/><text x="55" y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">O</text>
+    </g>
+
+    <text x="90" y="240" fill="#94a3b8" font-size="11" text-anchor="middle">Ejemplo: CO₂, BeCl₂</text>
+    <rect x="15" y="255" width="150" height="36" rx="8" fill="#0f172a"/>
+    <text x="90" y="278" fill="#4ade80" font-size="11" font-weight="bold" text-anchor="middle">No Polar (Simétrica)</text>
+  </g>
+
+  <!-- 2. ANGULAR -->
+  <g transform="translate(230, 95)">
+    <rect x="0" y="0" width="180" height="310" rx="14" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="20" y="32" fill="#38bdf8" font-size="15" font-weight="800">2. Angular</text>
+    <text x="20" y="52" fill="#f59e0b" font-size="13" font-weight="bold">Ángulo: 104.5°</text>
+
+    <!-- Molécula H2O -->
+    <g transform="translate(90, 130)">
+      <line x1="0" y1="0" x2="-40" y2="55" stroke="#94a3b8" stroke-width="7" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="40" y2="55" stroke="#94a3b8" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="24" fill="#ef4444"/><text x="0" y="5" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">O</text>
+      <circle cx="-40" cy="55" r="15" fill="#f1f5f9"/><text x="-40" y="59" fill="#0f172a" font-size="10" font-weight="bold" text-anchor="middle">H</text>
+      <circle cx="40" cy="55" r="15" fill="#f1f5f9"/><text x="40" y="59" fill="#0f172a" font-size="10" font-weight="bold" text-anchor="middle">H</text>
+    </g>
+
+    <text x="90" y="240" fill="#94a3b8" font-size="11" text-anchor="middle">Ejemplo: H₂O, SO₂</text>
+    <rect x="15" y="255" width="150" height="36" rx="8" fill="#0f172a"/>
+    <text x="90" y="278" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">POLAR (Dipolo neto)</text>
+  </g>
+
+  <!-- 3. TRIGONAL PLANA -->
+  <g transform="translate(430, 95)">
+    <rect x="0" y="0" width="180" height="310" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" fill="#38bdf8" font-size="15" font-weight="800">3. Trigonal Plana</text>
+    <text x="20" y="52" fill="#f59e0b" font-size="13" font-weight="bold">Ángulo: 120°</text>
+
+    <!-- Molécula BF3 -->
+    <g transform="translate(90, 150)">
+      <line x1="0" y1="0" x2="0" y2="-50" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="-45" y2="35" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="45" y2="35" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="20" fill="#ec4899"/><text x="0" y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">B</text>
+      <circle cx="0" cy="-50" r="15" fill="#a855f7"/><text x="0" y="-46" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">F</text>
+      <circle cx="-45" cy="35" r="15" fill="#a855f7"/><text x="-45" y="39" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">F</text>
+      <circle cx="45" cy="35" r="15" fill="#a855f7"/><text x="45" y="39" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">F</text>
+    </g>
+
+    <text x="90" y="240" fill="#94a3b8" font-size="11" text-anchor="middle">Ejemplo: BF₃, SO₃</text>
+    <rect x="15" y="255" width="150" height="36" rx="8" fill="#0f172a"/>
+    <text x="90" y="278" fill="#4ade80" font-size="11" font-weight="bold" text-anchor="middle">No Polar (Simétrica)</text>
+  </g>
+
+  <!-- 4. TETRAÉDRICA -->
+  <g transform="translate(630, 95)">
+    <rect x="0" y="0" width="180" height="310" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="32" fill="#38bdf8" font-size="15" font-weight="800">4. Tetraédrica</text>
+    <text x="20" y="52" fill="#f59e0b" font-size="13" font-weight="bold">Ángulo: 109.5°</text>
+
+    <!-- Molécula CH4 -->
+    <g transform="translate(90, 150)">
+      <line x1="0" y1="0" x2="0" y2="-50" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="45" y2="25" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="-40" y2="35" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="-20" y2="45" stroke="#64748b" stroke-width="8" stroke-dasharray="2 3"/>
+      <circle cx="0" cy="0" r="22" fill="#1e293b" stroke="#94a3b8"/><text x="0" y="4" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">C</text>
+      <circle cx="0" cy="-50" r="14" fill="#f1f5f9"/><text x="0" y="-46" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">H</text>
+      <circle cx="45" cy="25" r="14" fill="#f1f5f9"/><text x="45" y="29" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">H</text>
+      <circle cx="-40" cy="35" r="14" fill="#f1f5f9"/><text x="-40" y="39" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">H</text>
+    </g>
+
+    <text x="90" y="240" fill="#94a3b8" font-size="11" text-anchor="middle">Ejemplo: CH₄, CCl₄</text>
+    <rect x="15" y="255" width="150" height="36" rx="8" fill="#0f172a"/>
+    <text x="90" y="278" fill="#4ade80" font-size="11" font-weight="bold" text-anchor="middle">No Polar (Simétrica)</text>
+  </g>
+
+  <!-- BARRA INFERIOR -->
+  <rect x="25" y="425" width="790" height="95" rx="14" fill="#1e293b" stroke="#334155"/>
+  <text x="45" y="452" fill="#38bdf8" font-size="14" font-weight="800">💡 ¿Por qué se forman estas geometrías espaciales?</text>
+  <text x="45" y="476" fill="#e2e8f0" font-size="13">Los pares de electrones alrededor del átomo central tienen carga negativa y <tspan fill="#f59e0b" font-weight="bold">SE REPELEN AL MÁXIMO</tspan>.</text>
+  <text x="45" y="498" fill="#94a3b8" font-size="12">Se acomodan en el espacio tridimensional a la mayor distancia angular posible para minimizar la energía de repulsión.</text>
+</svg>

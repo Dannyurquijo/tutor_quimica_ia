@@ -101,6 +101,51 @@ window.closeImageModal = function() {
   if (modal) modal.classList.add('hidden');
 };
 
+window.appendImage = function(imageUrl, title) {
+  const chatHistory = document.getElementById('chatHistory');
+  if (!chatHistory || !imageUrl) return;
+
+  const card = document.createElement('div');
+  card.className = 'flex items-start gap-3 my-3 animate-in fade-in slide-in-from-bottom-2 duration-300';
+  
+  const displayTitle = title || 'Ilustración Científica QuimiBot';
+  const isMolecular = /agua|h2o|enlace|molecula|polar|nacl|co2|ch4/i.test(imageUrl + ' ' + displayTitle);
+
+  card.innerHTML = `
+    <div class="w-8 h-8 rounded-full bg-cyan-600/20 text-cyan-600 border border-cyan-500/30 flex items-center justify-center font-bold text-xs flex-shrink-0">
+      🔬
+    </div>
+    <div class="ios-glass-card max-w-lg w-full rounded-2xl overflow-hidden shadow-md border border-cyan-500/20 bg-white/95">
+      <div class="px-4 py-2 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex items-center justify-between">
+        <span class="text-xs font-bold flex items-center gap-1.5 text-cyan-300">
+          <span>🖼️</span>
+          <span>${displayTitle}</span>
+        </span>
+        <span class="text-[10px] font-semibold bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-400/30">Ilustración HD</span>
+      </div>
+      <div class="p-2 bg-slate-950/90 flex items-center justify-center cursor-pointer group relative" onclick="window.openImageModal('${imageUrl}', '${displayTitle}')" title="Haz clic para ampliar en alta definición">
+        <img src="${imageUrl}" alt="${displayTitle}" class="max-h-64 w-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-200" />
+        <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+          <span>🔍</span> Ampliar
+        </div>
+      </div>
+      <div class="p-3 bg-slate-50/90 border-t border-slate-200/80 flex items-center justify-between gap-2">
+        <button type="button" onclick="window.openImageModal('${imageUrl}', '${displayTitle}')" class="text-xs font-bold text-cyan-700 hover:text-cyan-900 flex items-center gap-1">
+          <span>🔍</span> <span>Ver en Pantalla Completa</span>
+        </button>
+        ${isMolecular ? `
+        <button type="button" onclick="if(window.openMoleculeViewer) window.openMoleculeViewer();" class="text-xs font-extrabold bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-1 rounded-full shadow-sm flex items-center gap-1 transition-all active:scale-95">
+          <span>🔬</span> <span>Explorar en 3D</span>
+        </button>
+        ` : ''}
+      </div>
+    </div>
+  `;
+
+  chatHistory.appendChild(card);
+  chatHistory.scrollTo({ top: chatHistory.scrollHeight, behavior: 'smooth' });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // ─────────────────────────────────────────────
@@ -176,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
           await appendBotMessageAnimated(data.respuesta);
           
           if (data.image_url) {
-            appendImage(data.image_url);
+            window.appendImage(data.image_url);
             window.setBotEmotion('happy', '¡Observa los detalles del esquema! 🔍');
           }
         } else {

@@ -83,7 +83,7 @@ def _get_active_client():
 
 
 def _clean_tutor_response(text: str) -> str:
-    """Limpia cualquier rastro de pensamiento interno de modelos de razonamiento."""
+    """Limpia cualquier rastro de pensamiento interno o alucinaciones de 'modelo de texto'."""
     if not text:
         return ""
     clean = text.strip()
@@ -103,20 +103,32 @@ def _clean_tutor_response(text: str) -> str:
             if len(parts) > 1:
                 candidate = parts[-1].strip()
                 if len(candidate) > 40:
-                    return candidate
-        # Si no hubo split limpio, filtrar líneas de pensamiento
-        lines = clean.split("\n")
-        content_lines = []
-        in_thinking = True
-        for line in lines:
-            if in_thinking:
-                if line.strip().startswith(("¡", "¿", "Excelente", "Muy bien", "Exacto", "Hola", "💡")) or "conclusión" in line.lower():
-                    in_thinking = False
+                    clean = candidate
+                    break
+        else:
+            lines = clean.split("\n")
+            content_lines = []
+            in_thinking = True
+            for line in lines:
+                if in_thinking:
+                    if line.strip().startswith(("¡", "¿", "Excelente", "Muy bien", "Exacto", "Hola", "💡")) or "conclusión" in line.lower():
+                        in_thinking = False
+                        content_lines.append(line)
+                else:
                     content_lines.append(line)
-            else:
-                content_lines.append(line)
-        if content_lines:
-            return "\n".join(content_lines).strip()
+            if content_lines:
+                clean = "\n".join(content_lines).strip()
+
+    # Reemplazar alucinaciones donde el LLM niega poder mostrar imágenes
+    forbidden_patterns = [
+        r"(?:como|soy un)\s+(?:modelo|ia)\s+(?:de\s+)?(?:lenguaje|texto)[^.\n]*?(?:no\s+puedo|incapaz\s+de)\s+(?:crear|generar|mostrar|ver)\s+(?:im[aá]genes|fotos|diagramas)[^.\n]*[.]?",
+        r"(?:no\s+tengo\s+la\s+capacidad|no\s+puedo|no\s+me\s+es\s+posible)\s+(?:de\s+)?(?:generar|crear|mostrar|dibujar)\s+(?:im[aá]genes|fotos|diagramas)[^.\n]*[.]?",
+        r"como modelo de lenguaje(?:,\s*)?",
+        r"como inteligencia artificial de texto(?:,\s*)?"
+    ]
+    for pat in forbidden_patterns:
+        clean = re.sub(pat, "¡Aquí tienes la representación visual en pantalla!", clean, flags=re.IGNORECASE)
+
     return clean.strip()
 
 
@@ -127,6 +139,15 @@ def _get_failsafe_socratic_response(messages):
     """
     last_msg = (messages[-1]["content"] if messages else "").lower()
     is_follow_up = len(messages) >= 3
+
+    # Si solicita una imagen explícitamente
+    if any(k in last_msg for k in ["imagen", "diagrama", "esquema", "foto", "dibuja", "muestrame", "muéstrame", "visual"]):
+        return (
+            "¡Por supuesto! He colocado la ilustración científica en tu pantalla. 🖼️\n\n"
+            "Observa con atención los detalles del diagrama que tienes enfrente:\n"
+            "• Fíjate en cómo están distribuidos los átomos y sus cargas.\n\n"
+            "¿Qué elemento o parte del esquema te llama más la atención para analizar su comportamiento?"
+        )
 
     # Si el alumno pide la respuesta directa o dice que no sabe
     if any(k in last_msg for k in ["no sé", "no se", "dime la respuesta", "explica", "no entiendo", "ayuda"]):
@@ -189,7 +210,7 @@ class LLMService:
                 continue
             start = time.monotonic()
             try:
-                # Timeout generoso de 7.5s para inferencia completa
+                # Timeout generoso de 12.0s para inferencia completa
                 with OpenAI(api_key=key, base_url=url, max_retries=1,
                             timeout=httpx.Timeout(connect=3.0, read=12.0, write=3.0, pool=5.0)) as client:
                     kwargs = dict(model=model, messages=full_messages, temperature=temperature, max_tokens=max_tokens)
@@ -267,18 +288,33 @@ class RerankerService:
 
 class ImageService:
     DIAGRAM_MAP = {
+        "molecula_agua": {
+            "keywords": ["agua", "h2o", "polar", "polaridad", "dipolo", "dipolar", "puente de hidrogeno", "hidrogeno", "oxigeno", "covalente polar"],
+            "url": "/static/diagrams/molecula_agua_polaridad.svg",
+            "title": "Molécula de Agua (H₂O) — Geometría Angular y Polaridad"
+        },
+        "disolucion_nacl": {
+            "keywords": ["sal", "cloruro", "conduce", "electricidad", "electric", "disoluci", "disolución", "disuelve", "foco", "electrolito", "luz", "iones libres", "solucion acuosa", "nacl disuelto", "red cristalina", "corriente"],
+            "url": "/static/diagrams/disolucion_nacl_electricidad.svg",
+            "title": "Conducción Eléctrica y Disolución de Sal (NaCl)"
+        },
+        "geometria_molecular": {
+            "keywords": ["geometria", "geometría", "vsepr", "rpecv", "forma espacial", "tetraedr", "tetraédrica", "trigonal", "lineal", "104.5", "109.5", "180", "repulsion", "repulsión"],
+            "url": "/static/diagrams/geometria_molecular_vsepr.svg",
+            "title": "Geometría Molecular 3D (VSEPR)"
+        },
         "estructura_atomica": {
             "keywords": ["atomo", "átomo", "bohr", "electron", "electrón", "electrones", "protón", "protones", "proton", "neutron", "neutrones", "núcleo", "nucleo", "valencia", "orbita", "órbita", "cuantico", "subatom", "capa", "sodio"],
             "url": "/static/diagrams/estructura_atomica_bohr.svg",
             "title": "Modelo Atómico de Bohr (Na, Z=11)"
         },
         "enlaces_quimicos": {
-            "keywords": ["enlace", "covalente", "ionico", "iónico", "lewis", "compartir", "transferir", "metalico", "metálico", "electronegativ", "nacl", "agua", "molecula"],
+            "keywords": ["enlace", "covalente", "ionico", "iónico", "lewis", "compartir", "transferir", "metalico", "metálico", "electronegativ", "nacl", "molecula"],
             "url": "/static/diagrams/enlaces_quimicos.svg",
-            "title": "Enlace Covalente vs. Enlace Iónico"
+            "title": "Comparación: Enlace Covalente vs. Enlace Iónico"
         },
         "reaccion_quimica": {
-            "keywords": ["reaccion", "reacción", "ecuacion", "ecuación", "balance", "balanceo", "reactivo", "reactivos", "producto", "productos", "conservacion", "conservación", "materia", "h2o", "oxigeno", "hidrogeno"],
+            "keywords": ["reaccion", "reacción", "ecuacion", "ecuación", "balance", "balanceo", "reactivo", "reactivos", "producto", "productos", "conservacion", "conservación", "materia", "oxigeno"],
             "url": "/static/diagrams/reaccion_quimica.svg",
             "title": "Ley de Conservación de la Materia (2H₂ + O₂ → 2H₂O)"
         },
@@ -301,15 +337,22 @@ class ImageService:
 
     def generate(self, prompt, style=""):
         p = prompt.lower()
-        # Buscar coincidencia temática precisa
+        best_key = None
+        best_score = 0
         for key, info in self.DIAGRAM_MAP.items():
-            if any(kw in p for kw in info["keywords"]):
-                logger.info(f"[ImageService] Matched pedagogical diagram '{key}' -> {info['url']}")
-                return info["url"]
+            score = sum(1 for kw in info["keywords"] if kw in p)
+            if score > best_score:
+                best_score = score
+                best_key = key
+
+        if best_key and best_score > 0:
+            info = self.DIAGRAM_MAP[best_key]
+            logger.info(f"[ImageService] Best matched diagram '{best_key}' (score={best_score}) -> {info['url']}")
+            return info["url"]
         
-        # Si la solicitud es genérica ("dame una imagen", "ejemplo visual"), asignar el diagrama clave de Bohr
-        logger.info("[ImageService] Serving default atomic structure diagram")
-        return "/static/diagrams/estructura_atomica_bohr.svg"
+        # Fallback genérico visual: molécula de agua
+        logger.info("[ImageService] Serving default water molecule diagram")
+        return "/static/diagrams/molecula_agua_polaridad.svg"
 
 
 class VisionService:
@@ -340,8 +383,9 @@ class AIRouter:
     REASONING_KEYWORDS = ["paso a paso", "demuestra", "calcula", "resuelve", "balancea", "balance", "estequiometria", "moles", "reactivo limitante", "rendimiento", "ph de", "kc", "kp", "buffer", "tampon"]
     IMAGE_KEYWORDS = [
         "imagen", "foto", "diagrama", "esquema", "dibuja", "dibujo",
-        "muestrame", "grafica", "ejemplo visual", "representa",
-        "estructura de", "molecula de", "formula estructural", "modelo"
+        "muestrame", "muéstrame", "grafica", "gráfica", "ejemplo visual", "representa", "representación",
+        "estructura de", "molecula de", "molécula de", "formula estructural", "fórmula estructural",
+        "modelo", "ilustra", "ilustración", "quiero ver", "como se ve", "cómo se ve", "visual"
     ]
 
     def __init__(self):
@@ -372,7 +416,12 @@ class AIRouter:
         image_url = None
         if mode == "image":
             image_url = self.image.generate(last_message)
-            system += "\nEl alumno solicitó una imagen o diagrama. Se le presentará una ilustración visual educativa en la pantalla. Haz una pregunta socrática guiándolo a observar los detalles de este modelo o diagrama."
+            system += (
+                f"\n\n[INSTRUCCIÓN CRÍTICA DE ILUSTRACIÓN]: El sistema gráfico de la plataforma YA ha colocado exitosamente la ilustración visual científica en la pantalla del alumno ({image_url}). "
+                "Está ESTRICTAMENTE PROHIBIDO decir que eres un modelo de texto o que no puedes mostrar imágenes. "
+                "Confirma con entusiasmo al alumno que la ilustración ya está visible en su pantalla ('¡Aquí tienes la ilustración en pantalla!') "
+                "y hazle una pregunta socrática enfocada guiándolo a observar los detalles visuales de este modelo."
+            )
 
         text = self.llm.chat(messages, system_prompt=system)
         return {
@@ -381,6 +430,7 @@ class AIRouter:
             "image_url": image_url,
             "sources_used": bool(rag_context)
         }
+
 
 
 # Instancias globales

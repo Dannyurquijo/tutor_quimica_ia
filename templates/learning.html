@@ -133,10 +133,17 @@
           <span class="text-base">🤖</span>
           <span>QuimiBot Companion</span>
         </span>
-        <span id="robotStatusBadge" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 font-extrabold text-[10px] px-3 py-0.5 rounded-full flex items-center gap-1.5 uppercase tracking-wider">
-          <span id="statusIndicatorDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span id="robotStatusText">Activo</span>
-        </span>
+        <div class="flex items-center gap-1.5">
+          <!-- Botón de Voz QuimiBot (Web Speech API) -->
+          <button type="button" id="voiceToggleBtn" onclick="toggleQuimibotVoice()" class="ios-tap px-2.5 py-1 rounded-full text-[11px] font-bold border transition-all flex items-center gap-1 bg-cyan-500/10 border-cyan-500/40 text-cyan-700 shadow-2xs hover:bg-cyan-500/20" title="Activar / Silenciar voz de QuimiBot">
+            <span id="voiceToggleIcon">🔊</span>
+            <span id="voiceToggleLabel">Voz ON</span>
+          </button>
+          <span id="robotStatusBadge" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 font-extrabold text-[10px] px-2.5 py-0.5 rounded-full flex items-center gap-1 uppercase tracking-wider">
+            <span id="statusIndicatorDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="robotStatusText">Activo</span>
+          </span>
+        </div>
       </div>
 
       <!-- ROBOT QUIMIBOT GIGANTE ANIMADO (220px x 220px) -->
@@ -375,6 +382,9 @@ async function startSocraticChallenge() {
     if (res.ok && data.challenge_text) {
       if (window.appendBotMessageAnimated) {
         window.setBotEmotion('explaining', '¡Aquí tienes el reto del módulo! 🎯 Deduce la respuesta:');
+        if (window.speakQuimibotText) {
+          window.speakQuimibotText(data.challenge_text);
+        }
         await window.appendBotMessageAnimated(data.challenge_text);
       }
     }

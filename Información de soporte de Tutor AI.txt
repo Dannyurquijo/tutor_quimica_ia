@@ -1,0 +1,112 @@
+Información de soporte de Tutor de IA para institutos escolares: 
+
+📘 DOSSIER EJECUTIVO B2B: QUIMIBOT ENTERPRISE
+Desarrollador y Propietario Intelectual: DU Pixel Code
+Plataforma en Producción: https://tutor.dupixelcode.com
+
+Segmento Objetivo (Target): Colegios Privados, Preparatorias, Bachilleratos de Élite y Redes Educativas.
+
+1. ¿QUÉ ES LA PLATAFORMA?
+QuimiBot Enterprise es el primer Ecosistema de Tutoría Socrática con Inteligencia Artificial y Laboratorio Visual Vectorial diseñado para nivel medio superior.
+
+A diferencia de ChatGPT, Copilot o Gemini (que son "motores de respuesta rápida" donde el alumno copia la solución sin aprender), QuimiBot es un entrenador cognitivo:
+
+Tiene estrictamente prohibido dar respuestas directas.
+Utiliza el Método Socrático: formula preguntas de andamiaje, cuestiona hipótesis y guía al estudiante paso a paso para que deduzca las leyes de la ciencia por sí mismo.
+Genera esquemas químicos vectoriales (SVG) en tiempo real (<0.6 segundos) para que la materia no se memorice en abstracto, sino que se visualice en 3D.
+Conecta en un solo ecosistema a los 3 pilares escolares: Alumno, Profesorado y Padres de Familia.
+2. ¿PARA QUÉ SIRVE Y QUÉ PROBLEMAS RESUELVE? (La Propuesta de Valor)
+Para venderle a un Director General o Académico, tu cerrador debe tocar estos 4 dolores reales del colegio:
+
+
+
+┌─────────────────────────────┬────────────────────────────────────────────────────────┐
+│ EL DOLOR DEL COLEGIO        │ CÓMO LO RESUELVE QUIMIBOT ENTERPRISE                   │
+├─────────────────────────────┼────────────────────────────────────────────────────────┤
+│ 1. Trampa y Plagio con IA   │ QuimiBot convierte la IA de "enemiga del aula" en      │
+│    Los alumnos copian de    │ tutora oficial: no hace tareas, reta el pensamiento    │
+│    ChatGPT y reprueban.     │ crítico del alumno y fija la memoria a largo plazo.    │
+├─────────────────────────────┼────────────────────────────────────────────────────────┤
+│ 2. Docentes Saturados       │ El profesor no puede atender a 90 alumnos de noche.    │
+│    Pierden hasta 6 horas a  │ QuimiBot atiende dudas 24/7 y le entrega al profesor   │
+│    la semana en dudas base. │ un semáforo analítico y reportes listos para comités.  │
+├─────────────────────────────┼────────────────────────────────────────────────────────┤
+│ 3. Fuga de Alumnos y Quejas │ Los padres no saben si su hijo aprovecha la colegiatura│
+│    Padres que sienten que   │ hasta que reprueba. Con el portal de padres, la IA les │
+│    la colegiatura es cara.  │ manda reportes afectivos que fidelizan la matrícula.   │
+├─────────────────────────────┼────────────────────────────────────────────────────────┤
+│ 4. Competencia de Admisiones│ Posiciona al colegio como una institución de vanguardia│
+│    Necesitan diferenciarse  │ tecnológica que entrega un tutor de IA personalizado   │
+│    de otras escuelas.       │ incluido en la colegiatura (argumento de venta anual). │
+└─────────────────────────────┴────────────────────────────────────────────────────────┘
+3. ¿CÓMO SE USA? (Recorrido Funcional por Perfil)
+Tu vendedor debe conocer el flujo exacto de los 3 usuarios:
+
+🎓 PERFIL 1: EL ALUMNO (Aprende y Deduce)
+Acceso: https://tutor.dupixelcode.com/
+ (Cuenta demo: sofia@balmoral.edu.mx / quimica123).
+Paso 1 - Diagnóstico Inicial (Onboarding): Al entrar por primera vez (/onboarding), el alumno define su nivel, dificultades y estilo de aprendizaje (Visual, Práctico o Teórico). La base vectorial (ChromaDB) guarda este perfil para personalizar todas las respuestas.
+Paso 2 - Chat Socrático Interactivo:
+El alumno escribe su duda con lenguaje natural (ej. "¿Por qué la sal se disuelve en agua?").
+QuimiBot no le da la fórmula de golpe; le pregunta: "Imagina la molécula de agua, ¿recuerdas qué carga tiene el oxígeno y qué pasa cuando se acerca al sodio positivo?".
+Cuando el alumno razona la idea, QuimiBot le entrega una tarjeta destacada: 💡 Conclusión del Concepto para consolidar el apunte.
+Paso 3 - Laboratorio Visual Vectorial Instantáneo (<0.6s):
+Si el alumno pide ver la molécula ("muéstrame", "dibújame", "cómo se ve"), el sistema despliega diagramas SVG científicos al instante (Agua polar, Disolución de NaCl y corriente, Geometría VSEPR, Modelo de Bohr, Escala de pH, Ley de Lavoisier, Tabla Periódica, etc.).
+Paso 4 - Micro-Desafíos Gamificados:
+Botón "🎯 Desafío Socrático": activa 3 preguntas rápidas para validar el tema, acumular rachas de estudio y subir su porcentaje de dominio curricular.
+👩‍🏫 PERFIL 2: EL DOCENTE Y LA DIRECCIÓN (Control y Analítica)
+Acceso: https://tutor.dupixelcode.com/dashboard-teacher
+ (Cuenta demo: directora.demo@balmoral.example / directora123).
+Métrica 1 - Semáforo de Autonomía Deductiva:
+🟢 Autónoma: Alumnos que deducen los principios con una sola pista.
+🟡 Guiada: Alumnos que requieren 2 o 3 preguntas intermedias.
+🔴 Inicial / Dependiente: Alumnos que piden respuestas directas o presentan lagunas graves. (El profesor sabe exactamente a quién intervenir en clase antes del examen).
+Métrica 2 - Gestión Curricular en 1 Clic:
+El profesor ve el avance de cada tema (Estructura Atómica, Enlaces, Estequiometría, pH, Termoquímica) y puede cambiar el estado: En Progreso, Dominado o Por Reforzar.
+Métrica 3 - Reporte Institucional Imprimible / PDF (/dashboard-teacher/report):
+Con un solo clic, el sistema compila la analítica de todo el colegio con membrete institucional, fecha automática y estadísticas para juntas directivas o comités escolares.
+Alta de Profesores: Nuevos maestros se registran usando la Clave Institucional: BALMORAL-DOCENTE-2026.
+👨‍👩‍👧 PERFIL 3: LOS PADRES DE FAMILIA (Transparencia y Retención)
+Acceso: https://tutor.dupixelcode.com/padres
+ (Demo con código: PADRE-SOF-1079 o enlace directo https://tutor.dupixelcode.com/padres?codigo=PADRE-SOF-1079
+).
+Cero Contraseñas (Passwordless): Los padres no tienen que recordar correos ni crear cuentas; solo teclean el Código Familiar Único que el colegio les entrega.
+Síntesis Ejecutiva con IA:
+La IA analiza los diálogos del estudiante y redacta un informe afectivo de 3 viñetas:
+🌟 Temas explorados y comprensión lograda.
+💡 Grado de autonomía y deducción socrática.
+🏡 Tip para el hogar: Una pregunta cotidiana que los padres pueden hacer en la cena para reforzar el aprendizaje sin saber nada de química.
+Auditoría de Estudio: Los padres pueden desplegar los extractos de chat para constatar que su hijo realmente estudió.
+4. HERRAMIENTAS INTEGRADAS PARA DEMOSTRACIONES COMERCIALES
+Tu vendedor no necesita abrir PowerPoint ni cargar PDFs; la plataforma se vende sola en vivo:
+
+🚀 Presentación B2B Interactiva: https://tutor.dupixelcode.com/pitch
+7 diapositivas estilo Keynote con QuimiBot animado como copiloto narrador en vivo.
+Demostración de diagramas vectoriales dentro de la misma diapositiva.
+📖 Manual Interactivo 360°: https://tutor.dupixelcode.com/manual
+Centro de ayuda con pestañas para Alumno, Maestro y Padres, simulador de chat y cajas de copiado rápido de credenciales.
+📄 Reporte Institucional PDF: https://tutor.dupixelcode.com/dashboard-teacher/report
+Muestra el entregable que recibirá el Consejo Académico del colegio.
+5. ARGUMENTARIO DE CIERRE Y RESPUESTAS A OBJECIONES (Para el Vendedor)
+Objeción 1: "¿Por qué pagaríamos por esto si los alumnos ya usan ChatGPT gratis?"
+Respuesta de Cierre:
+"Precisamente por eso, Director. ChatGPT gratis es el enemigo número uno de sus maestros hoy: los muchachos copian y pegan la tarea, sacan 10 en casa y reprueban el examen departamental porque no aprendieron a pensar. QuimiBot tiene prohibido dar respuestas; utiliza el método socrático para obligarlos a deducir el concepto. Con QuimiBot, su colegio toma el control pedagógico de la IA en lugar de sufrir sus trampas."
+
+Objeción 2: "A los profesores les preocupa que la IA los reemplace o les quite trabajo."
+Respuesta de Cierre:
+"Al contrario: QuimiBot es el mejor asistente que un maestro puede tener. Le ahorra hasta 6 horas a la semana atendiendo dudas básicas nocturnas y le entrega un semáforo analítico que le dice exactamente qué alumnos tienen rezago y en qué tema específico. El profesor llega al aula sabiendo exactamente dónde enfocar su clase."
+
+Objeción 3: "No tenemos presupuesto aprobado para este semestre."
+Respuesta de Cierre:
+"Por eso ofrecemos nuestro Programa Piloto de 30 Días. Seleccionemos un solo grupo de bachillerato. No le cuesta un centavo al colegio este mes. Medimos el incremento en calificaciones y la satisfacción de los padres. Con esos resultados en la mano, el programa se paga solo integrándose en la cuota de tecnología del siguiente ciclo escolar."
+
+6. MODELO DE NEGOCIO Y PLANES B2B RECOMENDADOS
+Fase 1 - Piloto de Validación (30 Días):
+Costo: $0 MXN (con carta compromiso de evaluación).
+Incluye: 1 grupo piloto (hasta 35 alumnos), acceso a 1 docente y portal de padres.
+Fase 2 - Licencia Escolar Anual (SaaS por Alumno):
+Modelo: Cuota anual por estudiante activo (típicamente $25 a $45 USD por alumno/año, fácilmente absorbible en la colegiatura).
+Incluye: Acceso 24/7 ilimitado, todos los grupos de ciencias, panel directivo multi-profesor y reportes PDF mensuales.
+Fase 3 - Edición Marca Blanca Institucional (Colegios Premium):
+Personalización completa con el logotipo, escudo y subdominio propio del colegio (ej. quimica.colegiobalmoral.edu.mx).
+Respaldo de infraestructura, soporte y actualizaciones continuas por DU Pixel Code.

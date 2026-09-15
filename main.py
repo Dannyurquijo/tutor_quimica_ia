@@ -352,9 +352,20 @@ def teacher_students(request: Request, db: Session = Depends(get_db)):
 @app.get("/dashboard-teacher/report")
 def teacher_institutional_report(request: Request, db: Session = Depends(get_db)):
     """Genera el informe institucional ejecutivo imprimible/PDF para la Dirección y Docentes."""
-    user = auth_service.require_user(request, db)
-    if user.rol not in ("maestro", "admin"):
-        return RedirectResponse(url="/", status_code=302)
+    user = auth_service.get_current_user(request, db)
+    is_demo = False
+    if not user or user.rol not in ("maestro", "admin"):
+        is_demo = True
+        demo_teacher = db.query(User).filter(User.rol == "maestro").first()
+        user = demo_teacher or User(
+            id=0,
+            nombre="Directora Martha",
+            apellido="Balmoral",
+            email="directora.demo@balmoral.example",
+            rol="maestro",
+            institucion="Colegio Balmoral",
+            avatar="👩‍🏫"
+        )
     
     rows, available, analytics = teacher_data(db)
     
@@ -366,7 +377,8 @@ def teacher_institutional_report(request: Request, db: Session = Depends(get_db)
             "students": rows,
             "analytics": analytics,
             "curriculum": TEMAS_CURRICULO_BALMORAL,
-            "fecha_reporte": datetime.now().strftime("%d de %B de %Y")
+            "fecha_reporte": datetime.now().strftime("%d de %B de %Y"),
+            "is_demo": is_demo
         }
     )
 

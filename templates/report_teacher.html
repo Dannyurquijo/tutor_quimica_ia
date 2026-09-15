@@ -21,11 +21,22 @@
 <div class="max-w-5xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-slate-200">
 
   <!-- Barra de acciones en pantalla -->
-  <div class="no-print flex justify-between items-center pb-6 mb-6 border-b border-slate-200">
-    <a href="/dashboard-teacher" class="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1">
-      ← Regresar al Panel Docente
-    </a>
-    <button onclick="window.print()" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold rounded-xl shadow-sm flex items-center gap-2">
+  <div class="no-print flex flex-wrap justify-between items-center gap-3 pb-6 mb-6 border-b border-slate-200">
+    <div class="flex items-center gap-2">
+      {% if is_demo %}
+      <a href="/pitch" class="text-xs font-bold text-cyan-700 hover:text-cyan-900 flex items-center gap-1 bg-cyan-50 hover:bg-cyan-100 px-3.5 py-2 rounded-xl border border-cyan-200 transition-all">
+        ← Regresar a Presentación B2B
+      </a>
+      <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full border border-amber-200">
+        Demo Institucional
+      </span>
+      {% else %}
+      <a href="/dashboard-teacher" class="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-xl border border-slate-200 transition-all">
+        ← Regresar al Panel Docente
+      </a>
+      {% endif %}
+    </div>
+    <button onclick="window.print()" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold rounded-xl shadow-sm flex items-center gap-2 transition-all">
       <span>🖨️</span> Imprimir o Guardar en PDF
     </button>
   </div>

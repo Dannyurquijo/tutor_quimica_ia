@@ -8,6 +8,153 @@ window.QUIMIBOT_SESSION = window.QUIMIBOT_SESSION || 'session-demo-' + Date.now(
 window.QUIMIBOT_USER_ID = window.QUIMIBOT_USER_ID || 'alumno-demo';
 window.QUIMIBOT_NOMBRE  = window.QUIMIBOT_NOMBRE  || 'Alumno';
 
+// ─────────────────────────────────────────────
+// SISTEMA DE VOZ SOCRÁTICA QUIMIBOT (Web Speech API)
+// ─────────────────────────────────────────────
+window.isQuimibotSpeaking = false;
+let quimibotVoices = [];
+
+function loadQuimibotVoices() {
+  if ('speechSynthesis' in window) {
+    quimibotVoices = window.speechSynthesis.getVoices();
+  }
+}
+loadQuimibotVoices();
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = loadQuimibotVoices;
+}
+
+function getBestSpanishVoice() {
+  if (!quimibotVoices || quimibotVoices.length === 0) {
+    loadQuimibotVoices();
+  }
+  const esVoices = quimibotVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('es'));
+  if (!esVoices.length) return null;
+
+  const preferredNames = ['google', 'natural', 'paulina', 'sabina', 'monica', 'jorge', 'raul', 'helena', 'alva'];
+  for (const name of preferredNames) {
+    const match = esVoices.find(v => v.name.toLowerCase().includes(name));
+    if (match) return match;
+  }
+  const latam = esVoices.find(v => v.lang.toLowerCase() === 'es-mx' || v.lang.toLowerCase() === 'es-419');
+  if (latam) return latam;
+
+  return esVoices[0];
+}
+
+function cleanTextForSpeech(text) {
+  if (!text) return '';
+  return text
+    .replace(/https?:\/\/\S+/gi, '')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .replace(/`{1,3}(.*?)`{1,3}/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+    .replace(/^[\*\-\+]\s+/gm, '')
+    .replace(/^\d+\.\s+/gm, '')
+    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}]/gu, '')
+    .replace(/\bH2O\b/g, 'H dos O')
+    .replace(/\bCO2\b/g, 'C O dos')
+    .replace(/\bO2\b/g, 'oxígeno molecular O dos')
+    .replace(/\bNaCl\b/g, 'cloruro de sodio')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+window.isVoiceEnabled = function() {
+  const saved = localStorage.getItem('quimibot_voice_enabled');
+  return saved === null ? true : saved === 'true';
+};
+
+window.toggleQuimibotVoice = function() {
+  const currentState = window.isVoiceEnabled();
+  const newState = !currentState;
+  localStorage.setItem('quimibot_voice_enabled', newState ? 'true' : 'false');
+  window.updateVoiceToggleUI(newState);
+  if (!newState && 'speechSynthesis' in window) {
+    window.stopQuimibotVoice();
+  }
+};
+
+window.updateVoiceToggleUI = function(enabled) {
+  const toggleBtn = document.getElementById('voiceToggleBtn');
+  const icon = document.getElementById('voiceToggleIcon');
+  const label = document.getElementById('voiceToggleLabel');
+  if (toggleBtn) {
+    if (enabled) {
+      toggleBtn.className = 'ios-tap px-2.5 py-1 rounded-full text-[11px] font-bold border transition-all flex items-center gap-1 bg-cyan-500/10 border-cyan-500/40 text-cyan-700 shadow-2xs hover:bg-cyan-500/20';
+      if (icon) icon.textContent = '🔊';
+      if (label) label.textContent = 'Voz ON';
+      toggleBtn.title = 'Voz de QuimiBot activada (Haz clic para silenciar)';
+    } else {
+      toggleBtn.className = 'ios-tap px-2.5 py-1 rounded-full text-[11px] font-bold border transition-all flex items-center gap-1 bg-slate-100 border-slate-300 text-slate-500 shadow-2xs hover:bg-slate-200';
+      if (icon) icon.textContent = '🔇';
+      if (label) label.textContent = 'Voz Mute';
+      toggleBtn.title = 'Voz de QuimiBot silenciada (Haz clic para activar)';
+    }
+  }
+};
+
+window.stopQuimibotVoice = function() {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+  window.isQuimibotSpeaking = false;
+  window.setBotEmotion('idle');
+};
+
+window.speakQuimibotText = function(text) {
+  if (!('speechSynthesis' in window)) return;
+  if (!window.isVoiceEnabled()) return;
+
+  window.speechSynthesis.cancel();
+
+  const cleanText = cleanTextForSpeech(text);
+  if (!cleanText) return;
+
+  const utterance = new SpeechSynthesisUtterance(cleanText);
+  const voice = getBestSpanishVoice();
+  if (voice) {
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+  } else {
+    utterance.lang = 'es-MX';
+  }
+  utterance.rate = 1.05;
+  utterance.pitch = 1.05;
+
+  utterance.onstart = function() {
+    window.isQuimibotSpeaking = true;
+    window.setBotEmotion('speaking', '¡Hablando contigo! 🗣️ Escucha con atención...');
+    const statusText = document.getElementById('robotStatusText');
+    const statusDot = document.getElementById('statusIndicatorDot');
+    if (statusText) statusText.textContent = 'Hablando... 🗣️';
+    if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-cyan-400 animate-ping';
+  };
+
+  utterance.onend = function() {
+    window.isQuimibotSpeaking = false;
+    window.setBotEmotion('idle');
+  };
+
+  utterance.onerror = function() {
+    window.isQuimibotSpeaking = false;
+    window.setBotEmotion('idle');
+  };
+
+  window.speechSynthesis.speak(utterance);
+};
+
+window.speakMessageText = function(btn) {
+  const container = btn.closest('.bot-bubble-container') || btn.closest('.flex.gap-3');
+  if (!container) return;
+  const body = container.querySelector('.bot-text-body');
+  if (body) {
+    window.speakQuimibotText(body.innerText || body.textContent);
+  }
+};
+
 // Exponer función de emociones globalmente
 window.setBotEmotion = function(emotion, bubbleText) {
   const avatar = document.getElementById('quimibotAvatar');
@@ -65,16 +212,19 @@ window.setBotEmotion = function(emotion, bubbleText) {
       break;
 
     case 'explaining':
+    case 'speaking':
       avatar.classList.add('robot-float');
       if (eyesIdle) eyesIdle.classList.remove('hidden');
       if (mouthSpeaking) mouthSpeaking.classList.remove('hidden');
-      if (statusText) statusText.textContent = 'Explicando';
-      if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+      if (orb) orb.setAttribute('class', 'antenna-active');
+      if (statusText) statusText.textContent = emotion === 'speaking' ? 'Hablando... 🗣️' : 'Explicando';
+      if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-cyan-400 animate-ping';
       if (bubble) bubble.textContent = bubbleText || '¡Mira esta pista socrática para deducirlo! 💡';
       break;
 
     case 'idle':
     default:
+      if (window.isQuimibotSpeaking) return;
       avatar.classList.add('robot-float');
       if (eyesIdle) eyesIdle.classList.remove('hidden');
       if (mouthNormal) mouthNormal.classList.remove('hidden');
@@ -218,6 +368,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (response.ok) {
           window.setBotEmotion('explaining', isImageRequest ? '¡Aquí tienes la ilustración! 🖼️' : '¡Reflexiona en esta pista! 💡');
+          // QuimiBot habla automáticamente si la voz está activada
+          if (window.speakQuimibotText) {
+            window.speakQuimibotText(data.respuesta);
+          }
           await appendBotMessageAnimated(data.respuesta);
           
           if (data.image_url) {
@@ -239,7 +393,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sendButton) sendButton.disabled = false;
         chatInput.disabled = false;
         chatInput.focus();
-        setTimeout(() => { window.setBotEmotion('idle'); }, 4000);
+        setTimeout(() => { 
+          if (!window.isQuimibotSpeaking) {
+            window.setBotEmotion('idle'); 
+          }
+        }, 4000);
       }
     });
   }
@@ -262,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function appendBotMessage(text, animate = false) {
     if (!chatHistory) return;
     const div = document.createElement('div');
-    div.className = 'flex gap-3 mb-4 items-start';
+    div.className = 'bot-bubble-container flex gap-3 mb-4 items-start';
     div.innerHTML = `
       <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 text-cyan-400 border border-slate-700/80 flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-md">
         🤖
@@ -273,7 +431,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="text-xs font-extrabold text-slate-900">QuimiBot</span>
             <span class="text-[10px] bg-tertiary/10 text-tertiary font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Tutor Socrático</span>
           </div>
-          <span class="text-[10px] text-slate-400 font-semibold">Ahora</span>
+          <div class="flex items-center gap-1.5">
+            <button type="button" onclick="window.speakMessageText(this)" class="ios-tap text-xs text-slate-400 hover:text-cyan-600 p-1 rounded-md hover:bg-slate-100 transition-colors" title="Escuchar respuesta con voz de QuimiBot">
+              🔊
+            </button>
+            <span class="text-[10px] text-slate-400 font-semibold">Ahora</span>
+          </div>
         </div>
         <div class="text-sm leading-relaxed text-slate-800 font-medium bot-text-body">${markdownToHtml(text)}</div>
       </div>`;
@@ -284,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function appendBotMessageAnimated(text) {
     if (!chatHistory) return;
     const div = document.createElement('div');
-    div.className = 'flex gap-3 mb-4 items-start';
+    div.className = 'bot-bubble-container flex gap-3 mb-4 items-start';
     div.innerHTML = `
       <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 text-cyan-400 border border-slate-700/80 flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-md animate-bounce" style="animation-iteration-count: 2;">
         🤖
@@ -295,7 +458,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="text-xs font-extrabold text-slate-900">QuimiBot</span>
             <span class="text-[10px] bg-tertiary/10 text-tertiary font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Tutor Socrático</span>
           </div>
-          <span class="text-[10px] text-slate-400 font-semibold">Ahora</span>
+          <div class="flex items-center gap-1.5">
+            <button type="button" onclick="window.speakMessageText(this)" class="ios-tap text-xs text-slate-400 hover:text-cyan-600 p-1 rounded-md hover:bg-slate-100 transition-colors" title="Escuchar respuesta con voz de QuimiBot">
+              🔊
+            </button>
+            <span class="text-[10px] text-slate-400 font-semibold">Ahora</span>
+          </div>
         </div>
         <div class="text-sm leading-relaxed text-slate-800 font-medium bot-text-body"></div>
       </div>`;
@@ -376,35 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chatHistory.scrollTop = chatHistory.scrollHeight;
   }
 
-  function appendLoading() {
-    if (!chatHistory) return null;
-    const id = 'loading-' + Date.now();
-    const div = document.createElement('div');
-    div.id = id;
-    div.className = 'flex gap-3 mb-3';
-    div.innerHTML = `
-      <div class="w-9 h-9 rounded-xl bg-tertiary text-white flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-sm animate-pulse">
-        🤖
-      </div>
-      <div class="bg-slate-100 border border-slate-200/60 rounded-2xl rounded-bl-sm px-4 py-3">
-        <div class="flex gap-1.5 items-center h-5">
-          <span class="text-xs text-slate-500 font-semibold mr-1">QuimiBot analizando...</span>
-          <div class="w-2 h-2 bg-tertiary rounded-full animate-bounce" style="animation-delay:0ms"></div>
-          <div class="w-2 h-2 bg-tertiary rounded-full animate-bounce" style="animation-delay:150ms"></div>
-          <div class="w-2 h-2 bg-tertiary rounded-full animate-bounce" style="animation-delay:300ms"></div>
-        </div>
-      </div>`;
-    chatHistory.appendChild(div);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-    return id;
-  }
 
-  function removeLoading(id) {
-    if (id) {
-      const el = document.getElementById(id);
-      if (el) el.remove();
-    }
-  }
 
   function appendErrorMessage(text) {
     if (!chatHistory) return;
@@ -500,5 +640,10 @@ document.addEventListener('DOMContentLoaded', () => {
       link.classList.remove('text-inverse-on-surface/80');
     }
   });
+
+  // Inicializar estado del botón de voz socrática
+  if (window.updateVoiceToggleUI && window.isVoiceEnabled) {
+    window.updateVoiceToggleUI(window.isVoiceEnabled());
+  }
 
 });

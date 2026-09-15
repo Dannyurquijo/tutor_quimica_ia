@@ -1,896 +1,681 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>Presentación Ejecutiva B2B · Tutor Socrático IA — DU Pixel Code</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#e11d48',
-        'primary-hover': '#be123c',
-        tertiary: '#0284c7',
-        darkbg: '#090d16'
-      },
-      fontFamily: {
-        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
-      }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Tutor AI Institucional · DU Pixel & Code</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06090e;
+      --panel: #0d1522;
+      --panel-2: #09121f;
+      --cyan: #00d2ff;
+      --cyan-2: #38bdf8;
+      --cyan-glow: rgba(0, 210, 255, 0.28);
+      --white: #ffffff;
+      --muted: #94a3b8;
+      --line: #14283c;
+      --green: #34d399;
+      --amber: #fbbf24;
+      --danger: #fb7185;
+      --ease: cubic-bezier(.22, .8, .25, 1);
     }
-  }
-}
-</script>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    background-color: #090d16;
-    color: #f8fafc;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    overflow-x: hidden;
-  }
-  .glass-panel {
-    background: rgba(15, 23, 42, 0.72);
-    backdrop-filter: blur(28px) saturate(190%);
-    -webkit-backdrop-filter: blur(28px) saturate(190%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.5);
-  }
-  .glass-card {
-    background: rgba(30, 41, 59, 0.55);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .glow-rose {
-    box-shadow: 0 0 50px -10px rgba(225, 29, 72, 0.35);
-  }
-  .glow-cyan {
-    box-shadow: 0 0 50px -10px rgba(6, 182, 212, 0.3);
-  }
 
-  /* Animaciones del Robot QuimiBot */
-  @keyframes floatBot {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-8px) rotate(1deg); }
-  }
-  @keyframes antennaGlow {
-    0%, 100% { fill: #38bdf8; filter: drop-shadow(0 0 4px #38bdf8); }
-    50% { fill: #f43f5e; filter: drop-shadow(0 0 12px #f43f5e); }
-  }
-  @keyframes pulseTalk {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(2.2); }
-  }
-  @keyframes eyeBlink {
-    0%, 90%, 100% { transform: scaleY(1); }
-    95% { transform: scaleY(0.1); }
-  }
-  .bot-float { animation: floatBot 3.6s ease-in-out infinite; }
-  .antenna-pulse { animation: antennaGlow 2s infinite; }
-  .eye-blink { animation: eyeBlink 3.8s infinite; transform-origin: center; }
-  .speaking-bar { animation: pulseTalk 0.4s ease-in-out infinite; }
+    * { box-sizing: border-box; }
 
-  /* Transiciones suaves entre slides */
-  .slide-container {
-    transition: opacity 0.35s ease, transform 0.35s ease;
-  }
-  .slide-hidden {
-    display: none;
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  .slide-active {
-    display: block;
-    opacity: 1;
-    transform: scale(1);
-  }
-</style>
+    html, body {
+      width: 100%; height: 100%; margin: 0; overflow: hidden;
+      background: #03060a; color: var(--white);
+      font-family: "Plus Jakarta Sans", -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button { font: inherit; }
+
+    /* Barra Superior Ejecutiva Discreta */
+    #topNav {
+      position: fixed; top: 0; left: 0; right: 0; height: 50px; z-index: 40;
+      background: rgba(4, 8, 15, 0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px; font-family: "Poppins", sans-serif;
+      font-size: 13px; font-weight: 800; letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+    }
+    .nav-tag {
+      background: rgba(0, 210, 255, 0.12); color: var(--cyan); border: 1px solid rgba(0, 210, 255, 0.3);
+      padding: 2px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .nav-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; text-decoration: none; padding: 6px 14px; border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .nav-btn.secondary {
+      background: rgba(255, 255, 255, 0.06); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .nav-btn.secondary:hover { background: rgba(255, 255, 255, 0.12); color: #fff; border-color: rgba(255, 255, 255, 0.2); }
+    .nav-btn.primary {
+      background: linear-gradient(135deg, #0284c7, #00d2ff); color: #02101b; font-weight: 800;
+      box-shadow: 0 0 16px rgba(0, 210, 255, 0.25);
+    }
+    .nav-btn.primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    /* Contenedor del Viewport */
+    #viewport {
+      position: fixed; inset: 0; top: 50px; display: grid; place-items: center;
+      background:
+        radial-gradient(circle at 82% 55%, rgba(0, 210, 255, .12), transparent 34%),
+        #02050a;
+    }
+
+    /* Lienzo 16:9 Auto-escalable */
+    #deck {
+      width: 1280px; height: 720px; position: relative; overflow: hidden;
+      transform-origin: center center; background: var(--bg);
+      box-shadow: 0 30px 100px rgba(0,0,0,.85), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      border-radius: 18px;
+    }
+
+    .slide {
+      position: absolute; inset: 0; padding: 44px 68px 38px;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transform: translateX(28px) scale(.992);
+      transition: opacity .42s ease, transform .58s var(--ease), visibility .42s;
+      background:
+        linear-gradient(180deg, rgba(3,7,18,.25), rgba(3,7,18,.75)),
+        radial-gradient(circle at 84% 52%, rgba(0,210,255,.18), transparent 32%),
+        linear-gradient(135deg, #030711 0%, #07111f 64%, #041424 100%);
+    }
+
+    .slide::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .45;
+      background-image:
+        linear-gradient(rgba(0,210,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,210,255,.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to top, #000, transparent 70%);
+    }
+
+    .slide::after {
+      content: ""; position: absolute; right: -90px; bottom: -180px;
+      width: 760px; height: 470px; border-radius: 50%; opacity: .5;
+      background: repeating-radial-gradient(ellipse at center, transparent 0 22px, rgba(0,210,255,.12) 23px 24px);
+      transform: rotate(-8deg) scaleY(.42); filter: drop-shadow(0 0 18px rgba(0,210,255,.18));
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(0) scale(1);
+    }
+
+    .slide.exit-left { transform: translateX(-28px) scale(.992); }
+
+    .content { position: relative; z-index: 2; height: 100%; }
+    .brand { position: absolute; top: 2px; left: 0; font: 800 13px/1 "Poppins", sans-serif; letter-spacing: .06em; color: #64748b; text-transform: uppercase; }
+    .slide-num { position: absolute; top: 2px; right: 0; font: 800 13px/1 "Poppins", sans-serif; letter-spacing: .04em; color: var(--muted); }
+    .kicker { margin: 28px 0 12px; color: var(--cyan); font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-family: "Poppins", sans-serif; }
+    h1, h2, h3 { font-family: "Poppins", sans-serif; margin: 0; }
+    h1 { font-size: 46px; line-height: 1.12; letter-spacing: -.03em; font-weight: 800; }
+    h2 { font-size: 38px; line-height: 1.15; letter-spacing: -.025em; font-weight: 800; }
+    h3 { font-size: 20px; line-height: 1.2; font-weight: 700; }
+    p { margin: 0; }
+    .muted { color: var(--muted); }
+    .cyan { color: var(--cyan); }
+    .page-no { position: absolute; right: 0; bottom: 0; color: #64748b; font-size: 11px; font-family: "Poppins", sans-serif; font-weight: 700; }
+    .source { position: absolute; left: 0; bottom: 0; color: #64748b; font-size: 11px; }
+
+    .glass {
+      background: rgba(9, 20, 36, .88); border: 1px solid rgba(0,210,255,.24);
+      box-shadow: 0 18px 48px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.03);
+      border-radius: 20px;
+    }
+
+    .reveal { opacity: 0; transform: translateY(20px); }
+    .active .reveal { animation: reveal .68s var(--ease) forwards; animation-delay: var(--delay, 0s); }
+    @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+
+    /* Slide 1: PISA México */
+    .s1-title { max-width: 800px; }
+    .s1-sub { font-size: 18px; color: var(--muted); margin-top: 8px; }
+    .chart-wrap {
+      position: absolute; left: 0; right: 0; top: 165px; height: 350px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+      padding: 24px 34px 20px;
+    }
+    .chart-group { display: grid; grid-template-rows: 28px 1fr 28px; min-width: 0; }
+    .chart-name { font: 800 15px/1 "Poppins", sans-serif; color: var(--white); text-align: center; letter-spacing: 0.05em; }
+    .bars { height: 215px; display: flex; align-items: end; justify-content: center; gap: 36px; border-bottom: 1px solid rgba(103,232,249,.3); padding-bottom: 2px; }
+    .bar-col { width: 110px; height: 100%; display: flex; flex-direction: column; justify-content: end; align-items: center; }
+    .bar-value { opacity: 0; transform: translateY(8px); font: 800 29px/1 "Poppins", sans-serif; margin-bottom: 8px; }
+    .bar { width: 78px; height: var(--height); transform: scaleY(0); transform-origin: bottom; border-radius: 12px 12px 3px 3px; }
+    .bar.mx { background: linear-gradient(180deg, #19ddff, #0077b6); box-shadow: 0 0 24px rgba(0,210,255,.35); }
+    .bar.oecd { background: linear-gradient(180deg, #edf6fb, #64748b); opacity: .82; }
+    .bar-label { margin-top: 8px; font-size: 12px; font-weight: 800; letter-spacing: .06em; color: var(--muted); font-family: "Poppins", sans-serif; }
+    .active .bar { animation: grow 1.35s var(--ease) forwards; animation-delay: var(--delay); }
+    .active .bar-value { animation: valueIn .45s ease forwards; animation-delay: calc(var(--delay) + 1.05s); }
+    @keyframes grow { to { transform: scaleY(1); } }
+    @keyframes valueIn { to { opacity: 1; transform: translateY(0); } }
+    .chart-caption { text-align: center; color: #38bdf8; font-size: 13px; font-weight: 700; padding-top: 8px; }
+    .s1-bottom { position: absolute; left: 0; right: 0; bottom: 42px; text-align: center; font-size: 19px; font-weight: 800; color: #f1f5f9; }
+
+    /* Slide 2: La Pregunta Incomoda */
+    .question-slide { display: grid; place-items: center; text-align: center; padding: 48px 100px 58px; }
+    .question-core { width: 940px; position: relative; }
+    .question-core::before { content: ""; position: absolute; inset: -90px -80px; background: radial-gradient(circle, rgba(0,210,255,.16), transparent 64%); filter: blur(4px); }
+    .question-core > * { position: relative; }
+    .eyebrow { color: var(--cyan); font-size: 14px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 22px; font-family: "Poppins", sans-serif; }
+    .question-core h2 { font-size: 48px; line-height: 1.18; color: #fff; }
+    .question-core .accent-line { width: 120px; height: 4px; border-radius: 9px; background: var(--cyan); margin: 28px auto; box-shadow: 0 0 20px var(--cyan); transform: scaleX(0); }
+    .active .accent-line { animation: lineGrow .85s var(--ease) .65s forwards; }
+    @keyframes lineGrow { to { transform: scaleX(1); } }
+    .solution-line { font-size: 21px; line-height: 1.5; color: var(--muted); }
+    .solution-line strong { color: var(--white); }
+    .chip-row { display: flex; justify-content: center; gap: 16px; margin-top: 32px; }
+    .chip { border: 1px solid rgba(0,210,255,.36); background: rgba(7,17,31,.92); padding: 12px 22px; border-radius: 999px; font-size: 14px; font-weight: 800; color: #e2e8f0; font-family: "Poppins", sans-serif; }
+    .active .chip { animation: chipPop .52s var(--ease) forwards; opacity: 0; transform: scale(.84); animation-delay: var(--delay); }
+    @keyframes chipPop { to { opacity: 1; transform: scale(1); } }
+    .teacher-amplifier { margin-top: 28px; font-size: 19px; font-weight: 800; color: #f8fafc; }
+
+    /* Slide 3: La Conversación Socrática */
+    .two-col { display: grid; grid-template-columns: 460px 1fr; gap: 48px; margin-top: 28px; }
+    .explain { padding-top: 6px; }
+    .explain > p { font-size: 18px; line-height: 1.45; color: #cbd5e1; }
+    .rule { margin-top: 20px; padding: 18px 22px; border: 2px solid var(--cyan); border-radius: 18px; background: rgba(7,17,31,.94); box-shadow: 0 10px 30px rgba(0,210,255,0.15); }
+    .rule small { display: block; color: var(--cyan); font-weight: 900; margin-bottom: 6px; letter-spacing: 0.08em; font-family: "Poppins", sans-serif; font-size: 11px; }
+    .rule strong { font-size: 16px; line-height: 1.4; color: #fff; }
+    .chat { height: 320px; padding: 22px 28px; position: relative; }
+    .chat-title { color: var(--cyan); font-weight: 900; font-size: 12px; letter-spacing: 0.08em; font-family: "Poppins", sans-serif; display: flex; align-items: center; gap: 6px; }
+    .chat-title::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+    .bubble { opacity: 0; transform: translateY(16px); border-radius: 16px; padding: 12px 18px; font-size: 15px; line-height: 1.35; margin-top: 14px; }
+    .bubble.ai { margin-right: 48px; background: #0c1c2e; border: 1px solid rgba(0, 210, 255, 0.25); color: #f0fdf4; }
+    .bubble.user { margin-left: 48px; background: #033f5b; border: 1px solid rgba(14, 165, 233, 0.35); color: #fff; }
+    .active .bubble { animation: bubbleIn .55s var(--ease) forwards; animation-delay: var(--delay); }
+    @keyframes bubbleIn { to { opacity: 1; transform: translateY(0); } }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 26px; }
+    .step { position: relative; padding: 13px 10px; border-radius: 999px; background: #0b1627; border: 1px solid rgba(0,210,255,.32); font-size: 12px; text-align: center; font-weight: 900; font-family: "Poppins", sans-serif; }
+    .step:first-child { background: #06415a; border-color: var(--cyan); }
+    .step:not(:last-child)::after { content: ""; position: absolute; width: 20px; height: 2px; right: -22px; top: 50%; background: var(--cyan); box-shadow: 0 0 10px rgba(0,210,255,.4); }
+
+    /* Slide 4: Infraestructura Conectada */
+    .infra-stage { position: relative; height: 460px; margin-top: 16px; }
+    .infra-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .infra-svg path { fill: none; stroke: var(--cyan); stroke-width: 2.2; stroke-dasharray: 520; stroke-dashoffset: 520; filter: drop-shadow(0 0 6px rgba(0,210,255,.4)); }
+    .active .infra-svg path { animation: drawLine 1.2s var(--ease) forwards; animation-delay: var(--delay); }
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
+    .node { position: absolute; padding: 18px 22px; border-radius: 18px; }
+    .node h3 { color: var(--cyan); font-size: 14px; margin-bottom: 8px; font-family: "Poppins", sans-serif; letter-spacing: 0.04em; }
+    .node p { font-size: 14px; line-height: 1.35; color: #cbd5e1; }
+    .node.core { left: 400px; top: 110px; width: 340px; height: 145px; display: grid; place-content: center; text-align: center; border: 3px solid var(--cyan); background: rgba(4,65,90,.94); }
+    .node.core h3 { color: var(--white); font-size: 24px; font-weight: 800; }
+    .node.core p { font-size: 13px; color: #a5f3fc; font-weight: 600; }
+    .node.student { left: 16px; top: 80px; width: 300px; }
+    .node.teacher { right: 16px; top: 80px; width: 300px; }
+    .node.family { left: 420px; top: 310px; width: 300px; text-align: center; }
+    .active .node:not(.core) { animation: float 4.6s ease-in-out infinite, reveal .7s var(--ease) forwards; animation-delay: var(--delay), var(--delay); opacity: 0; }
+    .active .node.core { animation: corePulse 3.2s ease-in-out infinite, reveal .7s var(--ease) forwards; opacity: 0; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes corePulse { 0%,100% { box-shadow: 0 0 18px rgba(0,210,255,.2); } 50% { box-shadow: 0 0 42px rgba(0,210,255,.45); } }
+    .infra-notes { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: end; font-size: 13px; }
+    .infra-note { padding: 8px 14px; border-radius: 12px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .infra-note small { display: block; color: var(--cyan); font-size: 10px; font-weight: 800; font-family: "Poppins", sans-serif; margin-bottom: 3px; letter-spacing: 0.05em; }
+
+    /* Slide 5: Impacto Medible */
+    .impact-panel { margin-top: 24px; padding: 24px 30px; height: 420px; }
+    .impact-head { display: flex; align-items: end; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .impact-head p { font-size: 14px; color: var(--muted); }
+    .impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 24px; }
+    .impact-item { opacity: 0; transform: translateY(24px) scale(.96); padding: 18px 16px; border-radius: 16px; background: var(--panel-2); border: 1px solid #1e344a; text-align: center; }
+    .active .impact-item { animation: impactIn .58s var(--ease) forwards; animation-delay: var(--delay); }
+    @keyframes impactIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+    .impact-icon { width: 40px; height: 40px; display: grid; place-items: center; margin: 0 auto 12px; border-radius: 50%; border: 2px solid currentColor; font-weight: 900; font-family: "Poppins", sans-serif; font-size: 15px; }
+    .impact-item h3 { font-size: 13px; margin-bottom: 10px; color: currentColor; letter-spacing: 0.05em; }
+    .impact-item p { color: var(--white); font-size: 14px; line-height: 1.35; }
+    .impact-banner { opacity: 0; margin-top: 26px; padding: 14px 22px; border-radius: 14px; text-align: center; background: #06415a; font-size: 17px; font-weight: 800; color: #e0f2fe; }
+    .active .impact-banner { animation: reveal .65s var(--ease) 2.6s forwards; }
+
+    /* Slide 6: Piloto $0 */
+    .pilot-layout { display: grid; grid-template-columns: 330px 1fr; gap: 48px; margin-top: 32px; }
+    .price { padding-top: 14px; text-align: center; border-right: 1px solid var(--line); }
+    .price strong { display: block; font: 800 100px/1 "Poppins", sans-serif; color: #fff; }
+    .price .label { color: var(--cyan); font-weight: 900; margin-top: 8px; font-family: "Poppins", sans-serif; font-size: 13px; letter-spacing: 0.06em; }
+    .price .scope { margin-top: 24px; font-size: 15px; line-height: 1.5; color: #cbd5e1; }
+    .timeline { position: relative; height: 230px; padding-top: 72px; }
+    .track { position: absolute; left: 40px; right: 40px; top: 93px; height: 4px; background: rgba(0,210,255,.2); border-radius: 9px; overflow: hidden; }
+    .track::after { content: ""; position: absolute; inset: 0; background: var(--cyan); transform: scaleX(0); transform-origin: left; box-shadow: 0 0 16px rgba(0,210,255,.6); }
+    .active .track::after { animation: timelineGrow 2.3s var(--ease) .35s forwards; }
+    @keyframes timelineGrow { to { transform: scaleX(1); } }
+    .milestones { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, 1fr); }
+    .milestone { opacity: 0; transform: translateY(14px); text-align: center; }
+    .active .milestone { animation: milestoneIn .55s var(--ease) forwards; animation-delay: var(--delay); }
+    @keyframes milestoneIn { to { opacity: 1; transform: translateY(0); } }
+    .dot { width: 44px; height: 44px; display: grid; place-items: center; margin: 0 auto 12px; border-radius: 50%; background: #07111f; border: 3px solid var(--cyan); font-weight: 900; color: var(--cyan); font-family: "Poppins", sans-serif; font-size: 13px; }
+    .milestone:last-child .dot { background: var(--cyan); color: #001018; box-shadow: 0 0 24px rgba(0,210,255,.5); }
+    .day { color: var(--cyan); font-size: 12px; font-weight: 900; font-family: "Poppins", sans-serif; }
+    .event { margin-top: 10px; font-size: 14px; line-height: 1.25; color: #e2e8f0; }
+    .pilot-conclusion { opacity: 0; text-align: center; font-size: 18px; font-weight: 800; margin-top: 12px; color: #e2e8f0; }
+    .active .pilot-conclusion { animation: reveal .65s var(--ease) 2.9s forwards; }
+    .cta { opacity: 0; display: inline-block; width: 620px; margin: 20px auto 0; padding: 16px; border-radius: 999px; background: linear-gradient(135deg, #00d2ff, #0284c7); color: #02101b; font: 900 18px/1 "Poppins", sans-serif; text-align: center; box-shadow: 0 0 36px rgba(0,210,255,.3); text-decoration: none; cursor: pointer; transition: all 0.2s ease; }
+    .cta:hover { filter: brightness(1.1); transform: scale(1.02); }
+    .active .cta { animation: ctaIn .65s var(--ease) 3.3s forwards; }
+    @keyframes ctaIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
+    .links { opacity: 0; text-align: center; margin-top: 14px; font-size: 13px; color: var(--muted); font-family: "Poppins", sans-serif; }
+    .active .links { animation: reveal .55s var(--ease) 3.7s forwards; }
+
+    /* Controls */
+    #controls { position: fixed; z-index: 30; right: 22px; bottom: 18px; display: flex; gap: 8px; align-items: center; }
+    #controls button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(0,210,255,.36); color: white; background: rgba(7,17,31,.92); cursor: pointer; display: grid; place-items: center; transition: all 0.15s; }
+    #controls button:hover { border-color: var(--cyan); background: #063348; }
+    #counter { min-width: 56px; text-align: center; color: var(--muted); font-size: 13px; font-family: "Poppins", sans-serif; font-weight: 700; }
+    #dots { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: 20px; display: flex; gap: 8px; }
+    #dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: #334155; cursor: pointer; transition: .25s ease; }
+    #dots button.active { width: 28px; background: var(--cyan); }
+    #help { position: fixed; z-index: 30; left: 22px; bottom: 20px; color: #64748b; font-size: 11px; font-weight: 600; }
+
+    @media (max-width: 768px) {
+      #topNav { padding: 0 12px; }
+      .nav-tag { display: none; }
+      #help { display: none; }
+      #controls { right: 10px; bottom: 10px; }
+      #dots { bottom: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between relative selection:bg-rose-500 selection:text-white">
+<body>
 
-<!-- Canvas interactivo de partículas atómicas a 60fps -->
-<canvas id="atomsCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
-
-<!-- Barra Superior / Navbar Ejecutiva -->
-<nav class="relative z-30 w-full border-b border-white/10 bg-slate-950/70 backdrop-blur-2xl px-4 py-3">
-  <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
-    
-    <!-- Logo DU Pixel Code & QuimiBot Enterprise -->
-    <a href="/" class="flex items-center gap-2.5 group">
-      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-600 via-rose-500 to-amber-500 flex items-center justify-center text-white text-xl shadow-lg shadow-rose-600/30 border border-white/20 group-hover:scale-105 transition-transform">
-        <span>🧪</span>
-      </div>
-      <div class="flex flex-col">
-        <div class="flex items-center gap-1.5">
-          <span class="font-black text-sm md:text-base text-white tracking-tight">QuimiBot</span>
-          <span class="bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Enterprise B2B</span>
-        </div>
-        <span class="text-[11px] text-slate-400 font-medium">Desarrollado por <strong>DU Pixel Code</strong></span>
-      </div>
+  <!-- Barra Superior Ejecutiva -->
+  <header id="topNav">
+    <a href="/" class="nav-brand">
+      <span>DU PIXEL &amp; CODE</span>
+      <span class="nav-tag">Infraestructura Tutor AI</span>
     </a>
-
-    <!-- Acciones Rápidas del Navbar -->
-    <div class="flex items-center gap-2 md:gap-3">
-      <a href="/manual" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-white/10 transition-all">
-        <span class="material-symbols-outlined text-sm text-cyan-400">menu_book</span>
-        <span class="hidden sm:inline">Manual Interactivo</span>
+    <div class="nav-actions">
+      <a href="/dashboard-teacher/report" target="_blank" class="nav-btn secondary" title="Abrir informe directivo para colegios">
+        <span>📄</span><span>Reporte PDF</span>
       </a>
-
-      <a href="/" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold text-white bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-md shadow-rose-600/25 transition-all">
-        <span class="material-symbols-outlined text-sm">play_arrow</span>
-        <span>Probar App</span>
+      <a href="/" class="nav-btn primary" title="Abrir demostración del tutor en vivo">
+        <span>🧪</span><span>Probar Demo (Caso Química)</span>
       </a>
     </div>
+  </header>
 
-  </div>
-</nav>
+  <main id="viewport">
+    <section id="deck" aria-label="Presentación Institucional Tutor AI by DU Pixel & Code">
 
-<!-- ============================================================ -->
-<!-- CONTENIDO PRINCIPAL: SHOWCASE DE PRESENTACIÓN EJECUTIVA       -->
-<!-- ============================================================ -->
-<main class="relative z-20 flex-1 max-w-7xl w-full mx-auto px-4 py-6 md:py-8 flex flex-col justify-center">
+      <!-- SLIDE 1: PISA MÉXICO -->
+      <article class="slide active" data-title="La brecha ya tiene una medida">
+        <div class="content">
+          <div class="brand">DU PIXEL &amp; CODE</div>
+          <div class="slide-num">01 / 06</div>
+          <p class="kicker reveal" style="--delay:.05s">EL PUNTO DE PARTIDA · PISA MÉXICO</p>
+          <h1 class="s1-title reveal" style="--delay:.16s">La brecha ya tiene una medida</h1>
+          <p class="s1-sub reveal" style="--delay:.24s">Resultados comparables que revelan dónde actuar primero.</p>
 
-  <!-- Selector de Diapositivas (Píldoras Superiores) -->
-  <div class="w-full flex items-center justify-between gap-2 mb-4 overflow-x-auto pb-2 scrollbar-none">
-    <div class="flex items-center gap-1.5 sm:gap-2">
-      <button onclick="goToSlide(0)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="0">
-        <span>🚀</span> <span class="hidden md:inline">1. Visión B2B</span>
-      </button>
-      <button onclick="goToSlide(1)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="1">
-        <span>⚠️</span> <span class="hidden md:inline">2. El Problema</span>
-      </button>
-      <button onclick="goToSlide(2)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="2">
-        <span>💡</span> <span class="hidden md:inline">3. Método Socrático</span>
-      </button>
-      <button onclick="goToSlide(3)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="3">
-        <span>⚡</span> <span class="hidden md:inline">4. Diagramas en Vivo</span>
-      </button>
-      <button onclick="goToSlide(4)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="4">
-        <span>👩‍🏫</span> <span class="hidden md:inline">5. Alivio Docente</span>
-      </button>
-      <button onclick="goToSlide(5)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="5">
-        <span>👨‍👩‍👧</span> <span class="hidden md:inline">6. Portal de Padres</span>
-      </button>
-      <button onclick="goToSlide(6)" class="slide-nav-btn px-3 py-1.5 rounded-full text-xs font-extrabold transition-all border flex items-center gap-1.5" data-slide="6">
-        <span>💰</span> <span class="hidden md:inline">7. Adopción y ROI</span>
-      </button>
-    </div>
+          <div class="chart-wrap glass reveal" style="--delay:.34s">
+            <section class="chart-group">
+              <div class="chart-name">MATEMÁTICAS</div>
+              <div class="bars">
+                <div class="bar-col"><div class="bar-value">388</div><div class="bar mx" style="--height:136px;--delay:.65s"></div><div class="bar-label">MÉXICO</div></div>
+                <div class="bar-col"><div class="bar-value">463</div><div class="bar oecd" style="--height:162px;--delay:.85s"></div><div class="bar-label">OCDE</div></div>
+              </div>
+              <div class="chart-caption">−75 puntos frente al promedio OCDE</div>
+            </section>
+            <section class="chart-group">
+              <div class="chart-name">LECTURA</div>
+              <div class="bars">
+                <div class="bar-col"><div class="bar-value">408</div><div class="bar mx" style="--height:143px;--delay:1.05s"></div><div class="bar-label">MÉXICO</div></div>
+                <div class="bar-col"><div class="bar-value">461</div><div class="bar oecd" style="--height:161px;--delay:1.25s"></div><div class="bar-label">OCDE</div></div>
+              </div>
+              <div class="chart-caption">−53 puntos frente al promedio OCDE</div>
+            </section>
+          </div>
 
-    <!-- Contador de Slide -->
-    <div class="flex-shrink-0 bg-white/5 border border-white/10 px-3 py-1 rounded-full text-xs font-extrabold text-slate-300">
-      <span id="slideCounterCurrent" class="text-rose-400">01</span> / <span id="slideCounterTotal">07</span>
-    </div>
-  </div>
-
-  <!-- Contenedor Principal: QuimiBot Co-Piloto (Izq) + Slide Interactiva (Der) -->
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-    
-    <!-- COLUMNA IZQUIERDA: QuimiBot Co-Piloto Interactivo -->
-    <aside class="lg:col-span-4 glass-panel rounded-3xl p-5 md:p-6 flex flex-col justify-between gap-5 relative overflow-hidden border border-rose-500/20">
-      
-      <!-- Glow ambiental -->
-      <div class="absolute -top-20 -left-20 w-48 h-48 bg-rose-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
-      <!-- Encabezado del Co-Piloto -->
-      <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-black text-white uppercase tracking-wider">Co-Piloto Ejecutivo</span>
-          <span class="bg-rose-500/20 text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-500/30">IA en Vivo</span>
+          <p class="s1-bottom reveal" style="--delay:1.95s">La oportunidad no es sumar otra app. Es construir una capacidad institucional.</p>
+          <div class="source">Fuente: OCDE, PISA 2022 · línea base disponible</div>
+          <div class="page-no">01</div>
         </div>
-        <span id="botMoodBadge" class="text-[11px] font-bold text-cyan-400 flex items-center gap-1">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          <span>Presentando</span>
-        </span>
-      </div>
+      </article>
 
-      <!-- Avatar QuimiBot Animado (Interactivo al clic) -->
-      <div class="flex flex-col items-center justify-center my-auto cursor-pointer group" onclick="reactQuimiBot()" title="¡Haz clic en QuimiBot para interactuar!">
-        <div id="botAvatarWrapper" class="bot-float relative w-40 h-40 sm:w-48 sm:h-48 rounded-3xl bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 p-3 border-4 border-slate-700 shadow-2xl transition-all group-hover:scale-105 group-hover:border-rose-400">
-          
-          <svg id="botSvg" viewBox="0 0 140 140" class="w-full h-full drop-shadow-xl">
-            <!-- Antena con Onda -->
-            <line x1="70" y1="28" x2="70" y2="10" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
-            <circle id="botAntenna" cx="70" cy="8" r="7" class="antenna-pulse" fill="#38bdf8"/>
-
-            <!-- Orejas Laterales -->
-            <rect x="14" y="52" width="8" height="22" rx="4" fill="#e11d48" stroke="#ffffff" stroke-width="1.5"/>
-            <rect x="118" y="52" width="8" height="22" rx="4" fill="#e11d48" stroke="#ffffff" stroke-width="1.5"/>
-
-            <!-- Cabeza Principal -->
-            <rect id="botHead" x="22" y="26" width="96" height="80" rx="22" fill="#0f766e" stroke="#ffffff" stroke-width="3.5"/>
-
-            <!-- Pantalla Visor Digital -->
-            <rect x="32" y="38" width="76" height="56" rx="14" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
-
-            <!-- Mejillas Felices -->
-            <g id="botCheeks" class="hidden opacity-90">
-              <circle cx="39" cy="74" r="5" fill="#f43f5e"/>
-              <circle cx="101" cy="74" r="5" fill="#f43f5e"/>
-            </g>
-
-            <!-- Ojos Idle -->
-            <g id="botEyesIdle" class="eye-blink">
-              <circle cx="52" cy="60" r="8" fill="#38bdf8"/>
-              <circle cx="88" cy="60" r="8" fill="#38bdf8"/>
-              <circle cx="55" cy="57" r="2.8" fill="#ffffff"/>
-              <circle cx="91" cy="57" r="2.8" fill="#ffffff"/>
-            </g>
-
-            <!-- Ojos Felices (^ ^) -->
-            <g id="botEyesHappy" class="hidden">
-              <path d="M 43 64 Q 52 50 61 64" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
-              <path d="M 79 64 Q 88 50 97 64" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
-            </g>
-
-            <!-- Ojos Pensando (Láser ámbar) -->
-            <g id="botEyesThinking" class="hidden">
-              <circle cx="52" cy="60" r="8" fill="#f59e0b"/>
-              <circle cx="88" cy="60" r="8" fill="#f59e0b"/>
-              <line x1="36" y1="60" x2="104" y2="60" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 2"/>
-            </g>
-
-            <!-- Ojos Curiosos -->
-            <g id="botEyesCurious" class="hidden">
-              <circle cx="50" cy="62" r="5" fill="#38bdf8"/>
-              <circle cx="88" cy="58" r="9" fill="#38bdf8"/>
-              <circle cx="91" cy="55" r="3" fill="#ffffff"/>
-            </g>
-
-            <!-- Bocas -->
-            <rect id="botMouthNormal" x="58" y="78" width="24" height="4.5" rx="2.2" fill="#38bdf8"/>
-            <path id="botMouthHappy" d="M 54 76 Q 70 88 86 76" stroke="#38bdf8" stroke-width="4.5" fill="none" stroke-linecap="round" class="hidden"/>
-            <g id="botMouthSpeaking" class="hidden">
-              <rect x="54" y="76" width="5" height="9" rx="2" fill="#38bdf8" class="speaking-bar"/>
-              <rect x="62" y="73" width="5" height="15" rx="2" fill="#38bdf8" class="speaking-bar" style="animation-delay: 0.1s"/>
-              <rect x="70" y="71" width="5" height="18" rx="2" fill="#38bdf8" class="speaking-bar" style="animation-delay: 0.15s"/>
-              <rect x="78" y="73" width="5" height="15" rx="2" fill="#38bdf8" class="speaking-bar" style="animation-delay: 0.2s"/>
-              <rect x="86" y="76" width="5" height="9" rx="2" fill="#38bdf8" class="speaking-bar" style="animation-delay: 0.05s"/>
-            </g>
-          </svg>
+      <!-- SLIDE 2: LA POSIBILIDAD -->
+      <article class="slide" data-title="Una IA con respuestas prohibidas">
+        <div class="content question-slide">
+          <div class="brand">DU PIXEL &amp; CODE</div>
+          <div class="slide-num">02 / 06</div>
+          <div class="question-core">
+            <p class="eyebrow reveal" style="--delay:.08s">LA POSIBILIDAD · ¿QUÉ PASARÍA SI EXISTIERA?</p>
+            <h2 class="reveal" style="--delay:.22s">Una IA que tuviera<br><span class="cyan">prohibido dar la respuesta</span></h2>
+            <div class="accent-line"></div>
+            <p class="solution-line reveal" style="--delay:.85s">Una inteligencia que <strong>acompañe el razonamiento</strong>, detecte el bloqueo y ayude a cada estudiante a <strong>construir su siguiente paso</strong>.</p>
+            <div class="chip-row">
+              <div class="chip" style="--delay:1.25s">Pregunta antes de explicar</div>
+              <div class="chip" style="--delay:1.45s">Se adapta al contexto</div>
+              <div class="chip" style="--delay:1.65s">Escala con la institución</div>
+            </div>
+            <p class="teacher-amplifier reveal" style="--delay:1.95s">No reemplaza al docente. Amplifica su capacidad de acompañar.</p>
+          </div>
+          <div class="page-no">02</div>
         </div>
+      </article>
 
-        <span class="text-[11px] text-slate-400 mt-2.5 font-semibold group-hover:text-rose-400 transition-colors flex items-center gap-1">
-          <span>👆 Haz clic en mí para probar mi voz</span>
-        </span>
-      </div>
+      <!-- SLIDE 3: LA CONVERSACIÓN SOCRÁTICA -->
+      <article class="slide" data-title="Una conversación diseñada para enseñar">
+        <div class="content">
+          <div class="brand">DU PIXEL &amp; CODE</div>
+          <div class="slide-num">03 / 06</div>
+          <p class="kicker reveal" style="--delay:.05s">LA SOLUCIÓN · TUTOR AI</p>
+          <h2 class="reveal" style="--delay:.14s">Una conversación diseñada para enseñar</h2>
+          <p class="muted reveal" style="--delay:.20s" style="font-size:16px;">La regla central: guiar el proceso sin resolverlo por el estudiante.</p>
 
-      <!-- Globo de Diálogo de QuimiBot (Cambia en cada Slide) -->
-      <div class="glass-card rounded-2xl p-4 border border-white/10 relative">
-        <div class="absolute -top-2 left-8 w-4 h-4 bg-slate-800 rotate-45 border-t border-l border-white/10"></div>
-        <p id="botSpeechBubble" class="text-xs sm:text-sm font-semibold text-slate-200 leading-relaxed">
-          ¡Hola! Soy QuimiBot. Estoy aquí para mostrarte por qué los mejores colegios nos eligen como su tutor oficial de inteligencia artificial.
-        </p>
-      </div>
-
-    </aside>
-
-    <!-- COLUMNA DERECHA: Diapositiva Activa Dinámica -->
-    <section class="lg:col-span-8 glass-panel rounded-3xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden min-h-[520px]">
-      
-      <!-- Contenedor de Diapositivas -->
-      <div id="slidesContainer" class="flex-1">
-
-        <!-- ============================================== -->
-        <!-- SLIDE 0: VISIÓN B2B & APERTURA                 -->
-        <!-- ============================================== -->
-        <article class="slide-container slide-active" id="slide-0">
-          <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <span>🚀 Innovación EdTech B2B para Colegios Privados</span>
-          </div>
-
-          <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight tracking-tight">
-            Eleva el rendimiento en Ciencias con un <span class="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 via-amber-300 to-cyan-400">Tutor de IA Socrática</span> para cada alumno.
-          </h2>
-
-          <p class="text-slate-300 text-sm sm:text-base mt-4 leading-relaxed max-w-2xl">
-            La inteligencia artificial llegó a las aulas, pero la mayoría de las herramientas solo fomentan la trampa. 
-            <strong>QuimiBot Enterprise</strong> transforma ese riesgo en una ventaja competitiva de admisiones: una IA que 
-            <strong>no resuelve tareas</strong>, sino que guía al estudiante a deducir el concepto por sí mismo.
-          </p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
-            <div class="glass-card p-4 rounded-2xl border-l-4 border-l-rose-500">
-              <span class="text-2xl font-black text-white">100%</span>
-              <p class="text-xs font-bold text-slate-300 mt-0.5">Método Socrático</p>
-              <p class="text-[11px] text-slate-400">Cero respuestas directas regaladas.</p>
+          <div class="two-col">
+            <div class="explain reveal" style="--delay:.28s">
+              <div class="rule">
+                <small>LA DIFERENCIA</small>
+                <strong>El tutor identifica intención, nivel y bloqueo. Después formula la pregunta adecuada, ofrece una pista y verifica comprensión.</strong>
+              </div>
+              <div class="rule" style="border-color:#f43f5e; margin-top:16px;">
+                <small style="color:#fb7185;">REGLA INNEGOCIABLE</small>
+                <strong>Nunca entregar la respuesta final sin evidencia de razonamiento por parte del estudiante.</strong>
+              </div>
             </div>
-            <div class="glass-card p-4 rounded-2xl border-l-4 border-l-cyan-400">
-              <span class="text-2xl font-black text-white">&lt; 0.6s</span>
-              <p class="text-xs font-bold text-slate-300 mt-0.5">Esquemas Visuales</p>
-              <p class="text-[11px] text-slate-400">Diagramas SVG vectoriales al instante.</p>
-            </div>
-            <div class="glass-card p-4 rounded-2xl border-l-4 border-l-amber-400">
-              <span class="text-2xl font-black text-white">3 en 1</span>
-              <p class="text-xs font-bold text-slate-300 mt-0.5">Ecosistema Completo</p>
-              <p class="text-[11px] text-slate-400">Alumno + Docente + Familia.</p>
+
+            <div class="chat glass reveal" style="--delay:.36s">
+              <div class="chat-title">TUTOR AI · DIÁLOGO SOCRÁTICO EN TIEMPO REAL</div>
+              <div class="bubble user" style="--delay:.7s">No entiendo cómo empezar este problema.</div>
+              <div class="bubble ai" style="--delay:1.35s">Empecemos por lo que sí sabes: ¿qué datos te da el problema y qué te pide encontrar?</div>
+              <div class="bubble user" style="--delay:2.05s">Tengo distancia, tiempo y velocidad.</div>
+              <div class="bubble ai" style="--delay:2.7s">¡Excelente inicio! ¿Cuál de esas magnitudes describe la rapidez con la que cambia la posición?</div>
             </div>
           </div>
-        </article>
 
-        <!-- ============================================== -->
-        <!-- SLIDE 1: EL PROBLEMA EN LAS INSTITUCIONES       -->
-        <!-- ============================================== -->
-        <article class="slide-container slide-hidden" id="slide-1">
-          <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <span>⚠️ El Dilema de la Educación Tradicional</span>
+          <div class="steps reveal" style="--delay:3.05s">
+            <div class="step">01 · DETECTA</div>
+            <div class="step">02 · PREGUNTA</div>
+            <div class="step">03 · ORIENTA</div>
+            <div class="step">04 · VERIFICA</div>
           </div>
+          <div class="page-no">03</div>
+        </div>
+      </article>
 
-          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            El 82% de los alumnos usa IA para <span class="text-rose-400">copiar</span>, no para aprender.
-          </h2>
+      <!-- SLIDE 4: INFRAESTRUCTURA INSTITUCIONAL -->
+      <article class="slide" data-title="Una infraestructura para toda la institución">
+        <div class="content">
+          <div class="brand">DU PIXEL &amp; CODE</div>
+          <div class="slide-num">04 / 06</div>
+          <p class="kicker reveal" style="--delay:.05s">ESCALA INSTITUCIONAL · INFRAESTRUCTURA CONECTADA</p>
+          <h2 class="reveal" style="--delay:.14s">Una infraestructura para toda la institución</h2>
+          <p class="muted reveal" style="--delay:.20s">Un mismo sistema de aprendizaje, con una vista útil para cada actor educativo.</p>
 
-          <p class="text-slate-300 text-sm mt-3 leading-relaxed">
-            Las instituciones educativas se enfrentan a un desafío triple sin precedentes:
-          </p>
+          <div class="infra-stage">
+            <svg class="infra-svg" viewBox="0 0 1140 460" aria-hidden="true">
+              <path style="--delay:.65s" d="M 316,145 C 360,145 370,180 400,182" />
+              <path style="--delay:.9s" d="M 740,182 C 780,180 790,145 824,145" />
+              <path style="--delay:1.15s" d="M 570,255 C 570,280 570,295 570,310" />
+            </svg>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <div class="glass-card p-4 rounded-2xl border-t-2 border-rose-500/50">
-              <div class="text-3xl mb-2">📋</div>
-              <h4 class="text-sm font-extrabold text-white">Plagio y Falsa Comprensión</h4>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                Los alumnos copian respuestas de ChatGPT. Sacan 10 en la tarea, pero reprueban los exámenes departamentales y el examen de admisión a la Universidad.
-              </p>
+            <!-- Nodo Estudiante -->
+            <div class="node student glass" style="--delay:.55s">
+              <h3>ESTUDIANTE</h3>
+              <p>• Tutoría contextual 24/7<br>• Pistas adaptativas socráticas<br>• Autonomía y sin copiar</p>
             </div>
 
-            <div class="glass-card p-4 rounded-2xl border-t-2 border-amber-500/50">
-              <div class="text-3xl mb-2">⏳</div>
-              <h4 class="text-sm font-extrabold text-white">Sobrecarga del Docente</h4>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                El profesor no puede atender a 90 alumnos al mismo tiempo de noche cuando hacen la tarea. Pierde hasta 6 horas a la semana repitiendo dudas básicas.
-              </p>
+            <!-- Nodo Central: Tutor AI -->
+            <div class="node core glass">
+              <h3>TUTOR AI</h3>
+              <p>Orquesta contexto, reglas pedagógicas y evidencia de razonamiento</p>
             </div>
 
-            <div class="glass-card p-4 rounded-2xl border-t-2 border-cyan-500/50">
-              <div class="text-3xl mb-2">👨‍👩‍👧</div>
-              <h4 class="text-sm font-extrabold text-white">Padres Desconectados</h4>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                Los padres pagan colegiaturas premium pero no saben si su hijo realmente comprende las ciencias hasta que llega la boleta con malas notas.
-              </p>
+            <!-- Nodo Docente -->
+            <div class="node teacher glass" style="--delay:.8s">
+              <h3>DOCENTE</h3>
+              <p>• Alertas y señales de aprendizaje<br>• Semáforo de deducción grupal<br>• Asignación curricular directa</p>
+            </div>
+
+            <!-- Nodo Familia -->
+            <div class="node family glass" style="--delay:1.05s">
+              <h3>FAMILIA</h3>
+              <p>Progreso claro, verificable y accionable mediante código de vinculación</p>
+            </div>
+
+            <!-- Notas de Escalabilidad B2B -->
+            <div class="infra-notes reveal" style="--delay:1.35s">
+              <div class="infra-note">
+                <small>CASO INSIGNIA ACTIVO</small>
+                <strong>Química (QuimiBot):</strong> Razonamiento paso a paso y diagramas moleculares interactivos.
+              </div>
+              <div class="infra-note text-center">
+                <small>GOBERNANZA &amp; PRIVACIDAD</small>
+                Se integra con LMS, analítica escolar y políticas institucionales de datos.
+              </div>
+              <div class="infra-note text-right">
+                <small>ESCALABILIDAD MODULAR</small>
+                <strong>Suite Multimateria:</strong> Matemáticas · Física · Lenguaje · Ciencias
+              </div>
             </div>
           </div>
-        </article>
+          <div class="page-no">04</div>
+        </div>
+      </article>
 
-        <!-- ============================================== -->
-        <!-- SLIDE 2: LA SOLUCIÓN SOCRÁTICA                 -->
-        <!-- ============================================== -->
-        <article class="slide-container slide-hidden" id="slide-2">
-          <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <span>💡 Nuestra Solución Pedagógica</span>
-          </div>
+      <!-- SLIDE 5: IMPACTO MEDIBLE -->
+      <article class="slide" data-title="Impacto medible desde el primer grupo">
+        <div class="content">
+          <div class="brand">DU PIXEL &amp; CODE</div>
+          <div class="slide-num">05 / 06</div>
+          <p class="kicker reveal" style="--delay:.05s">RESULTADOS · IMPACTO MEDIBLE</p>
+          <h2 class="reveal" style="--delay:.14s">Impacto medible desde el primer grupo</h2>
+          <p class="muted reveal" style="--delay:.20s">Cada interacción produce evidencia cuantitativa para mejorar el aprendizaje y la operación.</p>
 
-          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            La Regla de Oro: <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-rose-400">Nunca dar la respuesta masticada</span>.
-          </h2>
-
-          <p class="text-slate-300 text-sm mt-3 leading-relaxed">
-            QuimiBot implementa el andamiaje cognitivo de Sócrates adaptado a modelos de lenguaje modernos:
-          </p>
-
-          <div class="glass-card rounded-2xl p-4 mt-5 border border-white/10 space-y-3">
-            <div class="flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">1</span>
+          <div class="impact-panel glass reveal" style="--delay:.3s">
+            <div class="impact-head">
               <div>
-                <strong class="text-xs sm:text-sm text-white">Pregunta de Activación:</strong>
-                <p class="text-xs text-slate-300">Si el alumno pregunta <em>"¿Cuál es el enlace del NaCl?"</em>, QuimiBot pregunta: <em>"¿Qué pasa con los electrones cuando un metal y un no metal se encuentran?"</em>.</p>
+                <p class="cyan" style="font-weight:900;margin-bottom:4px;letter-spacing:0.05em;">EVIDENCIA PEDAGÓGICA</p>
+                <h3>Cuatro dimensiones de medición institucional</h3>
+              </div>
+              <p>Líneas base medibles desde la primera semana del piloto.</p>
+            </div>
+
+            <div class="impact-grid">
+              <div class="impact-item" style="--delay:.75s;color:var(--cyan)">
+                <div class="impact-icon">01</div>
+                <h3>ACTIVACIÓN</h3>
+                <p>Quién inicia, cuándo y desde qué materia o tema curricular.</p>
+              </div>
+
+              <div class="impact-item" style="--delay:1.15s;color:var(--green)">
+                <div class="impact-icon">02</div>
+                <h3>PERSISTENCIA</h3>
+                <p>Cuántos intentos ocurren antes de abandonar un problema difícil.</p>
+              </div>
+
+              <div class="impact-item" style="--delay:1.55s;color:var(--amber)">
+                <div class="impact-icon">03</div>
+                <h3>COMPRENSIÓN</h3>
+                <p>Qué conceptos avanzan hacia autonomía y dónde persiste el bloqueo.</p>
+              </div>
+
+              <div class="impact-item" style="--delay:1.95s;color:var(--cyan-2)">
+                <div class="impact-icon">04</div>
+                <h3>INTERVENCIÓN</h3>
+                <p>Qué temas requieren atención docente antes de que sea tarde.</p>
               </div>
             </div>
 
-            <div class="flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">2</span>
-              <div>
-                <strong class="text-xs sm:text-sm text-white">Validación de Hipótesis:</strong>
-                <p class="text-xs text-slate-300">Celebra el razonamiento lógico del estudiante y corrige conceptos erróneos con analogías de la vida cotidiana.</p>
+            <div class="impact-banner">
+              El piloto no promete impacto: lo mide, lo documenta y decide con evidencia real. <span class="cyan">DATOS → DECISIÓN</span>
+            </div>
+          </div>
+          <div class="page-no">05</div>
+        </div>
+      </article>
+
+      <!-- SLIDE 6: PILOTO INSTITUCIONAL -->
+      <article class="slide" data-title="30 días para comprobar el valor">
+        <div class="content">
+          <div class="brand">DU PIXEL &amp; CODE</div>
+          <div class="slide-num">06 / 06</div>
+          <p class="kicker reveal" style="--delay:.05s">PRÓXIMO PASO · PILOTO INSTITUCIONAL</p>
+          <h2 class="reveal" style="--delay:.14s">30 días para comprobar el valor</h2>
+          <p class="muted reveal" style="--delay:.20s">Un grupo real, objetivos claros y una decisión informada al cierre.</p>
+
+          <div class="pilot-layout">
+            <div class="price reveal" style="--delay:.32s">
+              <div class="label">INVERSIÓN INICIAL</div>
+              <strong>$0</strong>
+              <div class="scope">
+                Configuración, acompañamiento y medición incluidos en el piloto.<br><br>
+                <span class="cyan" style="font-weight:700;">1 Grupo Real · 1 Materia (Química) · 1 Docente</span>
               </div>
             </div>
 
-            <div class="flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">3</span>
-              <div>
-                <strong class="text-xs sm:text-sm text-white">Cierre con Bloque '💡 Conclusión del Concepto':</strong>
-                <p class="text-xs text-slate-300">Una vez que el estudiante deduce la idea, QuimiBot le sintetiza la regla oficial para fijar la memoria a largo plazo.</p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- ============================================== -->
-        <!-- SLIDE 3: DIAGRAMAS VECTORIALES EN TIEMPO REAL  -->
-        <!-- ============================================== -->
-        <article class="slide-container slide-hidden" id="slide-3">
-          <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <span>⚡ Laboratorio Visual Instantáneo (&lt; 0.6s)</span>
-          </div>
-
-          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            La química no se memoriza: <span class="text-cyan-400">se visualiza en 3D</span>.
-          </h2>
-
-          <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
-            Haz clic en cualquiera de estos botones para probar el renderizador vectorial en tiempo real:
-          </p>
-
-          <!-- Botones de Demostración de Esquemas -->
-          <div class="flex flex-wrap gap-2 my-4">
-            <button onclick="previewDiagram('/static/diagrams/molecula_agua_polaridad.svg', 'Molécula de Agua (H₂O) — Polaridad', 'Observa la geometría angular a 104.5° y por qué concentra densidades de carga δ⁺ y δ⁻.')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all flex items-center gap-1.5">
-              <span>💧</span> Molécula de Agua
-            </button>
-            <button onclick="previewDiagram('/static/diagrams/disolucion_nacl_electricidad.svg', 'Disolución de Sal y Conducción', 'Compara el matraz con sal disuelta vs. agua pura: los iones libres cierran el circuito y encienden el foco.')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all flex items-center gap-1.5">
-              <span>⚡</span> Sal y Electricidad
-            </button>
-            <button onclick="previewDiagram('/static/diagrams/geometria_molecular_vsepr.svg', 'Geometría VSEPR', 'Compara la forma lineal, trigonal y tetraédrica y la repulsión de pares de electrones.')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all flex items-center gap-1.5">
-              <span>📐</span> Geometría Molecular
-            </button>
-            <button onclick="previewDiagram('/static/diagrams/estructura_atomica_bohr.svg', 'Modelo de Bohr (Na, Z=11)', 'Capas electrónicas 2-8-1 del Sodio y su electrón de valencia reactivo.')" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 transition-all flex items-center gap-1.5">
-              <span>⚛️</span> Modelo de Bohr
-            </button>
-          </div>
-
-          <!-- Visor Interactivo de Esquemas -->
-          <div class="glass-card rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 border border-cyan-500/30">
-            <div class="w-full sm:w-1/2 flex items-center justify-center bg-slate-950/80 rounded-xl p-3 border border-white/10 min-h-[160px]">
-              <img id="diagramPreviewImg" src="/static/diagrams/molecula_agua_polaridad.svg" alt="Esquema Científico" class="max-h-36 max-w-full object-contain filter drop-shadow-md"/>
-            </div>
-            <div class="w-full sm:w-1/2">
-              <span id="diagramPreviewBadge" class="bg-cyan-500/20 text-cyan-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Demostración Activa</span>
-              <h5 id="diagramPreviewTitle" class="text-sm font-extrabold text-white mt-1.5">Molécula de Agua (H₂O) — Polaridad</h5>
-              <p id="diagramPreviewDesc" class="text-xs text-slate-300 mt-1 leading-relaxed">
-                Observa la geometría angular a 104.5° y por qué concentra densidades de carga δ⁺ y δ⁻.
-              </p>
-              <div class="mt-3 flex items-center gap-2 text-[11px] font-bold text-emerald-400">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Renderizado Vectorial en 0.54 segundos</span>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- ============================================== -->
-        <!-- SLIDE 4: ALIVIO DOCENTE Y REPORTE              -->
-        <!-- ============================================== -->
-        <article class="slide-container slide-hidden" id="slide-4">
-          <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <span>👩‍🏫 Acompañamiento y Analítica Docente</span>
-          </div>
-
-          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Ahorra <span class="text-amber-400">6 horas semanales</span> a cada profesor de ciencias.
-          </h2>
-
-          <p class="text-slate-300 text-sm mt-2 leading-relaxed">
-            La plataforma no compite con el maestro: le entrega superpoderes de analítica en tiempo real:
-          </p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
-            <div class="glass-card p-4 rounded-2xl border border-white/10">
-              <div class="flex items-center gap-2 mb-2">
-                <span class="text-xl">🚦</span>
-                <h4 class="text-sm font-extrabold text-white">Semáforo de Deducción</h4>
-              </div>
-              <p class="text-xs text-slate-300 leading-relaxed">
-                Clasifica a cada estudiante en 3 niveles de razonamiento:
-              </p>
-              <div class="mt-2.5 space-y-1.5 text-[11px] font-bold">
-                <div class="flex items-center gap-2 text-emerald-400">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  <span>Autónoma: Deduce con una sola pista.</span>
-                </div>
-                <div class="flex items-center gap-2 text-amber-300">
-                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                  <span>Guiada: Requiere 2 o 3 preguntas de apoyo.</span>
-                </div>
-                <div class="flex items-center gap-2 text-rose-400">
-                  <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-                  <span>Inicial: Pide respuesta directa o tiene lagunas.</span>
+            <div>
+              <div class="timeline">
+                <div class="track"></div>
+                <div class="milestones">
+                  <div class="milestone" style="--delay:.55s">
+                    <div class="dot">1</div>
+                    <div class="day">DÍA 1</div>
+                    <div class="event">Configuración<br>y diagnóstico</div>
+                  </div>
+                  <div class="milestone" style="--delay:1.15s">
+                    <div class="dot">2</div>
+                    <div class="day">DÍA 7</div>
+                    <div class="event">Primeras<br>señales</div>
+                  </div>
+                  <div class="milestone" style="--delay:1.75s">
+                    <div class="dot">3</div>
+                    <div class="day">DÍA 21</div>
+                    <div class="event">Ajuste<br>guiado</div>
+                  </div>
+                  <div class="milestone" style="--delay:2.35s">
+                    <div class="dot">4</div>
+                    <div class="day">DÍA 30</div>
+                    <div class="event">Informe y<br>decisión</div>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div class="glass-card p-4 rounded-2xl border border-white/10 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center gap-2 mb-2">
-                  <span class="text-xl">📊</span>
-                  <h4 class="text-sm font-extrabold text-white">Reporte Institucional PDF</h4>
-                </div>
-                <p class="text-xs text-slate-300 leading-relaxed">
-                  Genera con 1 clic un informe ejecutivo formal con membrete del colegio, estadísticas de grupo y desglose para consejos técnicos escolares.
-                </p>
-              </div>
-
-              <div class="mt-4">
-                <a href="/dashboard-teacher/report" target="_blank" class="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/40 text-xs font-extrabold transition-all">
-                  <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
-                  <span>Ver Demo de Reporte Institucional PDF</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- ============================================== -->
-        <!-- SLIDE 5: PORTAL DE PADRES DE FAMILIA           -->
-        <!-- ============================================== -->
-        <article class="slide-container slide-hidden" id="slide-5">
-          <div class="inline-flex items-center gap-2 bg-sky-500/10 border border-sky-500/30 text-sky-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <span>👨‍👩‍👧 Retención y Fidelización de Matrícula</span>
-          </div>
-
-          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Transparencia total para las familias con <span class="text-sky-300">Código Familiar Único</span>.
-          </h2>
-
-          <p class="text-slate-300 text-sm mt-2 leading-relaxed">
-            Los padres no quieren contraseñas complicadas ni reportes aburridos. Ingresan con un código familiar memorable (ej. <strong>PADRE-SOF-1079</strong>):
-          </p>
-
-          <div class="glass-card rounded-2xl p-4 mt-4 border border-sky-500/30">
-            <div class="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
-              <span class="text-xs font-black text-sky-300 uppercase tracking-wider">Síntesis de IA para Padres de Familia</span>
-              <span class="text-[10px] text-slate-400 font-semibold">Generado por QuimiBot</span>
-            </div>
-
-            <div class="space-y-2.5 text-xs text-slate-200 leading-relaxed">
-              <div class="flex items-start gap-2">
-                <span class="text-amber-400">🌟</span>
-                <p><strong>Temas explorados:</strong> Sofía dominó Enlace Covalente y Polaridad del Agua mediante deducción visual.</p>
-              </div>
-              <div class="flex items-start gap-2">
-                <span class="text-emerald-400">💡</span>
-                <p><strong>Nivel de deducción:</strong> Razonamiento autónomo (resolvió la hipótesis del octeto en el 2do intento).</p>
-              </div>
-              <div class="flex items-start gap-2">
-                <span class="text-sky-400">🏡</span>
-                <p><strong>Recomendación para el hogar:</strong> Preguntarle en la cena por qué el hielo flota en el agua líquida para reforzar el concepto de densidad.</p>
-              </div>
-            </div>
-
-            <div class="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
-              <span class="text-[11px] text-slate-400">Código demo: <strong class="text-white">PADRE-SOF-1079</strong></span>
-              <a href="/padres?codigo=PADRE-SOF-1079" target="_blank" class="text-xs font-extrabold text-sky-300 hover:text-white underline flex items-center gap-1">
-                <span>Abrir Portal de Padres en Vivo ➜</span>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- ============================================== -->
-        <!-- SLIDE 6: MODELOS COMERCIALES & ROI             -->
-        <!-- ============================================== -->
-        <article class="slide-container slide-hidden" id="slide-6">
-          <div class="inline-flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <span>💰 Propuesta Comercial y Alianzas B2B</span>
-          </div>
-
-          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Tres modalidades flexibles para <span class="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-amber-300">cada institución</span>.
-          </h2>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-5">
-            <!-- Plan 1 -->
-            <div class="glass-card p-4 rounded-2xl border border-white/10 flex flex-col justify-between">
-              <div>
-                <span class="text-xs font-black text-slate-400 uppercase">Fase 1</span>
-                <h4 class="text-base font-black text-white mt-1">Piloto Escolar</h4>
-                <p class="text-[11px] text-slate-300 mt-1.5 leading-relaxed">
-                  30 días de prueba en 1 grupo selecto de ciencias para medir impacto en calificaciones y satisfacción de padres.
-                </p>
-              </div>
-              <div class="mt-3 pt-3 border-t border-white/10 text-xs font-bold text-rose-400">
-                Garantía de Adopción
-              </div>
-            </div>
-
-            <!-- Plan 2 (Destacado) -->
-            <div class="glass-card p-4 rounded-2xl border-2 border-rose-500 flex flex-col justify-between relative bg-gradient-to-b from-rose-950/40 to-slate-900/60">
-              <div class="absolute -top-2.5 right-4 bg-rose-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
-                Más Popular
-              </div>
-              <div>
-                <span class="text-xs font-black text-rose-400 uppercase">Fase 2</span>
-                <h4 class="text-base font-black text-white mt-1">Licencia de Campus</h4>
-                <p class="text-[11px] text-slate-200 mt-1.5 leading-relaxed">
-                  Acceso completo para toda la matrícula de Bachillerato, panel docente multi-grupo y portal ilimitado de padres.
-                </p>
-              </div>
-              <div class="mt-3 pt-3 border-t border-white/10 text-xs font-bold text-amber-300">
-                SaaS Anual por Alumno
-              </div>
-            </div>
-
-            <!-- Plan 3 -->
-            <div class="glass-card p-4 rounded-2xl border border-white/10 flex flex-col justify-between">
-              <div>
-                <span class="text-xs font-black text-cyan-400 uppercase">Fase 3</span>
-                <h4 class="text-base font-black text-white mt-1">Marca Blanca</h4>
-                <p class="text-[11px] text-slate-300 mt-1.5 leading-relaxed">
-                  Despliegue bajo el subdominio y colores oficiales del colegio (ej. <em>quimica.tucolegio.edu.mx</em>).
-                </p>
-              </div>
-              <div class="mt-3 pt-3 border-t border-white/10 text-xs font-bold text-cyan-400">
-                Exclusividad Institucional
-              </div>
+              <p class="pilot-conclusion">El objetivo no es vender una licencia. Es demostrar una ventaja competitiva institucional.</p>
             </div>
           </div>
 
-          <!-- Botones de Acción Directa -->
-          <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-            <a href="/" class="px-5 py-2.5 rounded-full bg-white text-slate-950 font-black text-xs hover:bg-slate-200 transition-all flex items-center gap-1.5 shadow-lg shadow-white/10">
-              <span>🧪 Probar Plataforma Alumno</span>
-            </a>
-            <a href="/dashboard-teacher" class="px-5 py-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-white border border-white/20 font-bold text-xs transition-all flex items-center gap-1.5">
-              <span>👩‍🏫 Probar Panel Docente</span>
-            </a>
-            <a href="/manual" class="px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-black text-xs transition-all flex items-center gap-1.5 shadow-lg shadow-rose-600/30">
-              <span>📖 Abrir Manual Interactivo</span>
-            </a>
+          <div style="text-align:center;">
+            <a href="/" class="cta">AGENDA UNA DEMOSTRACIÓN EN VIVO</a>
           </div>
-        </article>
-
-      </div>
-
-      <!-- Barra Inferior de Navegación de Diapositivas (Flechas + Teclado) -->
-      <div class="w-full flex items-center justify-between border-t border-white/10 pt-4 mt-6">
-        
-        <!-- Botón Anterior -->
-        <button id="prevSlideBtn" onclick="prevSlide()" class="px-4 py-2 rounded-full text-xs font-black text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-white/10 transition-all flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
-          <span class="material-symbols-outlined text-sm">arrow_back</span>
-          <span>Anterior</span>
-        </button>
-
-        <!-- Indicador central de teclado -->
-        <span class="hidden sm:inline-flex items-center gap-1 text-[11px] text-slate-500 font-semibold">
-          <span>Usa las teclas</span>
-          <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-white/10 text-slate-300 font-mono text-[10px]">←</kbd>
-          <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-white/10 text-slate-300 font-mono text-[10px]">→</kbd>
-        </span>
-
-        <!-- Botón Siguiente -->
-        <button id="nextSlideBtn" onclick="nextSlide()" class="px-5 py-2 rounded-full text-xs font-black text-white bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-md shadow-rose-600/20 transition-all flex items-center gap-1">
-          <span>Siguiente</span>
-          <span class="material-symbols-outlined text-sm">arrow_forward</span>
-        </button>
-
-      </div>
+          <div class="links">tutor.dupixelcode.com &nbsp; · &nbsp; DU PIXEL &amp; CODE · INFRAESTRUCTURA TUTOR AI</div>
+          <div class="page-no">06</div>
+        </div>
+      </article>
 
     </section>
+  </main>
 
+  <nav id="dots" aria-label="Navegación por diapositivas"></nav>
+  <div id="help">← → navegar · R repetir animación · F pantalla completa</div>
+  
+  <div id="controls">
+    <button id="prev" aria-label="Diapositiva anterior" title="Anterior (←)">←</button>
+    <button id="replay" aria-label="Repetir animación" title="Repetir (R)">↻</button>
+    <span id="counter">01 / 06</span>
+    <button id="next" aria-label="Siguiente diapositiva" title="Siguiente (→)">→</button>
   </div>
 
-</main>
+  <script>
+    const deck = document.getElementById('deck');
+    const slides = [...document.querySelectorAll('.slide')];
+    const dots = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    let current = 0;
 
-<!-- Footer Corporativo DU Pixel Code -->
-<footer class="relative z-20 border-t border-white/10 bg-slate-950/80 backdrop-blur-xl py-4 px-4 text-center text-xs text-slate-400">
-  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-    <div class="flex items-center gap-2">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span>Producción Activa en: <strong class="text-white">tutor.dupixelcode.com</strong></span>
-    </div>
-    <div class="flex items-center gap-3">
-      <span>Desarrollado con IA por <strong class="text-rose-400">DU Pixel Code</strong></span>
-      <span>•</span>
-      <a href="/manual" class="text-slate-300 hover:text-white underline">Manual de Uso</a>
-      <span>•</span>
-      <a href="/privacy" class="text-slate-400 hover:text-white">Privacidad</a>
-    </div>
-  </div>
-</footer>
+    // Crear puntos de navegación
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.setAttribute('aria-label', `Ir a diapositiva ${i + 1}`);
+      dot.addEventListener('click', () => show(i));
+      dots.appendChild(dot);
+    });
 
-<!-- Script de Partículas Atómicas a 60fps -->
-<script src="/static/atoms-bg.js"></script>
+    // Auto-escalado de aspect-ratio 16:9 con margen de seguridad
+    function scaleDeck() {
+      const marginH = 36;
+      const marginV = 80;
+      const availableW = window.innerWidth - marginH;
+      const availableH = window.innerHeight - marginV;
+      const scale = Math.min(availableW / 1280, availableH / 720);
+      deck.style.transform = `scale(${Math.max(0.25, scale)})`;
+    }
 
-<!-- ============================================================ -->
-<!-- LÓGICA INTERACTIVA DEL SHOWCASE & CONTROL DE SLIDES           -->
-<!-- ============================================================ -->
-<script>
-let currentSlide = 0;
-const totalSlides = 7;
+    function restartAnimation(slide) {
+      slide.classList.remove('active');
+      void slide.offsetWidth; // Trigger reflow
+      slide.classList.add('active');
+    }
 
-// Discursos y emociones de QuimiBot para cada diapositiva
-const botScripts = [
-  {
-    emotion: 'happy',
-    badge: '¡Bienvenido!',
-    speech: '¡Hola! Soy QuimiBot. Estoy aquí para mostrarte por qué los mejores colegios nos eligen como su tutor oficial de inteligencia artificial.'
-  },
-  {
-    emotion: 'curious',
-    badge: 'El Problema',
-    speech: '¿Sabías que los alumnos usan ChatGPT tradicional solo para copiar y no aprenden? Eso alarma a directores y profesores. Yo fui diseñado para hacer lo contrario.'
-  },
-  {
-    emotion: 'explaining',
-    badge: 'Método Socrático',
-    speech: 'Tengo estrictamente prohibido dar respuestas fáciles. Cuando un alumno me pregunta algo, le hago una pregunta guía para que descubra la química por sí mismo.'
-  },
-  {
-    emotion: 'happy',
-    badge: 'Visual & Rápido',
-    speech: '¡Pruébalo ahora mismo! Haz clic en los botones de arriba para ver cómo proyecto moléculas y diagramas vectoriales en menos de medio segundo.'
-  },
-  {
-    emotion: 'explaining',
-    badge: 'Alivio al Docente',
-    speech: 'Ahorro hasta 6 horas a la semana a los profesores. Les entrego un semáforo de quién razona solo y quién necesita apoyo, además de reportes PDF listos.'
-  },
-  {
-    emotion: 'happy',
-    badge: 'Familia Feliz',
-    speech: 'A los papás les encanta: no necesitan contraseña, solo su código familiar para ver un resumen cálido y claro del avance de su hijo.'
-  },
-  {
-    emotion: 'happy',
-    badge: 'Alianzas B2B',
-    speech: 'Podemos iniciar con un programa piloto de 30 días o desplegar la plataforma con la marca y escudo oficial de tu colegio. ¡Hablemos de negocios!'
-  }
-];
+    function show(index) {
+      const next = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('exit-left', i < next);
+        slide.classList.remove('active');
+      });
+      current = next;
+      requestAnimationFrame(() => restartAnimation(slides[current]));
+      [...dots.children].forEach((dot, i) => dot.classList.toggle('active', i === current));
+      counter.textContent = `0${current + 1} / 0${slides.length}`;
+      document.title = `${slides[current].dataset.title} · Tutor AI by DU Pixel & Code`;
+    }
 
-function updateSlideView() {
-  // 1. Mostrar slide activa y ocultar las demás
-  for (let i = 0; i < totalSlides; i++) {
-    const el = document.getElementById(`slide-${i}`);
-    if (el) {
-      if (i === currentSlide) {
-        el.classList.remove('slide-hidden');
-        el.classList.add('slide-active');
+    function fullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.();
       } else {
-        el.classList.add('slide-hidden');
-        el.classList.remove('slide-active');
+        document.exitFullscreen?.();
       }
     }
-  }
 
-  // 2. Actualizar botones de navegación superior
-  document.querySelectorAll('.slide-nav-btn').forEach(btn => {
-    const idx = parseInt(btn.getAttribute('data-slide'), 10);
-    if (idx === currentSlide) {
-      btn.className = 'slide-nav-btn px-3 py-1.5 rounded-full text-xs font-black transition-all border border-rose-500 bg-rose-500 text-white shadow-md shadow-rose-500/20 flex items-center gap-1.5';
-    } else {
-      btn.className = 'slide-nav-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all border border-white/10 bg-slate-900/60 text-slate-400 hover:text-white flex items-center gap-1.5';
-    }
-  });
+    // Controles táctiles y botones
+    document.getElementById('prev').onclick = () => show(current - 1);
+    document.getElementById('next').onclick = () => show(current + 1);
+    document.getElementById('replay').onclick = () => restartAnimation(slides[current]);
 
-  // 3. Actualizar contador
-  document.getElementById('slideCounterCurrent').innerText = (currentSlide + 1).toString().padStart(2, '0');
+    window.addEventListener('resize', scaleDeck);
+    
+    // Controles de teclado avanzados
+    window.addEventListener('keydown', (event) => {
+      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) {
+        event.preventDefault();
+        show(current + 1);
+      }
+      if (['ArrowLeft', 'PageUp'].includes(event.key)) {
+        event.preventDefault();
+        show(current - 1);
+      }
+      if (event.key.toLowerCase() === 'r') restartAnimation(slides[current]);
+      if (event.key.toLowerCase() === 'f') fullscreen();
+      if (event.key === 'Home') show(0);
+      if (event.key === 'End') show(slides.length - 1);
+    });
 
-  // 4. Actualizar estado y habla de QuimiBot
-  const script = botScripts[currentSlide] || botScripts[0];
-  setBotEmotion(script.emotion, script.speech, script.badge);
+    // Soporte para rueda de ratón suave
+    let wheelLock = false;
+    window.addEventListener('wheel', (event) => {
+      if (wheelLock || Math.abs(event.deltaY) < 24) return;
+      wheelLock = true;
+      show(current + (event.deltaY > 0 ? 1 : -1));
+      setTimeout(() => { wheelLock = false; }, 650);
+    }, { passive: true });
 
-  // 5. Botones anterior/siguiente
-  const prevBtn = document.getElementById('prevSlideBtn');
-  const nextBtn = document.getElementById('nextSlideBtn');
-  if (prevBtn) prevBtn.disabled = (currentSlide === 0);
-  if (nextBtn) {
-    if (currentSlide === totalSlides - 1) {
-      nextBtn.innerHTML = '<span>Comenzar Demo</span><span class="material-symbols-outlined text-sm">rocket_launch</span>';
-      nextBtn.onclick = () => window.location.href = '/';
-    } else {
-      nextBtn.innerHTML = '<span>Siguiente</span><span class="material-symbols-outlined text-sm">arrow_forward</span>';
-      nextBtn.onclick = nextSlide;
-    }
-  }
-}
-
-function nextSlide() {
-  if (currentSlide < totalSlides - 1) {
-    currentSlide++;
-    updateSlideView();
-  }
-}
-
-function prevSlide() {
-  if (currentSlide > 0) {
-    currentSlide--;
-    updateSlideView();
-  }
-}
-
-function goToSlide(idx) {
-  if (idx >= 0 && idx < totalSlides) {
-    currentSlide = idx;
-    updateSlideView();
-  }
-}
-
-// Navegación por teclado (Flechas)
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight' || e.key === ' ') {
-    e.preventDefault();
-    nextSlide();
-  } else if (e.key === 'ArrowLeft') {
-    e.preventDefault();
-    prevSlide();
-  }
-});
-
-// Cambiar emoción animada de QuimiBot
-function setBotEmotion(emotion, text, badge) {
-  const speechBubble = document.getElementById('botSpeechBubble');
-  const moodBadge = document.getElementById('botMoodBadge');
-  
-  if (speechBubble && text) speechBubble.innerText = text;
-  if (moodBadge && badge) moodBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span><span>${badge}</span>`;
-
-  const cheeks = document.getElementById('botCheeks');
-  const eyesIdle = document.getElementById('botEyesIdle');
-  const eyesHappy = document.getElementById('botEyesHappy');
-  const eyesThinking = document.getElementById('botEyesThinking');
-  const eyesCurious = document.getElementById('botEyesCurious');
-  const mouthNormal = document.getElementById('botMouthNormal');
-  const mouthHappy = document.getElementById('botMouthHappy');
-  const mouthSpeaking = document.getElementById('botMouthSpeaking');
-  const antenna = document.getElementById('botAntenna');
-
-  // Reset
-  if (cheeks) cheeks.classList.add('hidden');
-  if (eyesIdle) eyesIdle.classList.add('hidden');
-  if (eyesHappy) eyesHappy.classList.add('hidden');
-  if (eyesThinking) eyesThinking.classList.add('hidden');
-  if (eyesCurious) eyesCurious.classList.add('hidden');
-  if (mouthNormal) mouthNormal.classList.add('hidden');
-  if (mouthHappy) mouthHappy.classList.add('hidden');
-  if (mouthSpeaking) mouthSpeaking.classList.add('hidden');
-
-  switch (emotion) {
-    case 'happy':
-      if (cheeks) cheeks.classList.remove('hidden');
-      if (eyesHappy) eyesHappy.classList.remove('hidden');
-      if (mouthHappy) mouthHappy.classList.remove('hidden');
-      if (antenna) antenna.setAttribute('fill', '#f43f5e');
-      break;
-    case 'thinking':
-      if (eyesThinking) eyesThinking.classList.remove('hidden');
-      if (mouthNormal) mouthNormal.classList.remove('hidden');
-      if (antenna) antenna.setAttribute('fill', '#f59e0b');
-      break;
-    case 'curious':
-      if (eyesCurious) eyesCurious.classList.remove('hidden');
-      if (mouthNormal) mouthNormal.classList.remove('hidden');
-      if (antenna) antenna.setAttribute('fill', '#38bdf8');
-      break;
-    case 'explaining':
-    default:
-      if (eyesIdle) eyesIdle.classList.remove('hidden');
-      if (mouthSpeaking) mouthSpeaking.classList.remove('hidden');
-      if (antenna) antenna.setAttribute('fill', '#38bdf8');
-      break;
-  }
-}
-
-// Clic interactivo en QuimiBot
-function reactQuimiBot() {
-  const audioChime = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...'); // sutil
-  const compliments = [
-    "¡Jeje! ¿Te gusta cómo me muevo? ¡Diseñado 100% por DU Pixel Code!",
-    "¡Puedo responder en menos de 0.6 segundos y nunca me canso!",
-    "¡Pregúntame sobre cualquier molécula y te haré pensar como científico!",
-    "¡Mis algoritmos guían al alumno paso a paso hacia el conocimiento!"
-  ];
-  const rand = compliments[Math.floor(Math.random() * compliments.length)];
-  setBotEmotion('happy', rand, '¡Interactuando!');
-  setTimeout(() => {
-    const s = botScripts[currentSlide];
-    setBotEmotion(s.emotion, s.speech, s.badge);
-  }, 3500);
-}
-
-// Previsualizador dinámico de diagramas para el Slide 3
-function previewDiagram(svgUrl, title, desc) {
-  const img = document.getElementById('diagramPreviewImg');
-  const t = document.getElementById('diagramPreviewTitle');
-  const d = document.getElementById('diagramPreviewDesc');
-  if (img) img.src = svgUrl;
-  if (t) t.innerText = title;
-  if (d) d.innerText = desc;
-  setBotEmotion('explaining', `¡Aquí tienes el esquema interactivo de ${title}! Observa cada detalle gráfico.`, 'Demostrando');
-}
-
-// Inicializar vista al cargar
-document.addEventListener('DOMContentLoaded', () => {
-  updateSlideView();
-});
-</script>
+    // Inicializar
+    scaleDeck();
+    show(0);
+  </script>
 </body>
 </html>

@@ -357,6 +357,7 @@ function switchTopic(code) {
 }
 
 function sendQuickChip(text) {
+  if (window.unlockSpeechSynthesis) window.unlockSpeechSynthesis();
   const input = document.getElementById('chatInput');
   const form = document.getElementById('chatForm');
   if (input && form) {
@@ -366,6 +367,7 @@ function sendQuickChip(text) {
 }
 
 function pokeRobot() {
+  if (window.unlockSpeechSynthesis) window.unlockSpeechSynthesis();
   if (window.setBotEmotion) {
     window.setBotEmotion('happy', '¡Hola! ¡Me gusta que interactúes conmigo! ✨');
     setTimeout(() => { window.setBotEmotion('idle'); }, 2500);
@@ -373,6 +375,7 @@ function pokeRobot() {
 }
 
 async function startSocraticChallenge() {
+  if (window.unlockSpeechSynthesis) window.unlockSpeechSynthesis();
   if (window.setBotEmotion) {
     window.setBotEmotion('thinking', '¡Generando tu reto socrático interactivo! ⚡');
   }

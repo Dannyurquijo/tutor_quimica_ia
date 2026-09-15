@@ -101,49 +101,120 @@ window.stopQuimibotVoice = function() {
     window.speechSynthesis.cancel();
   }
   window.isQuimibotSpeaking = false;
+  if (speechKeepAliveTimer) {
+    clearInterval(speechKeepAliveTimer);
+    speechKeepAliveTimer = null;
+  }
   window.setBotEmotion('idle');
+};
+
+let speechKeepAliveTimer = null;
+
+function keepSpeechAlive() {
+  if (speechKeepAliveTimer) clearInterval(speechKeepAliveTimer);
+  speechKeepAliveTimer = setInterval(() => {
+    if (!('speechSynthesis' in window)) {
+      clearInterval(speechKeepAliveTimer);
+      return;
+    }
+    if (window.speechSynthesis.speaking) {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    } else if (!window.isQuimibotSpeaking) {
+      clearInterval(speechKeepAliveTimer);
+      speechKeepAliveTimer = null;
+    }
+  }, 400);
+}
+
+// Desbloquear motor de voz de manera síncrona en el gesto del usuario (Click / Submit)
+window.unlockSpeechSynthesis = function() {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+    const silent = new SpeechSynthesisUtterance(' ');
+    silent.volume = 0.01;
+    silent.rate = 10;
+    window.speechSynthesis.speak(silent);
+  } catch (e) {}
 };
 
 window.speakQuimibotText = function(text) {
   if (!('speechSynthesis' in window)) return;
   if (!window.isVoiceEnabled()) return;
 
-  window.speechSynthesis.cancel();
-
   const cleanText = cleanTextForSpeech(text);
   if (!cleanText) return;
 
-  const utterance = new SpeechSynthesisUtterance(cleanText);
-  const voice = getBestSpanishVoice();
-  if (voice) {
-    utterance.voice = voice;
-    utterance.lang = voice.lang;
-  } else {
-    utterance.lang = 'es-MX';
-  }
-  utterance.rate = 1.05;
-  utterance.pitch = 1.05;
+  try {
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+    window.speechSynthesis.cancel();
+  } catch (e) {}
 
-  utterance.onstart = function() {
-    window.isQuimibotSpeaking = true;
-    window.setBotEmotion('speaking', '¡Hablando contigo! 🗣️ Escucha con atención...');
-    const statusText = document.getElementById('robotStatusText');
-    const statusDot = document.getElementById('statusIndicatorDot');
-    if (statusText) statusText.textContent = 'Hablando... 🗣️';
-    if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-cyan-400 animate-ping';
-  };
+  setTimeout(() => {
+    try {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
 
-  utterance.onend = function() {
-    window.isQuimibotSpeaking = false;
-    window.setBotEmotion('idle');
-  };
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      const voice = getBestSpanishVoice();
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang;
+      } else {
+        utterance.lang = 'es-MX';
+      }
+      utterance.rate = 1.05;
+      utterance.pitch = 1.05;
 
-  utterance.onerror = function() {
-    window.isQuimibotSpeaking = false;
-    window.setBotEmotion('idle');
-  };
+      utterance.onstart = function() {
+        window.isQuimibotSpeaking = true;
+        window.setBotEmotion('speaking', '¡Hablando contigo! 🗣️ Escucha con atención...');
+        const statusText = document.getElementById('robotStatusText');
+        const statusDot = document.getElementById('statusIndicatorDot');
+        if (statusText) statusText.textContent = 'Hablando... 🗣️';
+        if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-cyan-400 animate-ping';
+        keepSpeechAlive();
+      };
 
-  window.speechSynthesis.speak(utterance);
+      utterance.onend = function() {
+        window.isQuimibotSpeaking = false;
+        if (speechKeepAliveTimer) {
+          clearInterval(speechKeepAliveTimer);
+          speechKeepAliveTimer = null;
+        }
+        window.setBotEmotion('idle');
+      };
+
+      utterance.onerror = function(err) {
+        console.warn('Speech error:', err);
+        window.isQuimibotSpeaking = false;
+        if (speechKeepAliveTimer) {
+          clearInterval(speechKeepAliveTimer);
+          speechKeepAliveTimer = null;
+        }
+        window.setBotEmotion('idle');
+      };
+
+      window.speechSynthesis.speak(utterance);
+
+      // Despertar inmediatamente por si Chromium se quedó suspendido
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+      keepSpeechAlive();
+    } catch (err) {
+      console.error('Error speakQuimibotText:', err);
+      window.isQuimibotSpeaking = false;
+      window.setBotEmotion('idle');
+    }
+  }, 60);
 };
 
 window.speakMessageText = function(btn) {
@@ -352,8 +423,11 @@ document.addEventListener('DOMContentLoaded', () => {
       warnAgainstPasting('drop');
     });
 
-    // Bloquear atajos de pegado en teclado
+    // Bloquear atajos de pegado en teclado y capturar Enter para activar audio
     chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        if (window.unlockSpeechSynthesis) window.unlockSpeechSynthesis();
+      }
       if ((e.ctrlKey || e.metaKey) && (e.key === 'v' || e.key === 'V')) {
         e.preventDefault();
         warnAgainstPasting('paste-key');
@@ -363,8 +437,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    const submitBtn = chatForm.querySelector('button[type=submit]');
+    if (submitBtn) {
+      submitBtn.addEventListener('pointerdown', () => {
+        if (window.unlockSpeechSynthesis) window.unlockSpeechSynthesis();
+      });
+    }
+
     chatForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      // Desbloquear motor de síntesis de voz de inmediato en el gesto del usuario
+      if (window.unlockSpeechSynthesis) {
+        window.unlockSpeechSynthesis();
+      }
       const message = chatInput.value.trim();
       if (!message || chatInput.disabled) return;
 

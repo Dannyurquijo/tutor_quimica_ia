@@ -170,3 +170,13 @@ class AssignTopicRequest(BaseModel):
 class ParentLoginRequest(BaseModel):
     codigo: str = Field(min_length=3, max_length=50)
 
+class QuickRegisterStudentRequest(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+    nombre: str = Field(min_length=1, max_length=100)
+    apellido: str = Field(min_length=1, max_length=100)
+    email: str = Field(pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$", max_length=254)
+    password: Optional[str] = Field(default=None, max_length=128)
+    grado: Optional[str] = Field(default="2do Bachillerato", max_length=100)
+    nivel: Optional[Literal["Básico", "Intermedio", "Avanzado"]] = "Intermedio"
+    estilo_aprendizaje: Optional[str] = Field(default="Visual", max_length=50)
+

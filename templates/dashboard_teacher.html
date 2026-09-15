@@ -21,14 +21,17 @@
       </p>
     </div>
 
-    <div class="flex items-center gap-3 self-stretch md:self-auto">
+    <div class="flex items-center gap-2.5 self-stretch md:self-auto flex-wrap">
       <a href="/dashboard-teacher/report" target="_blank" class="ios-tap bg-white/95 hover:bg-white text-slate-800 font-extrabold text-xs md:text-sm px-4 py-3 rounded-2xl border border-slate-200/80 transition-all shadow-xs flex items-center gap-1.5">
         <span>📄</span><span>Reporte Institucional</span>
       </a>
+      <button onclick="openRegisterStudentModal()" class="ios-tap bg-gradient-to-tr from-emerald-600 to-teal-600 hover:brightness-110 text-white font-extrabold text-xs md:text-sm px-4 py-3 rounded-2xl transition-all inline-flex items-center gap-2 shadow-md shadow-emerald-600/25">
+        <span>👤➕</span><span>Alta Rápida Alumno</span>
+      </button>
       <button onclick="openAssignModal()" class="ios-tap bg-gradient-to-tr from-primary to-primary-container hover:brightness-110 text-white font-extrabold text-xs md:text-sm px-5 py-3 rounded-2xl transition-all inline-flex items-center gap-2 shadow-md shadow-primary/25">
         <span>➕ Asignar Tema</span>
       </button>
-      <a href="/dashboard-teacher" class="ios-tap bg-white/90 hover:bg-slate-100 text-slate-700 font-bold text-xs md:text-sm px-3.5 py-3 rounded-2xl border border-slate-200/80 transition-all shadow-xs">
+      <a href="/dashboard-teacher" title="Recargar panel" class="ios-tap bg-white/90 hover:bg-slate-100 text-slate-700 font-bold text-xs md:text-sm px-3.5 py-3 rounded-2xl border border-slate-200/80 transition-all shadow-xs">
         🔄
       </a>
     </div>
@@ -109,9 +112,14 @@
         <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight">Seguimiento de Alumnos y Gestión</h2>
         <p class="text-sm text-slate-500 mt-0.5">Consulta los temas de cada alumno, su diagnóstico y visualiza la plataforma tal como la ve el estudiante</p>
       </div>
-      <div class="w-full md:w-80">
-        <label for="studentSearch" class="sr-only">Buscar alumno</label>
-        <input id="studentSearch" type="search" class="w-full border border-slate-300/80 rounded-full px-4 py-2.5 text-xs md:text-sm bg-white/90 backdrop-blur-md focus:ring-2 focus:ring-cyan-500 focus:outline-none shadow-xs" placeholder="🔍 Buscar por nombre o email...">
+      <div class="flex items-center gap-2.5 w-full md:w-auto">
+        <button onclick="openRegisterStudentModal()" class="ios-tap whitespace-nowrap bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300/80 font-bold text-xs md:text-sm px-3.5 py-2.5 rounded-full transition-all flex items-center gap-1.5 shadow-xs">
+          <span>➕ Matricular Alumno</span>
+        </button>
+        <div class="w-full md:w-72">
+          <label for="studentSearch" class="sr-only">Buscar alumno</label>
+          <input id="studentSearch" type="search" class="w-full border border-slate-300/80 rounded-full px-4 py-2.5 text-xs md:text-sm bg-white/90 backdrop-blur-md focus:ring-2 focus:ring-cyan-500 focus:outline-none shadow-xs" placeholder="🔍 Buscar por nombre o email...">
+        </div>
       </div>
     </div>
 
@@ -285,6 +293,143 @@
     </form>
   </div>
 </div>
+
+<!-- Modal para Alta Rápida de Alumno en Vivo -->
+<div id="registerStudentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden items-center justify-center p-4 z-50 transition-all">
+  <div class="bg-white/95 backdrop-blur-xl rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-slate-200/80 relative overflow-hidden">
+    
+    <!-- Encabezado del Modal -->
+    <div class="flex justify-between items-start pb-4 border-b border-slate-100 mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-emerald-500/25">
+          <span>🎓</span>
+        </div>
+        <div>
+          <h3 class="font-extrabold text-xl text-slate-900 tracking-tight">Alta Rápida de Alumno</h3>
+          <p class="text-xs text-slate-500">Matricula un nuevo estudiante en vivo sin cerrar tu sesión docente.</p>
+        </div>
+      </div>
+      <button type="button" onclick="closeRegisterStudentModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center text-lg font-bold transition-all">
+        &times;
+      </button>
+    </div>
+
+    <!-- TARJETA 1: FORMULARIO DE REGISTRO -->
+    <div id="regStudentFormCard">
+      <div id="regModalError" class="hidden mb-4 p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
+      </div>
+
+      <form id="quickRegisterForm" onsubmit="submitQuickRegisterStudent(event)" class="space-y-4 text-sm">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nombre</label>
+            <input id="regModalNombre" type="text" required placeholder="Mateo" oninput="autoGenerateSchoolEmail()"
+              class="w-full border border-slate-300 rounded-2xl p-2.5 text-sm font-medium text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Apellido</label>
+            <input id="regModalApellido" type="text" required placeholder="Fernández" oninput="autoGenerateSchoolEmail()"
+              class="w-full border border-slate-300 rounded-2xl p-2.5 text-sm font-medium text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Correo Institucional / Alumno</label>
+            <button type="button" onclick="autoGenerateSchoolEmail()" class="text-[11px] font-bold text-teal-600 hover:text-teal-800 flex items-center gap-0.5">
+              <span>⚡ Formato Balmoral</span>
+            </button>
+          </div>
+          <input id="regModalEmail" type="email" required placeholder="mateo.fernandez@balmoral.edu.mx"
+            class="w-full border border-slate-300 rounded-2xl p-2.5 text-sm font-medium text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white font-mono">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Grado Escolar</label>
+            <select id="regModalGrado" class="w-full border border-slate-300 rounded-2xl p-2.5 text-sm font-medium text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+              <option value="1ro Bachillerato">1ro Bachillerato</option>
+              <option value="2do Bachillerato" selected>2do Bachillerato</option>
+              <option value="3ro Bachillerato">3ro Bachillerato</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nivel Inicial</label>
+            <select id="regModalNivel" class="w-full border border-slate-300 rounded-2xl p-2.5 text-sm font-medium text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white">
+              <option value="Básico">Básico</option>
+              <option value="Intermedio" selected>Intermedio</option>
+              <option value="Avanzado">Avanzado</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Contraseña Inicial Temporal</label>
+          <div class="relative">
+            <input id="regModalPassword" type="text" value="balmoral2026" required minlength="6"
+              class="w-full border border-slate-300 rounded-2xl p-2.5 text-sm font-mono font-medium text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white pr-24">
+            <span class="absolute right-3 top-2.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              Predeterminada
+            </span>
+          </div>
+          <span class="text-[11px] text-slate-400 mt-1 block">El alumno podrá usar esta clave de inmediato en la portada o cambiarla luego.</span>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex gap-2.5 justify-end">
+          <button type="button" onclick="closeRegisterStudentModal()" class="px-4 py-2.5 rounded-2xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 text-xs md:text-sm">
+            Cancelar
+          </button>
+          <button type="submit" id="btnSubmitQuickRegister" class="px-5 py-2.5 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-600 hover:brightness-110 text-white font-extrabold text-xs md:text-sm shadow-md shadow-emerald-500/25 flex items-center gap-1.5 transition-all">
+            <span>✨ Matricular Alumno</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- TARJETA 2: ÉXITO Y FICHA DE CREDENCIALES GENERADA -->
+    <div id="regStudentSuccessCard" class="hidden flex flex-col gap-4">
+      <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+        <span class="text-3xl block mb-1">🎉</span>
+        <h4 class="font-extrabold text-emerald-900 text-base">¡Alumno Matriculado con Éxito!</h4>
+        <p class="text-xs text-emerald-700 mt-0.5">Se han provisionado los 6 módulos de Química Balmoral y su código familiar.</p>
+      </div>
+
+      <!-- Ficha con datos de acceso -->
+      <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 space-y-2.5 text-xs text-slate-700 font-medium">
+        <div class="flex justify-between items-center pb-2 border-b border-slate-200/60">
+          <span class="text-slate-400 font-bold uppercase text-[10px]">Alumno</span>
+          <span id="resStudentName" class="font-extrabold text-slate-900 text-sm"></span>
+        </div>
+        <div class="flex justify-between items-center pb-2 border-b border-slate-200/60">
+          <span class="text-slate-400 font-bold uppercase text-[10px]">Grado</span>
+          <span id="resStudentGrado" class="font-bold text-slate-800"></span>
+        </div>
+        <div class="flex justify-between items-center pb-2 border-b border-slate-200/60">
+          <span class="text-slate-400 font-bold uppercase text-[10px]">Correo Escolar</span>
+          <span id="resStudentEmail" class="font-mono font-bold text-slate-900"></span>
+        </div>
+        <div class="flex justify-between items-center pb-2 border-b border-slate-200/60">
+          <span class="text-slate-400 font-bold uppercase text-[10px]">Contraseña Inicial</span>
+          <span id="resStudentPass" class="font-mono font-bold text-emerald-700 bg-emerald-100/60 px-2 py-0.5 rounded-md"></span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-400 font-bold uppercase text-[10px]">Código Acceso Padres</span>
+          <span id="resStudentCodePadre" class="font-mono font-bold text-sky-700 bg-sky-100/60 px-2 py-0.5 rounded-md"></span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2.5 pt-2">
+        <button type="button" id="btnCopyCredentials" onclick="copyStudentCredentials()" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs md:text-sm py-3 px-4 rounded-2xl shadow-sm flex items-center justify-center gap-1.5 transition-all">
+          <span>📋</span><span>Copiar Ficha de Acceso</span>
+        </button>
+        <button type="button" onclick="finishAndReload()" class="bg-gradient-to-tr from-emerald-600 to-teal-600 hover:brightness-110 text-white font-extrabold text-xs md:text-sm py-3 px-5 rounded-2xl shadow-md shadow-emerald-500/20 flex items-center justify-center gap-1.5 transition-all">
+          <span>✅</span><span>Ver en el Panel</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -408,6 +553,132 @@ async function submitAssignForm(e) {
     btn.disabled = false;
     btn.textContent = 'Guardar Asignación';
   }
+}
+
+// ─────────────────────────────────────────────
+// Alta Rápida de Alumno (Modal y Helpers)
+// ─────────────────────────────────────────────
+let lastCreatedStudentData = null;
+
+function openRegisterStudentModal() {
+  const modal = document.getElementById('registerStudentModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  document.getElementById('regStudentFormCard').classList.remove('hidden');
+  document.getElementById('regStudentSuccessCard').classList.add('hidden');
+  document.getElementById('regModalError').classList.add('hidden');
+  document.getElementById('regModalNombre').value = '';
+  document.getElementById('regModalApellido').value = '';
+  document.getElementById('regModalEmail').value = '';
+  document.getElementById('regModalPassword').value = 'balmoral2026';
+  setTimeout(() => {
+    const input = document.getElementById('regModalNombre');
+    if (input) input.focus();
+  }, 120);
+}
+
+function closeRegisterStudentModal() {
+  const modal = document.getElementById('registerStudentModal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+}
+
+function autoGenerateSchoolEmail() {
+  const rawNom = (document.getElementById('regModalNombre').value || '').trim().toLowerCase();
+  const rawApe = (document.getElementById('regModalApellido').value || '').trim().toLowerCase();
+  const cleanNom = rawNom.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+  const cleanApe = rawApe.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+  
+  if (!cleanNom && !cleanApe) {
+    document.getElementById('regModalEmail').value = 'alumno@balmoral.edu.mx';
+    return;
+  }
+  const prefix = (cleanNom && cleanApe) ? `${cleanNom}.${cleanApe}` : (cleanNom || cleanApe);
+  document.getElementById('regModalEmail').value = `${prefix}@balmoral.edu.mx`;
+}
+
+async function submitQuickRegisterStudent(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnSubmitQuickRegister');
+  const errDiv = document.getElementById('regModalError');
+  errDiv.classList.add('hidden');
+  btn.disabled = true;
+  const originalBtnHtml = btn.innerHTML;
+  btn.innerHTML = '<span>⏳</span><span>Matriculando...</span>';
+
+  const nombre = document.getElementById('regModalNombre').value.trim();
+  const apellido = document.getElementById('regModalApellido').value.trim();
+  const email = document.getElementById('regModalEmail').value.trim();
+  const password = document.getElementById('regModalPassword').value.trim() || 'balmoral2026';
+  const grado = document.getElementById('regModalGrado').value;
+  const nivel = document.getElementById('regModalNivel').value;
+
+  try {
+    const res = await fetch('/api/teacher/quick-register-student', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, apellido, email, password, grado, nivel })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.detail || 'No se pudo registrar al alumno');
+    }
+
+    lastCreatedStudentData = data.student;
+
+    // Llenar tarjeta de credenciales
+    document.getElementById('resStudentName').textContent = data.student.nombre_completo;
+    document.getElementById('resStudentEmail').textContent = data.student.email;
+    document.getElementById('resStudentPass').textContent = data.student.password_temporal;
+    document.getElementById('resStudentCodePadre').textContent = data.student.codigo_padre;
+    document.getElementById('resStudentGrado').textContent = data.student.grado;
+
+    // Cambiar vista del modal a tarjeta de credenciales generada
+    document.getElementById('regStudentFormCard').classList.add('hidden');
+    document.getElementById('regStudentSuccessCard').classList.remove('hidden');
+
+  } catch (err) {
+    errDiv.textContent = '⚠️ ' + (err.message || 'Error de conexión con el servidor');
+    errDiv.classList.remove('hidden');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalBtnHtml;
+  }
+}
+
+function copyStudentCredentials() {
+  if (!lastCreatedStudentData) return;
+  const text = 
+`🎓 ACCESO AL TUTOR INTELIGENTE DE QUÍMICA BALMORAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 Alumno: ${lastCreatedStudentData.nombre_completo}
+📚 Grado: ${lastCreatedStudentData.grado}
+✉️ Correo Escolar: ${lastCreatedStudentData.email}
+🔑 Contraseña Inicial: ${lastCreatedStudentData.password_temporal}
+🔗 Portal del Alumno: https://tutor.dupixelcode.com
+
+👨‍👩‍👧 CÓDIGO FAMILIAR PARA PADRES:
+🔑 Código: ${lastCreatedStudentData.codigo_padre}
+🔗 Portal de Padres: https://tutor.dupixelcode.com/padres?codigo=${lastCreatedStudentData.codigo_padre}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QuimiBot ya tiene configurados los 6 módulos de Química Balmoral.`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('btnCopyCredentials');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<span>✅</span><span>¡Ficha Copiada al Portapapeles!</span>';
+    btn.classList.add('bg-emerald-700');
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.classList.remove('bg-emerald-700');
+    }, 3000);
+  }).catch(() => {
+    alert('Ficha lista para copiar:\n\n' + text);
+  });
+}
+
+function finishAndReload() {
+  window.location.reload();
 }
 </script>
 {% endblock %}

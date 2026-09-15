@@ -14,7 +14,7 @@ from schemas import (
     DiagnosticRequest, ChatRequest,
     RegisterRequest, LoginRequest, UserOut,
     User, Alumno, ChatMessage, AlumnoTema, AssignTopicRequest,
-    ParentLoginRequest
+    ParentLoginRequest, QuickRegisterStudentRequest, hash_password
 )
 import services
 import auth as auth_service
@@ -348,6 +348,72 @@ def teacher_students(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(403, "Acceso exclusivo para docentes")
     rows, available, analytics = teacher_data(db)
     return {"students": rows, "vector_available": available, "analytics": analytics}
+
+
+@app.post("/api/teacher/quick-register-student")
+def teacher_quick_register_student(req: QuickRegisterStudentRequest, request: Request, db: Session = Depends(get_db)):
+    """Permite al docente dar de alta a un nuevo alumno directamente desde su panel."""
+    teacher = auth_service.require_user(request, db)
+    if teacher.rol not in ("maestro", "admin"):
+        raise HTTPException(status_code=403, detail="Acceso exclusivo para docentes y directivos")
+
+    clean_email = req.email.lower().strip()
+    existing = db.query(User).filter(User.email == clean_email).first()
+    if existing:
+        raise HTTPException(status_code=400, detail=f"El correo '{clean_email}' ya está registrado en el sistema")
+
+    # Contraseña inicial predeterminada si no se provee
+    initial_password = req.password.strip() if (req.password and req.password.strip()) else "balmoral2026"
+    if len(initial_password) < 6:
+        raise HTTPException(status_code=400, detail="La contraseña inicial debe contener al menos 6 caracteres")
+
+    new_user = User(
+        nombre=req.nombre.strip(),
+        apellido=req.apellido.strip(),
+        email=clean_email,
+        password_hash=hash_password(initial_password),
+        rol="alumno"
+    )
+    db.add(new_user)
+    db.flush()
+
+    # Perfil del alumno con código de padres y atributos académicos
+    codigo_padre = auth_service.generate_parent_code(new_user.id, new_user.nombre)
+    new_alumno = Alumno(
+        user_id=new_user.id,
+        grado=req.grado or "2do Bachillerato",
+        nivel=req.nivel or "Intermedio",
+        estilo_aprendizaje=req.estilo_aprendizaje or "Visual",
+        codigo_padre=codigo_padre,
+        progreso_global=0.0,
+        racha_dias=0,
+        total_sesiones=0
+    )
+    db.add(new_alumno)
+    db.flush()
+
+    # Provisionar de inmediato los 6 temas curriculares oficiales
+    ensure_student_topics(db, new_alumno.id)
+    db.commit()
+    db.refresh(new_user)
+    db.refresh(new_alumno)
+
+    return {
+        "ok": True,
+        "message": f"¡Alumno {new_user.nombre} {new_user.apellido} matriculado exitosamente!",
+        "student": {
+            "id": new_user.id,
+            "alumno_id": new_alumno.id,
+            "nombre": new_user.nombre,
+            "apellido": new_user.apellido,
+            "nombre_completo": f"{new_user.nombre} {new_user.apellido}",
+            "email": new_user.email,
+            "password_temporal": initial_password,
+            "grado": new_alumno.grado,
+            "nivel": new_alumno.nivel,
+            "codigo_padre": new_alumno.codigo_padre
+        }
+    }
 
 
 @app.get("/dashboard-teacher/report")

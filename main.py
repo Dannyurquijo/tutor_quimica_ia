@@ -183,7 +183,7 @@ def dashboard(request: Request, preview_student_id: Optional[int] = None, db: Se
         alumno.progreso_global = round(avg_prog, 1)
         db.commit()
 
-    badges = services.compute_student_badges(db, target_user.id)
+    badges, new_badges = services.compute_student_badges(db, target_user.id)
 
     return templates.TemplateResponse(
         request=request,
@@ -194,6 +194,7 @@ def dashboard(request: Request, preview_student_id: Optional[int] = None, db: Se
             "topics": topics,
             "curriculum": TEMAS_CURRICULO_BALMORAL,
             "badges": badges,
+            "new_badges": new_badges,
             "is_preview": is_preview,
             "real_user": user
         }
@@ -696,10 +697,17 @@ def chat_tutor(request: Request, req: ChatRequest, db: Session = Depends(get_db)
     except AIUnavailableError as exc:
         raise HTTPException(503, str(exc)) from None
     alumno = auth_service.get_alumno_profile(db, user.id)
+    new_badges = []
     if alumno:
         alumno.total_sesiones = db.query(func.count(func.distinct(ChatMessage.session_id))).filter(ChatMessage.id_alumno == str(user.id), ChatMessage.role == "user").scalar()
         db.commit()
-    return {"respuesta": tutor_data["respuesta"], "image_url": tutor_data.get("image_url")}
+        # Verificar si la sesión o interacción desbloqueó una nueva insignia
+        _, new_badges = services.compute_student_badges(db, user.id)
+    return {
+        "respuesta": tutor_data["respuesta"],
+        "image_url": tutor_data.get("image_url"),
+        "new_badges": new_badges
+    }
 
 
 @app.get("/pitch")

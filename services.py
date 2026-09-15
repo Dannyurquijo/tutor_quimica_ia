@@ -202,14 +202,19 @@ CATALOGO_INSIGNIAS = [
 ]
 
 
-def compute_student_badges(db: Session, student_user_id: int) -> list[dict]:
-    """Calcula y actualiza las insignias desbloqueadas por el alumno."""
+def compute_student_badges(db: Session, student_user_id: int) -> tuple[list[dict], list[dict]]:
+    """Calcula y actualiza las insignias desbloqueadas por el alumno. Retorna (todas, nuevas)."""
     import json
     from schemas import Alumno, AlumnoTema, ChatMessage
 
     alumno = db.query(Alumno).filter(Alumno.user_id == student_user_id).first()
     if not alumno:
-        return []
+        return [], []
+
+    try:
+        previous_unlocked_ids = set(json.loads(alumno.insignias or "[]"))
+    except Exception:
+        previous_unlocked_ids = set()
 
     # Mensajes
     msg_count = db.query(ChatMessage).filter(ChatMessage.id_alumno == str(student_user_id)).count()
@@ -255,6 +260,10 @@ def compute_student_badges(db: Session, student_user_id: int) -> list[dict]:
             "desbloqueada": b["id"] in unlocked_ids
         })
 
-    return badges
+    # Detectar cuáles son NUEVAS en esta evaluación
+    newly_unlocked_ids = unlocked_ids - previous_unlocked_ids
+    new_badges = [b for b in badges if b["id"] in newly_unlocked_ids]
+
+    return badges, new_badges
 
 

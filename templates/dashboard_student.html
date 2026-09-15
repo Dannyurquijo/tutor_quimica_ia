@@ -130,22 +130,32 @@
           </span>
         </div>
         <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight">Medallas e Insignias de Maestría</h2>
-        <p class="text-xs text-slate-500 mt-0.5">Desbloquea medallas al formular hipótesis, mantener tu racha y razonar de forma autónoma con QuimiBot</p>
+        <p class="text-xs text-slate-500 mt-0.5">Desbloquea medallas al formular hipótesis, mantener tu racha y razonar de forma autónoma con QuimiBot. <em>(Toca una medalla para festejar 🎉)</em></p>
       </div>
-      <div class="flex items-center gap-2 bg-slate-100/90 px-3.5 py-1.5 rounded-full border border-slate-200">
-        <span class="text-xs font-bold text-slate-600">Desbloqueadas:</span>
-        <strong class="text-xs font-extrabold text-amber-700 font-mono">
-          {{ badges|selectattr("desbloqueada")|list|length }} / {{ badges|length }}
-        </strong>
+      <div class="flex items-center gap-2 flex-wrap">
+        <button type="button" onclick="window.celebrateBadge()" class="ios-tap bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-extrabold text-xs px-3 py-1.5 rounded-full shadow-2xs transition-all flex items-center gap-1.5 cursor-pointer" title="Probar festejo de confeti y átomos">
+          <span>🎉</span><span>Probar Festejo</span>
+        </button>
+        <div class="flex items-center gap-2 bg-slate-100/90 px-3.5 py-1.5 rounded-full border border-slate-200">
+          <span class="text-xs font-bold text-slate-600">Desbloqueadas:</span>
+          <strong class="text-xs font-extrabold text-amber-700 font-mono">
+            {{ badges|selectattr("desbloqueada")|list|length }} / {{ badges|length }}
+          </strong>
+        </div>
       </div>
     </div>
 
     <!-- Grid de Insignias -->
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
       {% for badge in badges %}
-      <div class="group relative flex flex-col items-center text-center p-3.5 rounded-2xl transition-all duration-300
+      <div 
         {% if badge.desbloqueada %}
-          bg-white/90 border border-amber-300/60 shadow-xs hover:shadow-md hover:scale-105
+          onclick="window.celebrateBadge({{ badge|tojson }})"
+          title="¡Haz clic para ver el festejo de QuimiBot! 🎉"
+        {% endif %}
+        class="group relative flex flex-col items-center text-center p-3.5 rounded-2xl transition-all duration-300
+        {% if badge.desbloqueada %}
+          bg-white/90 border border-amber-300/60 shadow-xs hover:shadow-md hover:scale-105 cursor-pointer active:scale-95
         {% else %}
           bg-slate-100/50 border border-slate-200/60 opacity-50 grayscale hover:grayscale-0 hover:opacity-80
         {% endif %}">
@@ -160,13 +170,16 @@
           {{ badge.titulo }}
         </h4>
         <span class="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full
-          {% if badge.desbloqueada %}bg-emerald-50 text-emerald-700{% else %}bg-slate-200 text-slate-500{% endif %}">
+          {% if badge.desbloqueada %}bg-emerald-50 text-emerald-700 font-extrabold{% else %}bg-slate-200 text-slate-500{% endif %}">
           {{ "Desbloqueada" if badge.desbloqueada else "Bloqueada" }}
         </span>
 
         <!-- Tooltip con descripción al pasar el mouse -->
         <div class="absolute bottom-full mb-2 hidden group-hover:block z-30 w-44 p-2.5 bg-slate-900 text-white text-[11px] rounded-xl shadow-xl leading-relaxed text-center pointer-events-none">
           {{ badge.descripcion }}
+          {% if badge.desbloqueada %}
+          <span class="block mt-1 text-[10px] text-amber-300 font-bold">¡Haz clic para festejar! 🎉</span>
+          {% endif %}
         </div>
       </div>
       {% endfor %}
@@ -300,5 +313,16 @@ function copyParentCode() {
     alert('Código para padres: ' + code);
   });
 }
+
+{% if new_badges and new_badges|length > 0 %}
+document.addEventListener('DOMContentLoaded', () => {
+  const nBadges = {{ new_badges|tojson }};
+  nBadges.forEach((b, idx) => {
+    setTimeout(() => {
+      if (window.celebrateBadge) window.celebrateBadge(b);
+    }, idx * 6500 + 400);
+  });
+});
+{% endif %}
 </script>
 {% endblock %}

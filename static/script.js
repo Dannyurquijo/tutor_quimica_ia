@@ -324,6 +324,45 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch(() => appendErrorMessage('No se pudo recuperar el historial. Recarga la página para consultarlo.'))
       .finally(() => { chatInput.disabled = false; });
 
+    // ─────────────────────────────────────────────
+    // BLINDAJE PEDAGÓGICO ANTI-COPIAR / PEGAR (Anti-IA)
+    // ─────────────────────────────────────────────
+    function warnAgainstPasting(reason) {
+      if (window.setBotEmotion) {
+        window.setBotEmotion('curious', '✍️ ¡En QuimiBot razonamos con nuestras palabras! El copiado y pegado está desactivado para entrenar tu mente.');
+      }
+      if (window.speakQuimibotText && window.isVoiceEnabled && window.isVoiceEnabled()) {
+        window.speakQuimibotText('¡Ey, científico! En QuimiBot razonamos con nuestras propias palabras. El copiado y pegado está desactivado.');
+      }
+      chatInput.classList.add('ring-2', 'ring-rose-500', 'bg-rose-50');
+      setTimeout(() => {
+        chatInput.classList.remove('ring-2', 'ring-rose-500', 'bg-rose-50');
+      }, 1500);
+    }
+
+    // Bloquear pegado (Ctrl+V, Cmd+V, menú contextual)
+    chatInput.addEventListener('paste', (e) => {
+      e.preventDefault();
+      warnAgainstPasting('paste');
+    });
+
+    // Bloquear arrastrar y soltar (Drag & Drop)
+    chatInput.addEventListener('drop', (e) => {
+      e.preventDefault();
+      warnAgainstPasting('drop');
+    });
+
+    // Bloquear atajos de pegado en teclado
+    chatInput.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'v' || e.key === 'V')) {
+        e.preventDefault();
+        warnAgainstPasting('paste-key');
+      } else if (e.shiftKey && e.key === 'Insert') {
+        e.preventDefault();
+        warnAgainstPasting('paste-key');
+      }
+    });
+
     chatForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const message = chatInput.value.trim();
@@ -377,6 +416,17 @@ document.addEventListener('DOMContentLoaded', () => {
           if (data.image_url) {
             window.appendImage(data.image_url);
             window.setBotEmotion('happy', '¡Observa los detalles del esquema! 🔍');
+          }
+
+          // Celebrar si el alumno desbloqueó una o más insignias
+          if (data.new_badges && data.new_badges.length > 0) {
+            data.new_badges.forEach((badge, idx) => {
+              setTimeout(() => {
+                if (window.celebrateBadge) {
+                  window.celebrateBadge(badge);
+                }
+              }, idx * 6500);
+            });
           }
         } else {
           chatInput.value = message;
